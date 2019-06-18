@@ -53,23 +53,23 @@ public class TagReader {
         return result;
     }
 
-    public static void main(String[] args){
-        TagReader reader = new TagReader();
-        File file = new File("player/src/resources/test");
-        String[] musics = file.list();
-        System.out.println(Thread.activeCount());
-        Thread t1 = new Thread(() -> {
-            for (String s : musics) {
-                Path filePath = FileSystems.getDefault().getPath("player" + File.separator + "src" + File.separator + "resources" + File.separator + "test").normalize().toAbsolutePath().resolve(s);
-                try {
-                    reader.getAdvancedTags(filePath.toUri().toURL());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t1.start();
-    }
+//    public static void main(String[] args){
+//        TagReader reader = new TagReader();
+//        File file = new File("player/src/resources/test");
+//        String[] musics = file.list();
+//        System.out.println(Thread.activeCount());
+//        Thread t1 = new Thread(() -> {
+//            for (String s : musics) {
+//                Path filePath = FileSystems.getDefault().getPath("player" + File.separator + "src" + File.separator + "resources" + File.separator + "test").normalize().toAbsolutePath().resolve(s);
+//                try {
+//                    reader.getAdvancedTags(filePath.toUri().toURL());
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//        t1.start();
+//    }
 
     /**
      *
