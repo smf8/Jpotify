@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class TagReader {
 
@@ -31,9 +32,9 @@ public class TagReader {
      * [2] : Album <br/>
      * [3] : Release date
      */
-    public static String[] getSimpleTags(URL fileUrl) {
+    public static void getSimpleTags(URL fileUrl) throws URISyntaxException {
         String[] result = new String[4];
-        File file = new File(fileUrl.getFile());
+        File file = new File(String.valueOf(new File(fileUrl.toURI())));
         try (FileInputStream inputStream = new FileInputStream(file)) {
             inputStream.skip(file.length() - 128);
             byte[] b = new byte[128];
@@ -50,26 +51,28 @@ public class TagReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+//        return result;
     }
 
-//    public static void main(String[] args){
-//        TagReader reader = new TagReader();
-//        File file = new File("player/src/resources/test");
-//        String[] musics = file.list();
-//        System.out.println(Thread.activeCount());
-//        Thread t1 = new Thread(() -> {
-//            for (String s : musics) {
-//                Path filePath = FileSystems.getDefault().getPath("player" + File.separator + "src" + File.separator + "resources" + File.separator + "test").normalize().toAbsolutePath().resolve(s);
-//                try {
-//                    reader.getAdvancedTags(filePath.toUri().toURL());
-//                } catch (MalformedURLException e) {
+    public static void main(String[] args){
+        TagReader reader = new TagReader();
+        File file = new File("player/src/resources/test");
+        String[] musics = file.list();
+        Thread t1 = new Thread(() -> {
+            for (String s : musics) {
+                Path filePath = FileSystems.getDefault().getPath("player" + File.separator + "src" + File.separator + "resources" + File.separator + "test").normalize().toAbsolutePath().resolve(s);
+                try {
+                    reader.getAdvancedTags(filePath.toUri().toURL());
+//                    reader.getSimpleTags(filePath.toUri().toURL());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+//                } catch (URISyntaxException e) {
 //                    e.printStackTrace();
-//                }
-//            }
-//        });
-//        t1.start();
-//    }
+                }
+            }
+        });
+        t1.start();
+    }
 
     /**
      *
