@@ -94,6 +94,7 @@ public class TestPlayer {
                 testPlayer.play();
             }else if (doo == 2){
             }
+            testPlayer.player.setVol(doo);
         }
     }
     static class PlaybackListener extends MP3Player.PlaybackAdapter {

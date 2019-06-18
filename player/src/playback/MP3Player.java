@@ -5,8 +5,7 @@ import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
 import javazoom.jl.player.JavaSoundAudioDevice;
 
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,7 +72,14 @@ public class MP3Player {
     public boolean play(int frameIndexStart) throws JavaLayerException {
         return this.play(frameIndexStart, -1, lostFrames);
     }
+    public void setVol(float val){
+        if (this.audioDevice instanceof JavaSoundAudioDevice)
+        {
+            JavaSoundAudioDevice jsAudio = (JavaSoundAudioDevice) audioDevice;
+            jsAudio.setLineGain(val);
+        }
 
+    }
     public boolean play(int frameIndexStart, int frameIndexFinal, int correctionFactorInFrames) throws JavaLayerException {
         try {
             this.bitstream = new Bitstream(this.getAudioInputStream());
