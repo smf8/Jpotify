@@ -1,5 +1,6 @@
+package playback;
+
 import javazoom.jl.decoder.JavaLayerException;
-import utils.MP3Player;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -58,6 +59,29 @@ public class TestPlayer {
         }
     }
 
+    /**
+     * jumps to the given milisecond of song
+     * @param miliseconds - remember that each frame lasts 26 mili seconds. so in order to jump to i'th second we must go to i*60000/26'th frame
+     */
+    public void play(int miliseconds){
+        if (player == null){
+            initPlayer();
+        }else if (!this.player.isPaused() || player.isComplete() || player.isStopped()){
+            stop();
+            initPlayer();
+        }
+        playbackThread = new Thread(() -> {
+            try {
+                player.play(miliseconds/26);
+            } catch (JavaLayerException e) {
+                e.printStackTrace();
+            }
+        });
+        playbackThread.setDaemon(true);
+        playbackThread.setName("Song playback thread");
+        playbackThread.start();
+    }
+
     public static void main(String[] args) throws MalformedURLException, JavaLayerException {
         Scanner sc = new Scanner(System.in);
         int doo;
@@ -69,7 +93,6 @@ public class TestPlayer {
             if (doo == 1){
                 testPlayer.play();
             }else if (doo == 2){
-                testPlayer.pause();
             }
         }
     }

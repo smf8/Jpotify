@@ -1,13 +1,18 @@
-package utils;
+package playback;
 
 import javazoom.jl.decoder.*;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
+import javazoom.jl.player.JavaSoundAudioDevice;
 
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.SourceDataLine;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Arrays;
 
 
 /**
@@ -62,9 +67,10 @@ public class MP3Player {
     public boolean play() throws JavaLayerException {
         return this.play(0);
     }
-
+    public long getCurrent(){
+        return this.audioDevice.getPosition();
+    }
     public boolean play(int frameIndexStart) throws JavaLayerException {
-        //return this.play(frameIndexStart, -1, 52); //original, mas voltava num ponto anterior ao do pause. 52 Sao os frames perdidos ao dar pause
         return this.play(frameIndexStart, -1, lostFrames);
     }
 
@@ -136,6 +142,7 @@ public class MP3Player {
 
         return shouldContinueReadingFrames;
     }
+
 
     public boolean resume() throws JavaLayerException {
         return this.play(this.frameIndexCurrent);
@@ -211,7 +218,6 @@ public class MP3Player {
 
         return returnValue;
     }
-
     public void stop() {
         if (!this.stopped) {
             if (!this.closed) {
