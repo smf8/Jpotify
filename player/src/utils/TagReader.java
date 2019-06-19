@@ -1,5 +1,6 @@
 package utils;
 
+import IO.FileIO;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -11,14 +12,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.Arrays;
 
 public class TagReader {
 
     private String title;
     private String album;
     private String artist;
-    private int durationInSeconds;
+    private int durationInMiliSeconds;
     private String releaseDate;
     private String imageName;
 
@@ -89,7 +89,8 @@ public class TagReader {
                 album = id3v2.getAlbum();
                 this.artist = id3v2.getArtist();
                 this.title = id3v2.getTitle();
-                this.durationInSeconds = (int) mp3File.getLengthInSeconds();
+                this.durationInMiliSeconds= (int) mp3File.getLengthInMilliseconds();
+                mp3File.getLengthInMilliseconds();
                 this.releaseDate = id3v2.getYear();
                 // calculate hash for searching image cache
                 String hashString = this.title + "-" + this.artist + "-" + this.releaseDate;
@@ -137,4 +138,27 @@ public class TagReader {
         }
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public int getDurationInSeconds() {
+        return durationInMiliSeconds;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
 }

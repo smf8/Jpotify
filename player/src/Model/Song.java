@@ -1,54 +1,37 @@
 package Model;
 
-import java.io.UnsupportedEncodingException;
+import IO.FileIO;
+
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 public class Song {
     private LocalDateTime releasedDate;
     private String hash;
-    private int id;
     private String title;
     private String artist;
     private String album;
     private int length;
-    private long lengthInSeconds;
-    private int trackNumber;
-    private int discNumber;
     private int playCount;
     private LocalDateTime playDate;
     private URI location;
     private boolean playing;
     private boolean selected;
 
-    public Song(int id, String title, String artist, String album, int length, long lengthInSeconds, int trackNumber, int discNumber, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, LocalDateTime releasedDate) {
-        this.id = id;
+    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, LocalDateTime releasedDate) {
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.length = length;
-        this.lengthInSeconds = lengthInSeconds;
-        this.trackNumber = trackNumber;
-        this.discNumber = discNumber;
         this.playCount = playCount;
         this.playDate = playDate;
         this.location = location;
         this.playing = playing;
         this.selected = selected;
         this.releasedDate = releasedDate;
-        try {
-            hash = new String(MessageDigest.getInstance("MD5").digest((title + "-" + artist).getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        hash = FileIO.MD5(artist + "-" + title);
     }
 
-    public int getId() {
-        return id;
-    }
 
     public String getHash() {
         return hash;
@@ -72,18 +55,6 @@ public class Song {
 
     public int getLength() {
         return length;
-    }
-
-    public long getLengthInSeconds() {
-        return lengthInSeconds;
-    }
-
-    public int getTrackNumber() {
-        return trackNumber;
-    }
-
-    public int getDiscNumber() {
-        return discNumber;
     }
 
     public int getPlayCount() {
