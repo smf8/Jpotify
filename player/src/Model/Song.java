@@ -1,11 +1,15 @@
 package Model;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 
 public class Song {
+    private LocalDateTime releasedDate;
+    private String hash;
     private int id;
     private String title;
     private String artist;
@@ -16,11 +20,11 @@ public class Song {
     private int discNumber;
     private int playCount;
     private LocalDateTime playDate;
-    private String location;
+    private URI location;
     private boolean playing;
     private boolean selected;
-    String hash;
-    public Song(int id, String title, String artist, String album, int length, long lengthInSeconds, int trackNumber, int discNumber, int playCount, LocalDateTime playDate, String location, boolean playing, boolean selected) {
+
+    public Song(int id, String title, String artist, String album, int length, long lengthInSeconds, int trackNumber, int discNumber, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, LocalDateTime releasedDate) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -34,11 +38,10 @@ public class Song {
         this.location = location;
         this.playing = playing;
         this.selected = selected;
+        this.releasedDate = releasedDate;
         try {
-            hash = new String(MessageDigest.getInstance("MD5").digest((title + "-" + artist).getBytes("UTF-8")));
+            hash = new String(MessageDigest.getInstance("MD5").digest((title + "-" + artist).getBytes(StandardCharsets.UTF_8)));
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
@@ -53,6 +56,10 @@ public class Song {
 
     public String getTitle() {
         return title;
+    }
+
+    public LocalDateTime getReleasedDate() {
+        return releasedDate;
     }
 
     public String getArtist() {
@@ -87,7 +94,7 @@ public class Song {
         return playDate;
     }
 
-    public String getLocation() {
+    public URI getLocation() {
         return location;
     }
 
