@@ -6,7 +6,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 
 public class Song {
-    private LocalDateTime releasedDate;
+    private int releasedDate;
     private String hash;
     private String title;
     private String artist;
@@ -18,7 +18,7 @@ public class Song {
     private boolean playing;
     private boolean selected;
 
-    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, LocalDateTime releasedDate) {
+    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, int releasedDate) {
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -41,7 +41,7 @@ public class Song {
         return title;
     }
 
-    public LocalDateTime getReleasedDate() {
+    public int getReleasedDate() {
         return releasedDate;
     }
 

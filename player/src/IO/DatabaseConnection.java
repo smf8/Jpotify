@@ -34,7 +34,7 @@ public class DatabaseConnection {
     public void initSqlTables(){
         // create Song table
         String songQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Songs(").append("hash TEXT PRIMARY KEY,\n").append("title TEXT,\n").append("artist TEXT,\n").append("album TEXT,\n")
-                .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate Text,\n").append("location TEXT\n);").toString();
+                .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate integer,\n").append("location TEXT\n);").toString();
         createTable(songQuery);
         // creating albums table
         String albumQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Albums(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("artist TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("songs TEXT\n);").toString();
@@ -56,9 +56,8 @@ public class DatabaseConnection {
             statement.setInt(6, song.getPlayCount());
             LocalDateTime localDateTime = song.getPlayDate();
             String playDate = localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
-            String releasedDate = song.getReleasedDate().format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
             statement.setString(7, playDate);
-            statement.setString(8, releasedDate);
+            statement.setInt(8, song.getReleasedDate());
             statement.setString(9, song.getLocation().toString());
             statement.execute();
 
