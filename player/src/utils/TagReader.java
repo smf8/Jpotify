@@ -1,6 +1,7 @@
 package utils;
 
 import IO.FileIO;
+import Model.Song;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -12,6 +13,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 public class TagReader {
 
@@ -21,7 +23,7 @@ public class TagReader {
     private int durationInMiliSeconds;
     private String releaseDate;
     private String imageName;
-
+    private Song currSong;
     /**
      * method retrieves mp3 file's tags from it's last 128 bytes
      *
@@ -87,13 +89,20 @@ public class TagReader {
             if (mp3File.hasId3v2Tag()) {
                 ID3v2 id3v2 = mp3File.getId3v2Tag();
                 album = id3v2.getAlbum();
+                if(album == null)
+                    album = "albumless";
                 this.artist = id3v2.getArtist();
+                if (artist == null){
+                    artist = "artistless";
+                }
                 this.title = id3v2.getTitle();
+                if (title == null)
+                    title = "titleless";
                 this.durationInMiliSeconds= (int) mp3File.getLengthInMilliseconds();
                 mp3File.getLengthInMilliseconds();
                 this.releaseDate = id3v2.getYear();
                 // calculate hash for searching image cache
-                String hashString = this.title + "-" + this.artist + "-" + this.releaseDate;
+                String hashString = FileIO.MD5(this.title + "-" + this.artist);
                 String mimeType = id3v2.getAlbumImageMimeType();
                 if (mimeType == null)
                     return;
@@ -126,6 +135,12 @@ public class TagReader {
                     // sets imageName Field to hashString
                     this.imageName = hashString;
                 }
+                LocalDateTime dateTime = LocalDateTime.now();
+                int rel = 0;
+                if (getReleaseDate() != null){
+                    rel  = Integer.valueOf(getReleaseDate());
+                }
+                currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -160,5 +175,8 @@ public class TagReader {
 
     public String getImageName() {
         return imageName;
+    }
+    public Song getSong(){
+        return currSong;
     }
 }

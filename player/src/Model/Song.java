@@ -29,7 +29,7 @@ public class Song {
         this.playing = playing;
         this.selected = selected;
         this.releasedDate = releasedDate;
-        hash = FileIO.MD5(artist + "-" + title);
+        hash = FileIO.MD5(title + "-" + artist);
     }
 
 

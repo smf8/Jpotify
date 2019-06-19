@@ -19,17 +19,61 @@ public class Album extends Playlist{
         this.artist = artist;
     }
 
-//    public ArrayList<Album> createAlbumFromFolder(File folder){
-//        ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(folder));
-//        ArrayList<Album> results = new ArrayList<>();
-//        for (URI i :files){
-//            TagReader musicFileReader = new TagReader();
-//            try {
-//                musicFileReader.getAdvancedTags(i.toURL());
-//                if (musicFileReader.getAlbum())
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    public static ArrayList<Album> createAlbumFromFolder(File folder){
+        ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(folder));
+        ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<Album> results = new ArrayList<>();
+        for (URI i :files){
+            TagReader musicFileReader = new TagReader();
+            try {
+                musicFileReader.getAdvancedTags(i.toURL());
+                Song currSong = musicFileReader.getSong();
+                songs.add(currSong);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (int i = 0; i < songs.size(); i++) {
+            if (songs.get(i) == null)
+                continue;
+            Song currentSong = songs.get(i);
+            Album currentAlbum = new Album(i, currentSong.getAlbum(), currentSong.getArtist());
+            for (int j = i+1; j < songs.size(); j++){
+                if (songs.get(j) == null)
+                    continue;
+                Song beingChecked = songs.get(j);
+                Album beingCheckedAlbum = new Album(j, beingChecked.getAlbum(), beingChecked.getArtist());
+                if (currentAlbum.equals(beingCheckedAlbum)){
+                    currentAlbum.addSong(beingChecked);
+                    songs.set(j, null);
+                }
+            }
+            results.add(currentAlbum);
+        }
+        return results;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Album)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+
+        Album album = (Album) obj;
+
+        if (album.title.equals(this.title))
+            return true;
+        return false;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
 }

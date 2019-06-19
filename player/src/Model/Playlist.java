@@ -52,4 +52,16 @@ public class Playlist {
     public Song getSong(int pos){
         return songs.get(pos);
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public URI getImageURI() {
+        return imageURI;
+    }
 }

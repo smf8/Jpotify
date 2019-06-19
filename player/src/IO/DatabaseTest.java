@@ -1,5 +1,7 @@
 package IO;
 
+import Model.Album;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -16,10 +18,11 @@ public class DatabaseTest {
 //        LocalDateTime time = LocalDateTime.now();
 //        Song song = new Song(reader.getTitle(),reader.getArtist(),reader.getAlbum(),reader.getDurationInSeconds(),0,time, fileUrl.toURI(), false,false , time);
 //        connection.insertSong(song);
-        File dir = new File("player/src");
-        ArrayList<URI> files = FileIO.findFilesRecursive(dir);
-        for (URI i : files){
-            System.out.println(i.toString());
+        File dir = new File("player/src/resources");
+        ArrayList<Album> albums = Album.createAlbumFromFolder(dir);
+        System.out.println(albums.size());
+        for (Album a : albums){
+            System.out.println(a.getTitle());
         }
     }
 }
