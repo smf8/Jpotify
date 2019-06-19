@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,6 +23,7 @@ public class OptionsPanel extends JPanel {
         URL homeUrl = null;
         URL searchUrl = null;
         URL libraryUrl = null;
+        URL playlistUrl = null;
         try {
             File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "home.png");
             homeUrl = homeFile.toURI().toURL();
@@ -28,6 +31,8 @@ public class OptionsPanel extends JPanel {
             libraryUrl = libraryFile.toURI().toURL();
             File searchFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "search.png");
             searchUrl = searchFile.toURI().toURL();
+            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "multimedia.png");
+            playlistUrl = searchFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -38,6 +43,7 @@ public class OptionsPanel extends JPanel {
         add(Box.createRigidArea(new Dimension(0,5)));
         ImageIcon search = new ImageIcon(new ImageIcon(searchUrl).getImage().getScaledInstance(30,30, Image.SCALE_DEFAULT));
         ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT));
+        ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT));
         Search.setIcon(search);
         Search.setText("SEARCH");
         Search.setFont(new Font("TimesRoman", Font.BOLD, 12));
@@ -58,6 +64,7 @@ public class OptionsPanel extends JPanel {
         add(artists);
         add(Box.createRigidArea(new Dimension(0,5)));
         add(Box.createRigidArea(new Dimension(0,5)));
+        playLists.setIcon(playlist);
         add(playLists);
         add(Box.createRigidArea(new Dimension(0,5)));
     }
