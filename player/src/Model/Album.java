@@ -8,6 +8,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
 
+/**
+ * the class responsible for albums in program
+ */
 public class Album extends Playlist{
     private String artist;
     public Album(int id, String title, String artist) {
@@ -19,10 +22,16 @@ public class Album extends Playlist{
         this.artist = artist;
     }
 
+    /**
+     * searches among the music files in the given folder and categorize them by their Album
+     * @param folder the folder to search for songs in
+     * @return an array list of Albums found in the folder
+     */
     public static ArrayList<Album> createAlbumFromFolder(File folder){
         ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(folder));
         ArrayList<Song> songs = new ArrayList<>();
         ArrayList<Album> results = new ArrayList<>();
+        // creating a list of songs
         for (URI i :files){
             TagReader musicFileReader = new TagReader();
             try {

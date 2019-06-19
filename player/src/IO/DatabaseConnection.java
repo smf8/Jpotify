@@ -9,9 +9,20 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Base class for database Reading / Writing
+ * use init and insert and query methods inside a new thread to avoid main thread lock
+ *
+ * <b>don't forget to involve close method after completing queries</b>
+ */
 public class DatabaseConnection {
     private Connection connection = null;
 
+    /**
+     * constructor to create database file in resources folder
+     * method uses sqlite jdbc driver
+     * @param databaseName database file name
+     */
     public DatabaseConnection(String databaseName) {
         try {
             Path path = Paths.get("player" + File.separator + "src" + File.separator + "resources");
@@ -43,6 +54,10 @@ public class DatabaseConnection {
         createTable(playlistQuery);
     }
 
+    /**
+     * code is pretty self explanatory, uses preparedStatement to execute query
+     * @param song song object to save to database
+     */
     public void insertSong(Song song){
         String query = "INSERT INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location) VALUES(?,?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;

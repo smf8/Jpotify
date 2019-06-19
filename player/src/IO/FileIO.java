@@ -12,6 +12,12 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 public class FileIO {
+
+    /**
+     * checks if the file in the given url exists
+     * @param fileURL file url
+     * @return whether the file exists or not
+     */
     public static boolean checkIfFileExists(String fileURL){
         File file = new File(fileURL);
         if (file.exists() && !file.isDirectory()){
@@ -19,6 +25,12 @@ public class FileIO {
         }
         else return false;
     }
+
+    /**
+     * uses Files find method to find all regular files in the given directory recursively
+     * @param directory a file object to the wanted directory
+     * @return a URI list of regular files found in the given folder and it's sub folders
+     */
     public static ArrayList<URI> findFilesRecursive(File directory){
         File[] files = directory.listFiles();
         ArrayList<URI> result = new ArrayList<>();
@@ -29,6 +41,12 @@ public class FileIO {
         }
         return result;
     }
+
+    /**
+     * filters MP3 files among all the files
+     * @param content URI list of files
+     * @return a URI list MP3 files
+     */
     public static ArrayList<URI> findMP3Files(ArrayList<URI> content){
         ArrayList<URI> res = new ArrayList<>();
         for (URI i : content){
@@ -38,6 +56,12 @@ public class FileIO {
         }
         return res;
     }
+
+    /**
+     * this method shouldn't be here but it creates a MD5 hash
+     * @param md5 the string we need the hash of
+     * @return hashed MD5
+     */
     public static String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
