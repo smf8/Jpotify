@@ -36,6 +36,11 @@ public class DatabaseConnection {
         String songQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Songs(").append("hash TEXT PRIMARY KEY,\n").append("title TEXT,\n").append("artist TEXT,\n").append("album TEXT,\n")
                 .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate Text,\n").append("location TEXT\n);").toString();
         createTable(songQuery);
+        // creating albums table
+        String albumQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Albums(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("artist TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("songs TEXT\n);").toString();
+        createTable(albumQuery);
+        String playlistQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Playlists(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("artist TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("editable integer,\n").append("songs TEXT\n);").toString();
+        createTable(playlistQuery);
     }
 
     public void insertSong(Song song){
