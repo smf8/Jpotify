@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Playlist {
     protected int id;
     protected String title;
+    private String creator;
     protected boolean editable;
     protected boolean isPublic;
     protected URI imageURI;
@@ -17,6 +18,11 @@ public class Playlist {
         this.isPublic = false;
         this.editable = false;
         songs = new ArrayList<>();
+    }
+    public Playlist(int id, String title, String creator){
+        this.id = id;
+        this.title = title;
+        this.creator = creator;
     }
     public Playlist(int id, String title, URI imageURI) {
         this.id = id;
@@ -55,6 +61,10 @@ public class Playlist {
 
     public int getId() {
         return id;
+    }
+
+    public String getCreator() {
+        return creator;
     }
 
     public String getTitle() {

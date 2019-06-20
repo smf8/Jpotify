@@ -1,6 +1,7 @@
 package IO;
 
 import Model.Album;
+import Model.Playlist;
 import Model.Song;
 
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class DatabaseHelper {
                 statement.setString(7, playDate);
                 statement.setInt(8, song.getReleasedDate());
                 statement.setString(9, song.getLocation().toString());
-                String artwork = song.getArtWork()==null?"":song.getArtWork().toString();
+                String artwork = song.getArtWork() == null ? "" : song.getArtWork().toString();
                 statement.setString(10, artwork);
                 statement.execute();
             }
@@ -64,6 +65,7 @@ public class DatabaseHelper {
 
     /**
      * insertion of album
+     *
      * @param album
      */
     public void insertAlbum(Album album) {
@@ -74,13 +76,47 @@ public class DatabaseHelper {
             statement.setString(1, album.getTitle());
             statement.setString(2, album.getArtist());
             String image = "";
-            if (album.getImageURI() != null){
+            if (album.getImageURI() != null) {
                 image = album.getImageURI().toString();
             }
             statement.setString(3, image);
             statement.setInt(4, album.isPublic() ? 1 : 0);
             StringBuilder builder = new StringBuilder();
             for (Song s : album.getSongs()) {
+                builder.append(s.getHash()).append("|");
+            }
+            statement.setString(5, builder.toString());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void insertPlaylist(Playlist playlist) {
+        String query = "INSERT OR IGNORE INTO Playlists(title, creator, artwork,public,editable,songs) VALUES(?,?,?,?,?,?)";
+
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, playlist.getTitle());
+            statement.setString(2, playlist.getCreator());
+            String image = "";
+            if (playlist.getImageURI() != null) {
+                image = playlist.getImageURI().toString();
+            }
+            statement.setString(3, image);
+            statement.setInt(4, playlist.isPublic() ? 1 : 0);
+            statement.setInt(5, playlist.isEditable() ? 1 : 0);
+            StringBuilder builder = new StringBuilder();
+            for (Song s : playlist.getSongs()) {
                 builder.append(s.getHash()).append("|");
             }
             statement.setString(5, builder.toString());
