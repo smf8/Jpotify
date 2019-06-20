@@ -9,10 +9,12 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 public class TagReader {
@@ -146,7 +148,12 @@ public class TagReader {
 
                 // Creating a new song object from Tag data
 //                System.out.println(title + " - " + fileurl.toString());
-                currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel);
+                URI imageURI = null;
+                if (!imgAddress.equals("")) {
+                    Path p = Paths.get(imgAddress);
+                    imageURI = p.toAbsolutePath().toUri();
+                }
+                currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel, imageURI);
             }
         } catch (IOException e) {
             e.printStackTrace();

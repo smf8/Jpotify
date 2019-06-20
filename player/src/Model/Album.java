@@ -1,11 +1,13 @@
 package Model;
 
+import IO.DatabaseHelper;
 import IO.FileIO;
 import utils.TagReader;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 /**
@@ -35,13 +37,17 @@ public class Album extends Playlist{
             if (songs.get(i) == null)
                 continue;
             Song currentSong = songs.get(i);
+            boolean hasCover = false;
             Album currentAlbum = new Album(i, currentSong.getAlbum(), currentSong.getArtist());
-            for (int j = i+1; j < songs.size(); j++){
+            for (int j = i; j < songs.size(); j++){
                 if (songs.get(j) == null)
                     continue;
                 Song beingChecked = songs.get(j);
                 Album beingCheckedAlbum = new Album(j, beingChecked.getAlbum(), beingChecked.getArtist());
                 if (currentAlbum.equals(beingCheckedAlbum)){
+                    if (currentSong.getArtWork()!=null){
+                        currentAlbum.setImageURI(currentSong.getArtWork());
+                    }
                     currentAlbum.addSong(beingChecked);
                     songs.set(j, null);
                 }
@@ -73,4 +79,13 @@ public class Album extends Playlist{
     public String getArtist() {
         return artist;
     }
+
+    public static void saveAlbums(ArrayList<Album> albums, Connection databaseConnection){
+        DatabaseHelper helper = new DatabaseHelper(databaseConnection);
+        new Thread(() -> {
+            for (Album a : albums){
+            helper.insertAlbum(a);
+            }
+        }).start();
+        }
 }

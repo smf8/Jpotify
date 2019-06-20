@@ -64,4 +64,8 @@ public class Playlist {
     public URI getImageURI() {
         return imageURI;
     }
+
+    public void setImageURI(URI imageURI) {
+        this.imageURI = imageURI;
+    }
 }

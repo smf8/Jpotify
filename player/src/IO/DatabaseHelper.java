@@ -28,7 +28,7 @@ public class DatabaseHelper {
      * @param songs An arraylist of songs to be added
      */
     public void insertSongs(ArrayList<Song> songs) {
-        String query = "INSERT OR IGNORE INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location) VALUES(?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT OR IGNORE INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location,artwork) VALUES(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             for (Song song : songs) {
@@ -45,6 +45,8 @@ public class DatabaseHelper {
                 statement.setString(7, playDate);
                 statement.setInt(8, song.getReleasedDate());
                 statement.setString(9, song.getLocation().toString());
+                String artwork = song.getArtWork()==null?"":song.getArtWork().toString();
+                statement.setString(10, artwork);
                 statement.execute();
             }
         } catch (SQLException e) {
@@ -65,20 +67,24 @@ public class DatabaseHelper {
      * @param album
      */
     public void insertAlbum(Album album) {
-        String query = "INSERT INTO Albums(title, artist, artwork,public,songs) VALUES(?,?,?,?,?)";
+        String query = "INSERT OR IGNORE INTO Albums(title, artist, artwork,public,songs) VALUES(?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
             statement.setString(1, album.getTitle());
             statement.setString(2, album.getArtist());
-            statement.setString(3, album.getImageURI().toString());
+            String image = "";
+            if (album.getImageURI() != null){
+                image = album.getImageURI().toString();
+            }
+            statement.setString(3, image);
             statement.setInt(4, album.isPublic() ? 1 : 0);
             StringBuilder builder = new StringBuilder();
             for (Song s : album.getSongs()) {
                 builder.append(s.getHash()).append("|");
             }
             statement.setString(5, builder.toString());
-            statement.toString();
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

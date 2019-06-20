@@ -18,18 +18,21 @@ public class Song {
     private String title;
     private String artist;
     private String album;
+    private URI artWork;
     private int length;
     private int playCount;
     private LocalDateTime playDate;
     private URI location;
     private boolean playing;
     private boolean selected;
+    public static final String DATE_FORMAT = "dd-MM-YYYY";
 
-    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, int releasedDate) {
+    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.length = length;
+        this.artWork = artWork;
         this.playCount = playCount;
         this.playDate = playDate;
         this.location = location;
@@ -84,6 +87,9 @@ public class Song {
         return selected;
     }
 
+    public URI getArtWork() {
+        return artWork;
+    }
 
     public static  ArrayList<Song> findSongsInFolder(File directory){
         ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(directory));
@@ -107,7 +113,6 @@ public class Song {
         System.out.println("Start inserting songs to database");
         new Thread(() -> {
                 helper.insertSongs(songs);
-                helper.close();
         }).start();
     }
 }
