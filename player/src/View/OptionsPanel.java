@@ -42,10 +42,10 @@ public class OptionsPanel extends JPanel {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        ImageIcon home = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_DEFAULT));
-        ImageIcon search = new ImageIcon(new ImageIcon(searchUrl).getImage().getScaledInstance(30,30, Image.SCALE_DEFAULT));
-        ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT));
-        ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_DEFAULT));HOME.setIcon(home);
+        ImageIcon home = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
+        ImageIcon search = new ImageIcon(new ImageIcon(searchUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
+        ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
+        ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));HOME.setIcon(home);
         HOME.setText("HOME");
         HOME.addMouseListener(new MouseListener() {
             @Override
