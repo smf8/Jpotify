@@ -94,6 +94,7 @@ public class Song {
             try {
                 musicFileReader.getAdvancedTags(i.toURL());
                 Song currSong = musicFileReader.getSong();
+                if (currSong!= null)
                 songs.add(currSong);
             } catch (MalformedURLException e) {
                 e.printStackTrace();

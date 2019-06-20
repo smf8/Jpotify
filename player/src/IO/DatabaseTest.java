@@ -1,6 +1,7 @@
 package IO;
 
 import Model.Album;
+import Model.Song;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -19,10 +20,7 @@ public class DatabaseTest {
 //        Song song = new Song(reader.getTitle(),reader.getArtist(),reader.getAlbum(),reader.getDurationInSeconds(),0,time, fileUrl.toURI(), false,false , time);
 //        connection.insertSong(song);
         File dir = new File("player/src/resources");
-        ArrayList<Album> albums = Album.createAlbumFromFolder(dir);
-        System.out.println(albums.size());
-        for (Album a : albums){
-            System.out.println(a.getTitle());
-        }
+        Song.saveSongs(Song.findSongsInFolder(dir), connection.getConnection());
+        Album.createAlbumFromFolder(dir);
     }
 }

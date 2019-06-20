@@ -28,7 +28,7 @@ public class DatabaseHelper {
      * @param songs An arraylist of songs to be added
      */
     public void insertSongs(ArrayList<Song> songs) {
-        String query = "INSERT INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location) VALUES(?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT OR IGNORE INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location) VALUES(?,?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             for (Song song : songs) {

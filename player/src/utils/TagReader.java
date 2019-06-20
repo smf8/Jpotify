@@ -97,52 +97,55 @@ public class TagReader {
                 }
                 this.title = id3v2.getTitle();
                 if (title == null)
-                    title = "titleless";
+                    title = mp3File.getFilename();
                 this.durationInMiliSeconds= (int) mp3File.getLengthInMilliseconds();
                 mp3File.getLengthInMilliseconds();
                 this.releaseDate = id3v2.getYear();
                 // calculate hash for searching image cache
                 String hashString = FileIO.MD5(this.title + "-" + this.artist);
                 String mimeType = id3v2.getAlbumImageMimeType();
+                boolean hasImage = true;
                 if (mimeType == null)
-                    return;
+                    hasImage = false;
                 String imgAddress = "";
-                // checking mime type of artwork
-                switch (mimeType) {
-                    case "image/jpeg":
-                        imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".jpg";
-                        break;
-                    case "image/png":
-                        imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".png";
-                        break;
-                }
-                if (!FileIO.checkIfFileExists(imgAddress)) {
-
-                    // try and copy and extract artwork from mp3 file to cache/img/[image-hash]
-
-                    String finalImgAddress = imgAddress;
-                    BufferedOutputStream out = null;
-
-                    try {
-                        byte[] imgBytes = id3v2.getAlbumImage();
-                        out = new BufferedOutputStream(new FileOutputStream(finalImgAddress));
-                        out.write(imgBytes);
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (hasImage) {
+                    // checking mime type of artwork
+                    switch (mimeType) {
+                        case "image/jpeg":
+                            imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".jpg";
+                            break;
+                        case "image/png":
+                            imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".png";
+                            break;
                     }
-                } else {
-                    // sets imageName Field to hashString
-                    this.imageName = hashString;
+                    if (!FileIO.checkIfFileExists(imgAddress)) {
+
+                        // try and copy and extract artwork from mp3 file to cache/img/[image-hash]
+
+                        String finalImgAddress = imgAddress;
+                        BufferedOutputStream out = null;
+
+                        try {
+                            byte[] imgBytes = id3v2.getAlbumImage();
+                            out = new BufferedOutputStream(new FileOutputStream(finalImgAddress));
+                            out.write(imgBytes);
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // sets imageName Field to hashString
+                        this.imageName = hashString;
+                    }
                 }
                 LocalDateTime dateTime = LocalDateTime.now();
                 int rel = 0;
-                if (getReleaseDate() != null){
+                if (getReleaseDate() != null && !getReleaseDate().equals("")){
                     rel  = Integer.valueOf(getReleaseDate());
                 }
 
                 // Creating a new song object from Tag data
-
+//                System.out.println(title + " - " + fileurl.toString());
                 currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel);
             }
         } catch (IOException e) {

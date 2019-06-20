@@ -42,7 +42,7 @@ public class DatabaseConnection {
         }
     }
 
-    public void initSqlTables(){
+    public synchronized void initSqlTables(){
         // create Song table
         String songQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Songs(").append("hash TEXT PRIMARY KEY,\n").append("title TEXT,\n").append("artist TEXT,\n").append("album TEXT,\n")
                 .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate integer,\n").append("location TEXT\n);").toString();
@@ -55,7 +55,7 @@ public class DatabaseConnection {
     }
 
 
-    public void close(){
+    public synchronized void close(){
         if (connection !=null){
             try {
                 connection.close();
@@ -65,5 +65,7 @@ public class DatabaseConnection {
         }
     }
 
-
+    public Connection getConnection() {
+        return connection;
+    }
 }
