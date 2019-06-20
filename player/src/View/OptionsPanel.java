@@ -1,12 +1,14 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
@@ -18,7 +20,9 @@ public class OptionsPanel extends JPanel {
     JLabel albums = new JLabel("ALBUMS");
     JLabel artists = new JLabel("ARTISTS");
     JLabel playLists = new JLabel("PLAYLISTS");
+    private ArrayList<JLabel> playlistsArray;
     public OptionsPanel(){
+        playlistsArray = new ArrayList<>();
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         URL homeUrl = null;
         URL searchUrl = null;
@@ -31,8 +35,8 @@ public class OptionsPanel extends JPanel {
             libraryUrl = libraryFile.toURI().toURL();
             File searchFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "search.png");
             searchUrl = searchFile.toURI().toURL();
-            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "multimedia.png");
-            playlistUrl = searchFile.toURI().toURL();
+            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "playlist.png");
+            playlistUrl = playlistFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -67,5 +71,23 @@ public class OptionsPanel extends JPanel {
         playLists.setIcon(playlist);
         add(playLists);
         add(Box.createRigidArea(new Dimension(0,5)));
+    }
+    public void addPlaylist(String playlistsName){
+        JLabel newPlaylist = new JLabel(playlistsName);
+        playlistsArray.add(newPlaylist);
+    }
+    public void removePlaylist(String playlistsName){
+        for(int i=0;i<playlistsArray.size() ;i++){
+            if(playlistsArray.get(i).getText().equals( playlistsName)){
+                this.remove(playlistsArray.get(i));
+                playlistsArray.remove(i);
+            }
+        }
+    }
+    public void showingPlaylist(){
+        for(JLabel x: playlistsArray){
+            add(x);
+            add(Box.createRigidArea(new Dimension(0,5)));
+        }
     }
 }
