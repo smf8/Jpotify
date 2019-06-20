@@ -4,10 +4,12 @@ import Model.Album;
 import Model.Playlist;
 import Model.Song;
 
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -41,8 +43,8 @@ public class DatabaseHelper {
                 statement.setString(4, song.getAlbum());
                 statement.setInt(5, song.getLength());
                 statement.setInt(6, song.getPlayCount());
-                LocalDateTime localDateTime = song.getPlayDate();
-                String playDate = localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
+                LocalDate LocalDate = song.getPlayDate();
+                String playDate = LocalDate.format(DateTimeFormatter.ofPattern(Song.DATE_FORMAT));
                 statement.setString(7, playDate);
                 statement.setInt(8, song.getReleasedDate());
                 statement.setString(9, song.getLocation().toString());
@@ -62,6 +64,61 @@ public class DatabaseHelper {
             }
         }
     }
+
+    public Song getSongByTitle(String title){
+        String sql = "SELECT * FROM Songs WHERE title = ?";
+        Song song = null;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Song.DATE_FORMAT);
+            LocalDate dateTime = LocalDate.parse(resultSet.getString("playDate"), formatter);
+            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), dateTime, URI.create(resultSet.getString("location")) , false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return song;
+    }
+
+    public Song getSongByHahs(String hash){
+        String sql = "SELECT * FROM Songs WHERE hash = ?";
+        Song song = null;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, hash);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.first();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Song.DATE_FORMAT);
+            LocalDate dateTime = LocalDate.parse(resultSet.getString("playDate"), formatter);
+            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), dateTime, URI.create(resultSet.getString("location")) , false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return song;
+    }
+
 
     /**
      * insertion of album

@@ -9,7 +9,7 @@ import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.sql.Connection;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Song {
@@ -21,13 +21,13 @@ public class Song {
     private URI artWork;
     private int length;
     private int playCount;
-    private LocalDateTime playDate;
+    private LocalDate playDate;
     private URI location;
     private boolean playing;
     private boolean selected;
-    public static final String DATE_FORMAT = "dd-MM-YYYY";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
-    public Song(String title, String artist, String album, int length, int playCount, LocalDateTime playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
+    public Song(String title, String artist, String album, int length, int playCount, LocalDate playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -71,7 +71,7 @@ public class Song {
         return playCount;
     }
 
-    public LocalDateTime getPlayDate() {
+    public LocalDate getPlayDate() {
         return playDate;
     }
 

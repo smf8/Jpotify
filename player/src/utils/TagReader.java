@@ -15,7 +15,7 @@ import java.net.URL;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class TagReader {
 
@@ -140,7 +140,7 @@ public class TagReader {
                         this.imageName = hashString;
                     }
                 }
-                LocalDateTime dateTime = LocalDateTime.now();
+                LocalDate dateTime = LocalDate.now();
                 int rel = 0;
                 if (getReleaseDate() != null && !getReleaseDate().equals("")){
                     rel  = Integer.valueOf(getReleaseDate());
