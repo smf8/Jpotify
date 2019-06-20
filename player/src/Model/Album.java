@@ -28,21 +28,9 @@ public class Album extends Playlist{
      * @return an array list of Albums found in the folder
      */
     public static ArrayList<Album> createAlbumFromFolder(File folder){
-        ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(folder));
-        ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<Song> songs;
         ArrayList<Album> results = new ArrayList<>();
-        // creating a list of songs
-        for (URI i :files){
-            TagReader musicFileReader = new TagReader();
-            try {
-                musicFileReader.getAdvancedTags(i.toURL());
-                Song currSong = musicFileReader.getSong();
-                songs.add(currSong);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-
+        songs = Song.findSongsInFolder(folder);
         for (int i = 0; i < songs.size(); i++) {
             if (songs.get(i) == null)
                 continue;

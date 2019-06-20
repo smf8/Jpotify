@@ -1,9 +1,16 @@
 package Model;
 
+import IO.DatabaseHelper;
 import IO.FileIO;
+import utils.TagReader;
 
+import java.io.File;
+import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Song {
     private int releasedDate;
@@ -75,5 +82,31 @@ public class Song {
 
     public boolean isSelected() {
         return selected;
+    }
+
+
+    public static  ArrayList<Song> findSongsInFolder(File directory){
+        ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(directory));
+        // creating a list of songs
+        ArrayList<Song> songs = new ArrayList<>();
+        for (URI i :files){
+            TagReader musicFileReader = new TagReader();
+            try {
+                musicFileReader.getAdvancedTags(i.toURL());
+                Song currSong = musicFileReader.getSong();
+                songs.add(currSong);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return songs;
+    }
+    public static void saveSongs(ArrayList<Song> songs , Connection databaseConnection){
+        DatabaseHelper helper = new DatabaseHelper(databaseConnection);
+        System.out.println("Start inserting songs to database");
+        new Thread(() -> {
+                helper.insertSongs(songs);
+                helper.close();
+        }).start();
     }
 }

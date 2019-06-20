@@ -54,41 +54,6 @@ public class DatabaseConnection {
         createTable(playlistQuery);
     }
 
-    /**
-     * code is pretty self explanatory, uses preparedStatement to execute query
-     * @param song song object to save to database
-     */
-    public void insertSong(Song song){
-        String query = "INSERT INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location) VALUES(?,?,?,?,?,?,?,?,?)";
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(query);
-            statement.setString(1, song.getHash());
-            statement.setString(2, song.getTitle());
-            statement.setString(3,song.getArtist());
-            statement.setString(4, song.getAlbum());
-            statement.setInt(5, song.getLength());
-            statement.setInt(6, song.getPlayCount());
-            LocalDateTime localDateTime = song.getPlayDate();
-            String playDate = localDateTime.format(DateTimeFormatter.ofPattern("dd-MM-YYYY"));
-            statement.setString(7, playDate);
-            statement.setInt(8, song.getReleasedDate());
-            statement.setString(9, song.getLocation().toString());
-            statement.execute();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
     public void close(){
         if (connection !=null){

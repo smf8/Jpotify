@@ -140,6 +140,9 @@ public class TagReader {
                 if (getReleaseDate() != null){
                     rel  = Integer.valueOf(getReleaseDate());
                 }
+
+                // Creating a new song object from Tag data
+
                 currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel);
             }
         } catch (IOException e) {

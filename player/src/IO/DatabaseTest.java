@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class DatabaseTest {
     public static void main(String[] args) throws MalformedURLException, URISyntaxException {
-//        DatabaseConnection connection = new DatabaseConnection("test");
-//        connection.initSqlTables();
+        DatabaseConnection connection = new DatabaseConnection("test");
+        connection.initSqlTables();
 //        TagReader reader = new TagReader();
 //        URL fileUrl = Path.of("/home/smf8/IdeaProjects/Jpotify/player/src/resources/test/Lamb of God - Laid to Rest.mp3").toUri().toURL();
 //        reader.getAdvancedTags(fileUrl);
