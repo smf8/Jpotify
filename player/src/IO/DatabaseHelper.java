@@ -28,8 +28,13 @@ public class DatabaseHelper {
     public void deleteAlbum(){
 
     }
-    public void removeSong(Song song){
 
+    /**
+     * this method removes song from database and alters album and playlist's tables
+     * @param song the song to be removed
+     */
+    public void removeSong(Song song){
+        //removing song from Songs table
         String query = "DELETE FROM Songs WHERE hash=?";
         PreparedStatement statement = null;
         try {
@@ -46,10 +51,10 @@ public class DatabaseHelper {
             }
         }
         // removing this song from all playlists and albums
-        ArrayList<Playlist> playlists = searchPlaylist("%");
         PreparedStatement playlistStatement = null;
         try {
-            playlistStatement = connection.prepareStatement("SELECT id,songs FROM Playlists");
+            playlistStatement = connection.prepareStatement("SELECT id,songs FROM Playlists WHERE songs LIKE ?");
+            playlistStatement.setString(1, "%" + song.getHash() + "%");
             ResultSet resultSet = playlistStatement.executeQuery();
             while(resultSet.next()){
                 if (resultSet.getString("songs").contains(song.getHash())){
@@ -69,9 +74,11 @@ public class DatabaseHelper {
                 e.printStackTrace();
             }
         }
+        //removing the song from all the album that contains this song
         PreparedStatement albumStatement = null;
         try {
-            albumStatement = connection.prepareStatement("SELECT id,songs FROM Albums");
+            albumStatement = connection.prepareStatement("SELECT id,songs FROM Albums WHERE songs LIKE ?");
+            albumStatement.setString(1, "%" + song.getHash() + "%");
             ResultSet resultSet = albumStatement.executeQuery();
             while(resultSet.next()){
                 if (resultSet.getString("songs").contains(song.getHash())) {
@@ -91,24 +98,6 @@ public class DatabaseHelper {
                 e.printStackTrace();
             }
         }
-//        ArrayList<Album> albums = searchAlbum("%");
-//        for (Playlist playlist : playlists){
-//            System.out.println(playlist.getSongs().size());
-//            System.out.println(playlist.getSongs().get(5).getTitle());
-//            for (Song s : playlist.getSongs()){
-//                System.out.println(s.getTitle());
-//                if (s.equals(song)) {
-//                    removeSongFromPlaylist(song, playlist);
-//                }
-//            }
-//        }
-//        for (Album album : albums){
-//            for(Song s : album.getSongs()){
-//                if (s.equals(song)) {
-//                    removeSongFromAlbum(song, album);
-//                }
-//            }
-//        }
     }
 
     public void removeSongFromAlbum(Song song,Album album){
