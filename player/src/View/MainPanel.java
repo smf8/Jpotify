@@ -9,7 +9,6 @@ import java.net.URL;
 public class MainPanel extends JPanel {
     private JPanel mainOptionsPanel = new JPanel();
     private JLabel backGroundLabel = new JLabel();
-    private ImageIcon backGroundImage;
     public MainPanel(){
         this.setLayout(new BorderLayout());
         // OptionsPanel
@@ -43,16 +42,16 @@ public class MainPanel extends JPanel {
         this.add(searchAndProfilesPanel,BorderLayout.NORTH);
         //
         //BackGroundPanel
-        URL backGroundUrl = null;
-        try {
-            File backGroundFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "lanadelrey.png");
-            backGroundUrl = backGroundFile.toURI().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        backGroundImage = new ImageIcon(new ImageIcon(backGroundUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
-        backGroundLabel.setIcon(backGroundImage);
-        this.add(backGroundLabel,BorderLayout.CENTER);
+//        URL backGroundUrl = null;
+//        try {
+//            File backGroundFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "lanadelrey.png");
+//            backGroundUrl = backGroundFile.toURI().toURL();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        backGroundImage = new ImageIcon(new ImageIcon(backGroundUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
+//        backGroundLabel.setIcon(backGroundImage);
+        this.add(new BackGroundPanel(),BorderLayout.CENTER);
         //
     }
 }
