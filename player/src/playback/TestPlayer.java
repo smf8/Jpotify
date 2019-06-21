@@ -41,7 +41,7 @@ public class TestPlayer {
                     playbackManager.changeVolume(volume+=10);
                     break;
                 case "forward":
-                    playbackManager.move(10000);
+                    playbackManager.move(350000);
                     break;
                 case "backward":
                     playbackManager.move(-10000);

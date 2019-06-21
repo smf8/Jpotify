@@ -12,9 +12,11 @@ import java.util.Collections;
  */
 public class PlaybackManager {
     private MP3Player player;
-    private ArrayList<Song> songQueue = new ArrayList<>();
-    private int queueIndex = 0;
-    private Thread playbackThread;
+    private ArrayList<Song> songQueue = new ArrayList<>(); // an Arraylist of songs that are playable, switch between them by queueIndex;
+    private int queueIndex = 0; // controller of which songs to play
+    private Thread playbackThread; // the thread in which audio file will start to play
+    private boolean isPlayerStopped;
+    private boolean repeat;
 
     /**
      * constructor with empty queue, use addSong method to add songs to queue
@@ -33,9 +35,36 @@ public class PlaybackManager {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        player.setPlaybackListener(new MP3Player.PlaybackListener() {
+            @Override
+            public void playbackStarted(MP3Player.PlaybackEvent event) {
+
+            }
+
+            @Override
+            public void playbackPaused(MP3Player.PlaybackEvent event) {
+
+            }
+
+
+            // handling what to do when reached the end of file
+            @Override
+            public void playbackFinished(MP3Player.PlaybackEvent event) {
+                    if (!isPlayerStopped){
+                        if (repeat){
+                            play();
+                        }else {
+                            queueIndex++;
+                            play();
+                        }
+                    }
+            }
+        });
     }
-//    public void toggle(){
-//    }
+
+    public void shouldRepeat(boolean repeat){
+        this.repeat = repeat;
+    }
     public void next(){
         queueIndex++;
         play();
@@ -44,6 +73,11 @@ public class PlaybackManager {
         queueIndex--;
         play();
     }
+
+    /**
+     * method initializes the player if it's not and stop and reinitialize it when not.
+     * call MP3Player play method inside a thread
+     */
     public void play(){
         if (player == null) {
             initPlayer();
@@ -51,6 +85,7 @@ public class PlaybackManager {
             stop();
             initPlayer();
         }
+        isPlayerStopped = true;
         playbackThread = new Thread(() -> {
             try {
                 player.resume();
@@ -63,6 +98,10 @@ public class PlaybackManager {
         playbackThread.start();
     }
 
+    /**
+     * calls updates Song queue and calls play()
+     * @param songInQueue the song about to be played
+     */
     public void play(Song songInQueue) {
         queueIndex = 0;
         songQueue.set(0, songInQueue);
@@ -73,20 +112,22 @@ public class PlaybackManager {
         queueIndex = 0;
 //        play();
     }
-    public long getCurrentPosition(){
-        if (player != null){
-            return player.getCurrentFrame()*26;
-        }else
-            return 0;
-    }
+    /**
+     * call MP3Player stop method and destroys the play thread
+     */
     public void stop(){
+        isPlayerStopped = true;
         if (player != null && !player.isStopped()){
             player.stop();
             playbackThread = null;
         }
     }
 
+    /**
+     * pauses the audio by invoking MP3Player.pause() method
+     */
     public void pause(){
+        isPlayerStopped = true;
         if (this.player != null && !this.player.isPaused()){
             this.player.pause();
 
