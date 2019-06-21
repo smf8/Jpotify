@@ -8,9 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PlaybackControlPanel extends JPanel{
-    JPanel panel1 = new JPanel();
-    JPanel panel2 = new JPanel();
-    JPanel panel3 = new JPanel();
+    JPanel buttonsControlPanel = new JPanel();
+    JPanel playProgressPanel = new JPanel();
+    JPanel volumePanel = new JPanel();
+    JPanel tempPanel = new JPanel();
     JSlider musicSlider = new JSlider(JSlider.HORIZONTAL,0,30,30);
     JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL,0,30,30);
     JLabel playLabel = new JLabel();
@@ -21,9 +22,10 @@ public class PlaybackControlPanel extends JPanel{
     JLabel previousLabel  = new JLabel();
     JLabel volumeLabel = new JLabel();
     public PlaybackControlPanel(){
-        panel1.setLayout(new FlowLayout());
-        panel2.setLayout(new BorderLayout());
-        //panel3.setLayout(new FlowLayout());
+        buttonsControlPanel.setLayout(new FlowLayout());
+        playProgressPanel.setLayout(new BorderLayout());
+        volumePanel.setLayout(new FlowLayout());
+        tempPanel.setLayout(new BorderLayout());
         this.setLayout(new BorderLayout());
 
         musicSlider.setMajorTickSpacing(100);
@@ -31,7 +33,7 @@ public class PlaybackControlPanel extends JPanel{
         musicSlider.setPaintTicks(true);
         musicSlider.setPaintLabels(true);
         //slider.addChangeListener(changeLis);
-        panel2.add(musicSlider);
+        playProgressPanel.add(musicSlider);
         URL playUrl = null;
         URL pausUrl = null;
         URL nextUrl = null;
@@ -72,18 +74,20 @@ public class PlaybackControlPanel extends JPanel{
         repeatLabel.setIcon(repeatIcon);
         nextLabel.setIcon(nextIcon);
         previousLabel.setIcon(previousIcon);
-        panel1.add(shuffleLabel);
-        panel1.add(previousLabel);
-        panel1.add(playLabel);
-        panel1.add(nextLabel);
-        panel1.add(repeatLabel);
-        panel1.add(volumeLabel);
-        panel1.add(volumeSlider);
-        //panel3.add(volumeLabel);
-        //panel3.add(volumeSlider);
+        buttonsControlPanel.add(shuffleLabel);
+        buttonsControlPanel.add(previousLabel);
+        buttonsControlPanel.add(playLabel);
+        buttonsControlPanel.add(nextLabel);
+        buttonsControlPanel.add(repeatLabel);
+//        panel1.add(volumeLabel);
+//        panel1.add(volumeSlider);
+        playProgressPanel.add(musicSlider,BorderLayout.CENTER);
+        volumePanel.add(volumeLabel);
+        volumePanel.add(volumeSlider);
+        tempPanel.add(buttonsControlPanel,BorderLayout.NORTH);
+        tempPanel.add(playProgressPanel,BorderLayout.CENTER);
         this.setSize(3,3);
-        this.add(panel1,BorderLayout.NORTH);
-        this.add(panel2,BorderLayout.CENTER);
-        this.add(panel3,BorderLayout.EAST);
+        this.add(tempPanel,BorderLayout.CENTER);
+        this.add(volumePanel,BorderLayout.EAST);
     }
 }
