@@ -24,9 +24,9 @@ public class OptionsPanelsMain {
         optionsPanel.addPlaylist("f");
         optionsPanel.addPlaylist("e");
         optionsPanel.addPlaylist("r");
-        optionsPanel.showingPlaylist();
+        optionsPanel.showPlaylist();
         optionsPanel.removePlaylist("salam");
-        optionsPanel.showingPlaylist();
+        optionsPanel.showPlaylist();
         GridBagConstraints frameConstraints = new GridBagConstraints();
 
         JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

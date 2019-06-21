@@ -258,7 +258,7 @@ public class OptionsPanel extends JPanel {
             }
         }
     }
-    public void showingPlaylist(){
+    public void showPlaylist(){
         for(JLabel x: playlistsArray){
             add(x);
             add(Box.createRigidArea(new Dimension(0,5)));
