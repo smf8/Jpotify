@@ -16,7 +16,8 @@ import java.util.ArrayList;
 
 /**
  * helper class for database queries <br>
- * <b>use methods in another thread</b>
+ * <b>use methods in another thread</b><br>
+ * do not forget to call close method after database queries have finished
  */
 public class DatabaseHelper {
     private Connection connection;

@@ -66,6 +66,9 @@ public class MP3Player {
     public boolean play() throws JavaLayerException {
         return this.play(0);
     }
+    public int getCurrentFrame(){
+        return frameIndexCurrent;
+    }
     public long getCurrent(){
         return this.audioDevice.getPosition();
     }
