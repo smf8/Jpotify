@@ -19,7 +19,7 @@ public class FriendsActivityPanel extends JPanel {
     private JPanel friendsProfPicPanel = new JPanel();
     private JPanel isOnlinePanel = new JPanel();
 
-    public FriendsActivityPanel(String userName) throws MalformedURLException {
+    public FriendsActivityPanel(String userName) {
         friendsNameLabel.setText(userName);
         lastPlayedSongLabel.setText("dohdyfoifuy");
         lastSongsArtistLabel.setText("reijgwpir");
@@ -34,15 +34,21 @@ public class FriendsActivityPanel extends JPanel {
 
 
         //for test
-        URL playUrl = null;
-        File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
-        playUrl = playFile.toURI().toURL();
-        ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-        friendsProfPicLabel.setIcon(playIcon);
+        try {
+            URL playUrl = null;
+            File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
+            playUrl = playFile.toURI().toURL();
+            ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+            friendsProfPicLabel.setIcon(playIcon);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        isOnlineLabel.setText("Online");
+
         //
 
         friendsProfPicPanel.add(friendsProfPicLabel);
-        isOnlinePanel.add(isOnlinePanel);
+        isOnlinePanel.add(isOnlineLabel);
 
         this.setLayout(new BorderLayout());
         this.add(friendsInformationPanel,BorderLayout.CENTER);
