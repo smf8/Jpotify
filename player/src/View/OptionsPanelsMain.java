@@ -3,7 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main {
+public class OptionsPanelsMain {
     public static void main(String[] args) {
         JFrame frame = new JFrame("JPOTIFY");
         frame.setLayout(new GridBagLayout());

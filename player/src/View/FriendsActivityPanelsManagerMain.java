@@ -3,7 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main3 {
+public class FriendsActivityPanelsManagerMain {
 
 
     public static void main(String[] args) {

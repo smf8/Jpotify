@@ -27,7 +27,6 @@ public class OptionsPanel extends JPanel {
         playlistsArray = new ArrayList<>();
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         URL homeUrl = null;
-        URL searchUrl = null;
         URL libraryUrl = null;
         URL playlistUrl = null;
         try {
@@ -35,15 +34,12 @@ public class OptionsPanel extends JPanel {
             homeUrl = homeFile.toURI().toURL();
             File libraryFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "audiobook.png");
             libraryUrl = libraryFile.toURI().toURL();
-            File searchFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "search.png");
-            searchUrl = searchFile.toURI().toURL();
             File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "playlist.png");
             playlistUrl = playlistFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         ImageIcon home = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
-        ImageIcon search = new ImageIcon(new ImageIcon(searchUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
         ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
         ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));HOME.setIcon(home);
         HOME.setText("HOME");
@@ -74,37 +70,6 @@ public class OptionsPanel extends JPanel {
             }
         });
         add(HOME);
-        add(Box.createRigidArea(new Dimension(0,5)));
-        Search.setIcon(search);
-        Search.setText("SEARCH");
-        Search.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        Search.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(Search);
         add(Box.createRigidArea(new Dimension(0,5)));
         add(Box.createRigidArea(new Dimension(0,5)));
         yourLibrary.setText("YOUR LIBRARY ");
