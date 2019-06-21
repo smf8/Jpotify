@@ -26,7 +26,7 @@ public class Song {
     private boolean playing;
     private boolean selected;
     public static final String DATE_FORMAT = "yyyy-MM-dd";
-
+    public static final String HASH_SEPERATOR = "_";
     public Song(String title, String artist, String album, int length, int playCount, LocalDate playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
         this.title = title;
         this.artist = artist;
@@ -114,5 +114,19 @@ public class Song {
         new Thread(() -> {
                 helper.insertSongs(songs);
         }).start();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this){
+            return true;
+        }
+        if (!(obj instanceof Song)){
+            return false;
+        }
+        if (this.getHash().equals(((Song) obj).getHash())){
+            return true;
+        }
+        return false;
     }
 }
