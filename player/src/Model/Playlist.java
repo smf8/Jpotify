@@ -22,7 +22,25 @@ public class Playlist {
     public Playlist(int id, String title, String creator){
         this.id = id;
         this.title = title;
+        songs = new ArrayList<>();
+
         this.creator = creator;
+    }
+    public Playlist(int id, String title, String creator , URI imageURI){
+        this.id = id;
+        this.title = title;
+        songs = new ArrayList<>();
+        this.creator = creator;
+        this.imageURI = imageURI;
+    }
+    public Playlist(int id, String title, String creator , URI imageURI, boolean isPublic, boolean editable){
+        this.id = id;
+        this.title = title;
+        songs = new ArrayList<>();
+        this.creator = creator;
+        this.imageURI = imageURI;
+        this.isPublic = isPublic;
+        this.editable = editable;
     }
     public Playlist(int id, String title, URI imageURI) {
         this.id = id;
@@ -65,6 +83,10 @@ public class Playlist {
 
     public String getCreator() {
         return creator;
+    }
+
+    public void setSongs(ArrayList<Song> songs) {
+        this.songs = songs;
     }
 
     public String getTitle() {

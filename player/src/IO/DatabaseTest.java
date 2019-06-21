@@ -17,12 +17,6 @@ public class DatabaseTest {
     public static void main(String[] args) throws MalformedURLException, URISyntaxException {
         DatabaseConnection connection = new DatabaseConnection("test");
         connection.initSqlTables();
-//        TagReader reader = new TagReader();
-//        URL fileUrl = Path.of("/home/smf8/IdeaProjects/Jpotify/player/src/resources/test/Lamb of God - Laid to Rest.mp3").toUri().toURL();
-//        reader.getAdvancedTags(fileUrl);
-//        LocalDate time = LocalDate.now();
-//        Song song = new Song(reader.getTitle(),reader.getArtist(),reader.getAlbum(),reader.getDurationInSeconds(),0,time, fileUrl.toURI(), false,false , time);
-//        connection.insertSong(song);
 
         // initialize song table with songs inside a folder
         File dir = new File("player/src/resources");
@@ -30,9 +24,48 @@ public class DatabaseTest {
 
         // initialize albums table with songs inside a folder
 //        Album.saveAlbums(Album.createAlbumFromFolder(dir), connection.getConnection());
-        Song s1 = new DatabaseHelper(connection.getConnection()).getSongByTitle("Laid to Rest");
-        System.out.println(s1.getArtist());
-        // don't forget to close database after usage
-//        connection.close();
+
+        // retrieving a song from database by it's title
+//        Song s1 = new DatabaseHelper(connection.getConnection()).getSongByTitle("Laid to Rest");
+//        System.out.println(s1.getArtist());
+
+
+        // create a sample playlist
+            DatabaseHelper helper = new DatabaseHelper(connection.getConnection());
+    //        ArrayList<Song> songs = new ArrayList<>();
+    //        songs.add(helper.getSongByHahs("2a4da2b7c03d7d0892d40c7349afa98a"));
+    //        songs.add(helper.getSongByHahs("a20f3f7fb574e64ee427e2c43a1c9374"));
+    //        songs.add(helper.getSongByHahs("599590dfc0ea763fdff2cf9ed077c4e7"));
+    //        songs.add(helper.getSongByHahs("1f68d0c84958eab210be87d89069ffd0"));
+    //        songs.add(helper.getSongByHahs("c937b8377a588dd5f70d25ef6e01e674"));
+    //        songs.add(helper.getSongByHahs("aa957bf4d028add75110e7a57db36a80"));
+    //
+    //        Playlist playlist = new Playlist(0,"Zahra's playlist", "smf" , songs.get(0).getArtWork());
+    //        playlist.setSongs(songs);
+    //        helper.insertPlaylist(playlist);
+
+
+        ArrayList<Song> songs = helper.searchSong("go");
+        ArrayList<Album> albums = helper.searchAlbum("gojira");
+        ArrayList<Playlist> playlists = helper.searchPlaylist("smf");
+        for (Song song : songs){
+            System.out.println(song.getTitle());
+        }
+        System.out.println("-------------");
+        for (Album album : albums){
+            System.out.println(album.getTitle());
+        }
+        System.out.println("--------------");
+        for (Playlist playlist : playlists){
+            for (Song s : playlist.getSongs()){
+                System.out.println(s.getArtist());
+            }
+        }
+//        retrieving an album from database
+//        Album album = new DatabaseHelper(connection.getConnection()).getAlbumByTitle("Magma");
+//        for (Song s : album.getSongs()){
+//            System.out.println(s.getTitle());
+//        }
+
     }
 }
