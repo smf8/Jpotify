@@ -4,6 +4,9 @@ import Model.Song;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class FriendsActivityPanel extends JPanel {
@@ -16,10 +19,10 @@ public class FriendsActivityPanel extends JPanel {
     private JPanel friendsProfPicPanel = new JPanel();
     private JPanel isOnlinePanel = new JPanel();
 
-    public FriendsActivityPanel(Song song,String userName){
+    public FriendsActivityPanel(String userName) throws MalformedURLException {
         friendsNameLabel.setText(userName);
-        lastPlayedSongLabel.setText(song.getTitle());
-        lastSongsArtistLabel.setText(song.getArtist());
+        lastPlayedSongLabel.setText("dohdyfoifuy");
+        lastSongsArtistLabel.setText("reijgwpir");
         //
         friendsInformationPanel.setLayout(new BoxLayout(friendsInformationPanel,BoxLayout.PAGE_AXIS));
         friendsInformationPanel.add(friendsNameLabel);
@@ -28,6 +31,15 @@ public class FriendsActivityPanel extends JPanel {
         friendsInformationPanel.add(Box.createRigidArea(new Dimension(0,5)));
         friendsInformationPanel.add(lastSongsArtistLabel);
         friendsInformationPanel.add(Box.createRigidArea(new Dimension(0,5)));
+
+
+        //for test
+        URL playUrl = null;
+        File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
+        playUrl = playFile.toURI().toURL();
+        ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        friendsProfPicLabel.setIcon(playIcon);
+        //
 
         friendsProfPicPanel.add(friendsProfPicLabel);
         isOnlinePanel.add(isOnlinePanel);
