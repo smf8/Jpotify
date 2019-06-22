@@ -1,11 +1,10 @@
 package Model;
 
-import IO.DatabaseHelper;
-import IO.FileIO;
+import utils.IO.DatabaseHelper;
+import utils.IO.FileIO;
 import utils.TagReader;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.sql.Connection;

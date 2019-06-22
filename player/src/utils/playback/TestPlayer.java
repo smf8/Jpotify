@@ -1,16 +1,9 @@
-package playback;
+package utils.playback;
 
-import IO.DatabaseConnection;
-import IO.DatabaseHelper;
-import Model.Album;
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHelper;
 import Model.Playlist;
-import javazoom.jl.decoder.JavaLayerException;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class TestPlayer {
@@ -43,8 +36,15 @@ public class TestPlayer {
                 case "forward":
                     playbackManager.move(10000);
                     break;
-                case "backward":
-                    playbackManager.move(-10000);
+                case "b":
+                    for (int i = 0; i < 10; i++) {
+//                        try {
+//                            Thread.sleep(20);
+                            playbackManager.move(playbackManager.getSec() + 4000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
                     break;
                 case "shuffle":
                     playbackManager.shuffle();

@@ -1,4 +1,4 @@
-package IO;
+package utils.IO;
 
 import Model.Album;
 import Model.Playlist;

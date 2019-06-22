@@ -1,6 +1,6 @@
 package utils;
 
-import IO.FileIO;
+import utils.IO.FileIO;
 import Model.Song;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
