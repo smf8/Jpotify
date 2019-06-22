@@ -8,7 +8,7 @@ import java.net.URL;
 
 public class MainFrame extends JFrame {
     private JPanel mainOptionsPanel = new JPanel();
-    private JPanel searchAndBackGroungPanel = new JPanel();
+    private JPanel searchAndBackGroundPanel = new JPanel();
     private JLabel backGroundLabel = new JLabel();
     public MainFrame(){
         this.setLayout(new BorderLayout());
@@ -39,7 +39,7 @@ public class MainFrame extends JFrame {
         optionsPanel.addPlaylist("jkpk");
         optionsPanel.addPlaylist("jkpk");
         optionsPanel.showPlaylist();
-        searchAndBackGroungPanel.setLayout(new BorderLayout());
+        searchAndBackGroundPanel.setLayout(new BorderLayout());
         mainOptionsPanel.add(optionsPanel);
         GridBagConstraints frameConstraints = new GridBagConstraints();
 
@@ -65,7 +65,7 @@ public class MainFrame extends JFrame {
         //SearchAndProfilesPanel
         SearchAndProfilesPanel searchAndProfilesPanel = new SearchAndProfilesPanel();
         searchAndProfilesPanel.setProfileInformation("user");
-        searchAndBackGroungPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
+        searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         //
@@ -79,8 +79,15 @@ public class MainFrame extends JFrame {
 //        }
 //        backGroundImage = new ImageIcon(new ImageIcon(backGroundUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
 //        backGroundLabel.setIcon(backGroundImage);
-        searchAndBackGroungPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
-        this.add(searchAndBackGroungPanel,BorderLayout.CENTER);
+   //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
+        //SongsPanel
+         SongsPanel songsPanel = new SongsPanel();
+
+        JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane2.setPreferredSize(new Dimension(250, 700));
+        searchAndBackGroundPanel.add(scrollPane2,BorderLayout.CENTER);
+       // searchAndBackGroundPanel.add(songsPanel);
+        this.add(searchAndBackGroundPanel,BorderLayout.CENTER);
         //
         this.setVisible(true);
     }
