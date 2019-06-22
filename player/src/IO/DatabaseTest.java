@@ -62,8 +62,8 @@ public class DatabaseTest {
 //            }
 //        }
 
-        Song s1 = helper.searchSong("low lands").get(0);
-        helper.removeSong(s1);
+//        Song s1 = helper.searchSong("low lands").get(0);
+//        helper.removeSong(s1);
 //        retrieving an album from database
 //        Album album = new DatabaseHelper(connection.getConnection()).getAlbumByTitle("Magma");
 //        for (Song s : album.getSongs()){
