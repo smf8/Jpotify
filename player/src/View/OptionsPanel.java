@@ -18,14 +18,15 @@ public class OptionsPanel extends JPanel {
     JLabel Search = new JLabel("SEARCH");
     JLabel yourLibrary = new JLabel("YOUR LIBRARY");
     JLabel recentlyPlayed = new JLabel("RECENTLY PLAYED");
-    JLabel songs = new JLabel("SONGS");
+    JButton songs = new JButton("SONGS");
+
     JLabel albums = new JLabel("ALBUMS");
     JLabel artists = new JLabel("ARTISTS");
     JLabel playLists = new JLabel("PLAYLISTS");
     private ArrayList<JLabel> playlistsArray;
     public OptionsPanel(){
         playlistsArray = new ArrayList<>();
-        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         URL homeUrl = null;
         URL libraryUrl = null;
         URL playlistUrl = null;
@@ -39,6 +40,10 @@ public class OptionsPanel extends JPanel {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        songs.setOpaque(false);
+        songs.setContentAreaFilled(false);
+        songs.setBorderPainted(false);
+        songs.setMaximumSize(new Dimension(100 , 25));
         ImageIcon home = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
         ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
         ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));HOME.setIcon(home);
@@ -103,6 +108,7 @@ public class OptionsPanel extends JPanel {
         });
         add(yourLibrary);
         add(Box.createRigidArea(new Dimension(0,5)));
+        songs.setToolTipText("songs");
         recentlyPlayed.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

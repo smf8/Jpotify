@@ -13,7 +13,7 @@ public class FriendsActivityPanelsManager extends JPanel {
     private JButton findFriendsButton = new JButton("FIND FRIENDS");
 
     public FriendsActivityPanelsManager() {
-        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.add(friendActivityLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         this.add(findFriendsButton);
