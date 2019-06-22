@@ -1,5 +1,7 @@
 package View;
 
+import org.w3c.dom.html.HTMLObjectElement;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -14,16 +16,16 @@ import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
-    JLabel HOME = new JLabel("HOME");
-    JLabel Search = new JLabel("SEARCH");
-    JLabel yourLibrary = new JLabel("YOUR LIBRARY");
-    JLabel recentlyPlayed = new JLabel("RECENTLY PLAYED");
-    JButton songs = new JButton("SONGS");
-
-    JLabel albums = new JLabel("ALBUMS");
-    JLabel artists = new JLabel("ARTISTS");
-    JLabel playLists = new JLabel("PLAYLISTS");
+    JLabel homeLabel = new JLabel("HOME");
+    JLabel searchLabel = new JLabel("SEARCH");
+    JLabel yourLibraryLabel = new JLabel("YOUR LIBRARY");
+    JLabel recentlyPlayedLabel = new JLabel("RECENTLY PLAYED");
+    JButton songsButton = new JButton("SONGS");
+    JLabel albumsLabel = new JLabel("ALBUMS");
+    JLabel artistsLabel = new JLabel("ARTISTS");
+    JLabel playListsLabel = new JLabel("PLAYLISTS");
     private ArrayList<JLabel> playlistsArray;
+
     public OptionsPanel(){
         playlistsArray = new ArrayList<>();
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -40,222 +42,54 @@ public class OptionsPanel extends JPanel {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        songs.setOpaque(false);
-        songs.setContentAreaFilled(false);
-        songs.setBorderPainted(false);
-        songs.setMaximumSize(new Dimension(100 , 25));
-        ImageIcon home = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
-        ImageIcon library = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
-        ImageIcon playlist = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));HOME.setIcon(home);
-        HOME.setText("HOME");
-        HOME.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+        songsButton.setOpaque(false);
+        songsButton.setContentAreaFilled(false);
+        songsButton.setBorderPainted(false);
+        songsButton.setMaximumSize(new Dimension(100 , 25));
+        songsButton.setToolTipText("songs");
 
-            }
+        ImageIcon homeIcon = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
+        ImageIcon libraryIcon = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
+        ImageIcon playlistIcon = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(HOME);
+        homeLabel.setIcon(homeIcon);
+        homeLabel.setText("HOME");
+        yourLibraryLabel.setText("YOUR LIBRARY ");
+        yourLibraryLabel.setFont(new Font("TimesRoman", Font.BOLD, 12));
+        yourLibraryLabel.setIcon(libraryIcon);
+        playListsLabel.setIcon(playlistIcon);
+        //Adding elements to panel
+        add(homeLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         add(Box.createRigidArea(new Dimension(0,5)));
-        yourLibrary.setText("YOUR LIBRARY ");
-        yourLibrary.setFont(new Font("TimesRoman", Font.BOLD, 12));
-        yourLibrary.setIcon(library);
-        yourLibrary.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(yourLibrary);
+        add(yourLibraryLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-        songs.setToolTipText("songs");
-        recentlyPlayed.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(recentlyPlayed);
+        add(recentlyPlayedLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-        songs.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(songs);
+        add(songsButton);
         add(Box.createRigidArea(new Dimension(0,5)));
-        albums.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(albums);
+        add(albumsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-        artists.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(artists);
+        add(artistsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         add(Box.createRigidArea(new Dimension(0,5)));
-        playLists.setIcon(playlist);
-        playLists.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
 
-            }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-        add(playLists);
+        add(playListsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
     }
+
     public void addPlaylist(String playlistsName){
         JLabel newPlaylist = new JLabel(playlistsName);
         playlistsArray.add(newPlaylist);
     }
+
     public void removePlaylist(String playlistsName){
         for(int i=0;i<playlistsArray.size() ;i++){
             if(playlistsArray.get(i).getText().equals( playlistsName)){
@@ -264,6 +98,7 @@ public class OptionsPanel extends JPanel {
             }
         }
     }
+
     public void showPlaylist(){
         for(JLabel x: playlistsArray){
             add(x);
