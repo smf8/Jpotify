@@ -54,8 +54,8 @@ public class MainFrame extends JFrame {
         this.add(scrollPane,BorderLayout.WEST);
         //
         //PlaybackControlPanel
-        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel();
-        this.add(playbackControlPanel,BorderLayout.SOUTH);
+//        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel();
+//        this.add(playbackControlPanel,BorderLayout.SOUTH);
         //
         //FriendsActivityPanel
         FriendsActivityPanelsManager friendsActivityPanelsManager = new FriendsActivityPanelsManager();
