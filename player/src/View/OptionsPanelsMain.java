@@ -2,9 +2,10 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class OptionsPanelsMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("JPOTIFY");
         frame.setLayout(new GridBagLayout());
         OptionsPanel optionsPanel = new OptionsPanel();
