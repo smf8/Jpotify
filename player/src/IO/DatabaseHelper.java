@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * <b>use methods in another thread</b><br>
  * do not forget to call close method after database queries have finished
  */
-public class DatabaseHelper {
+public class DatabaseHelper implements DatabaseHandler {
     private Connection connection;
 
     public DatabaseHelper(Connection connection) {
@@ -28,7 +28,9 @@ public class DatabaseHelper {
     public void deleteAlbum(){
 
     }
-
+    public void setConnection(Connection connection){
+        this.connection = connection;
+    }
     /**
      * this method removes song from database and alters album and playlist's tables
      * @param song the song to be removed
