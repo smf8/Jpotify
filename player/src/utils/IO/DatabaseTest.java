@@ -1,4 +1,4 @@
-package IO;
+package utils.IO;
 
 import Model.Album;
 import Model.Playlist;
@@ -6,11 +6,7 @@ import Model.Song;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DatabaseTest {

@@ -1,24 +1,21 @@
-package playback;
+package utils.playback;
 
 import javazoom.jl.decoder.*;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
 import javazoom.jl.player.JavaSoundAudioDevice;
 
-import javax.sound.sampled.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Arrays;
 
 
 /**
  * Usage : to play a song first initialize a player object and invoke resume() method inside a new Daemon thread
  *          for stopping player invoke stop() method and point thread to null
  *          for pausing thread use pause() method and stop the thread as well
- *          for controlling playback status extend a playbackAdapter in a class
+ *          for controlling utils.playback status extend a playbackAdapter in a class
 
  */
 public class MP3Player {
@@ -157,7 +154,7 @@ public class MP3Player {
         return this.play(this.frameIndexCurrent);
     }
 
-    public synchronized void close() {
+    public void close() {
         if (this.audioDevice != null) {
             this.closed = true;
 
@@ -210,7 +207,7 @@ public class MP3Player {
         if (!this.stopped) {
             this.paused = true;
             if (this.listener != null) {
-                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
+//                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
             }
             this.close();
         }
@@ -227,14 +224,15 @@ public class MP3Player {
 
         return returnValue;
     }
-    public void stop() {
+    public synchronized void stop() {
         if (!this.stopped) {
             if (!this.closed) {
-                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
+//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
+                System.out.println("stopped finished");
                 this.close();
             } else if (this.paused) {
                 int audioDevicePosition = -1; //this.audioDevice.getPosition(), audioDevice is null
-                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
+//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
             }
             this.stopped = true;
         }

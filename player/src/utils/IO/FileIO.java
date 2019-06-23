@@ -1,15 +1,10 @@
-package IO;
+package utils.IO;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
 
 public class FileIO {
 

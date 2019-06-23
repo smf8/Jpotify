@@ -1,4 +1,4 @@
-package IO;
+package utils.IO;
 
 import Model.Album;
 import Model.Playlist;
@@ -527,7 +527,7 @@ public class DatabaseHelper implements DatabaseHandler {
         return songs;
     }
 
-
+//    public
     public void close() {
         if (connection != null) {
             try {

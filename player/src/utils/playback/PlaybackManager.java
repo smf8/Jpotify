@@ -1,20 +1,23 @@
-package playback;
+package utils.playback;
 
 import Model.Song;
 import javazoom.jl.decoder.JavaLayerException;
 
+import javax.swing.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * class to support play functionality, this class gets a queue of songs and gives play / pause / step / shuffle / repeat functionality
  */
 public class PlaybackManager {
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
     private MP3Player player;
     private ArrayList<Song> songQueue = new ArrayList<>(); // an Arraylist of songs that are playable, switch between them by queueIndex;
     private int queueIndex = 0; // controller of which songs to play
-    private Thread playbackThread; // the thread in which audio file will start to play
     private boolean isPlayerStopped;
     private boolean repeat;
 
@@ -50,27 +53,39 @@ public class PlaybackManager {
             // handling what to do when reached the end of file
             @Override
             public void playbackFinished(MP3Player.PlaybackEvent event) {
-                    if (!isPlayerStopped){
-                        if (repeat){
-                            play();
-                        }else {
-                            queueIndex++;
-                            play();
-                        }
+                if (!isPlayerStopped) {
+                    if (repeat) {
+                        play();
+                    } else {
+                        queueIndex++;
+                        play();
                     }
+                }
             }
         });
     }
 
-    public void shouldRepeat(boolean repeat){
+    public void shouldRepeat(boolean repeat) {
         this.repeat = repeat;
     }
-    public void next(){
+
+
+    public void next() {
+        if (queueIndex <= (songQueue.size()-1))
         queueIndex++;
+        else{
+            // resetting queue
+            queueIndex = 0;
+        }
         play();
     }
-    public void previous(){
-        queueIndex--;
+
+    public void previous() {
+        if (queueIndex >= 1) {
+            queueIndex--;
+        }else{
+            queueIndex = 0;
+        }
         play();
     }
 
@@ -78,92 +93,111 @@ public class PlaybackManager {
      * method initializes the player if it's not and stop and reinitialize it when not.
      * call MP3Player play method inside a thread
      */
-    public void play(){
+    public void play() {
         if (player == null) {
             initPlayer();
         } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
             stop();
             initPlayer();
         }
-        isPlayerStopped = true;
-        playbackThread = new Thread(() -> {
+        isPlayerStopped = false;
+//        playbackThread = new Thread(() -> {
+//            try {
+//                player.resume();
+//            } catch (JavaLayerException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        playbackThread.setDaemon(true);
+//        playbackThread.setName("Song utils.playback thread");
+//        playbackThread.start();
+        executorService.execute(() -> {
             try {
                 player.resume();
             } catch (JavaLayerException e) {
                 e.printStackTrace();
             }
         });
-        playbackThread.setDaemon(true);
-        playbackThread.setName("Song playback thread");
-        playbackThread.start();
     }
 
     /**
      * calls updates Song queue and calls play()
+     *
      * @param songInQueue the song about to be played
      */
     public void play(Song songInQueue) {
-        queueIndex = 0;
-        songQueue.set(0, songInQueue);
+        songQueue.add(queueIndex, songInQueue);
         play();
     }
-    public void shuffle(){
+
+    public void shuffle() {
+        stop();
         Collections.shuffle(songQueue);
         queueIndex = 0;
+        initPlayer();
+        play();
 //        play();
     }
+
     /**
      * call MP3Player stop method and destroys the play thread
      */
-    public void stop(){
+    public void stop() {
         isPlayerStopped = true;
-        if (player != null && !player.isStopped()){
+        if (player != null && !player.isStopped()) {
+//            playbackThread.interrupt();
+//            System.out.println("dsahlkj");
             player.stop();
-            playbackThread = null;
+//            executorService.shutdown();
+//            playbackThread = null;
         }
+    }
+
+    public Song getCurrentSong() {
+        return songQueue.get(queueIndex);
     }
 
     /**
      * pauses the audio by invoking MP3Player.pause() method
      */
-    public void pause(){
+    public void pause() {
         isPlayerStopped = true;
-        if (this.player != null && !this.player.isPaused()){
+        if (this.player != null && !this.player.isPaused()) {
             this.player.pause();
-
-            if(this.playbackThread != null){
-                this.playbackThread = null;
-            }
         }
     }
+
+    public int getSec() {
+        return player.getCurrentFrame() * 26;
+    }
+
     /**
      * jumps to the given milisecond of song
+     *
      * @param miliseconds - remember that each frame lasts 26 mili seconds. so in order to jump to i'th second we must go to i*60000/26'th frame
      */
-    public void move(int miliseconds){
-        int currentSec = 0;
-        if (player == null){
+
+    public void move(int miliseconds) {
+        if (player == null) {
             initPlayer();
-        }else if (!this.player.isPaused() || player.isComplete() || player.isStopped()){
-            currentSec = player.getCurrentFrame();
+        } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
             stop();
             initPlayer();
         }
-        int finalCurrentSec = currentSec;
-        playbackThread = new Thread(() -> {
+        executorService.execute(() -> {
             try {
-                player.play(finalCurrentSec + (miliseconds)/26);
+                player.play((miliseconds) / 26);
             } catch (JavaLayerException e) {
                 e.printStackTrace();
             }
         });
-        playbackThread.setDaemon(true);
-        playbackThread.setName("Song playback thread");
-        playbackThread.start();
     }
-    public void changeVolume(float vol){
-        if (player != null){
+
+    public void changeVolume(float vol) {
+        if (player != null) {
             this.player.setVol(vol);
         }
     }
+
+
 }

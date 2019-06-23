@@ -1,6 +1,6 @@
 package Model;
 
-import IO.DatabaseHelper;
+import utils.IO.DatabaseHelper;
 
 import java.io.File;
 import java.net.URI;

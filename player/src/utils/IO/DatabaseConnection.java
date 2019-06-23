@@ -1,13 +1,9 @@
-package IO;
-
-import Model.Song;
+package utils.IO;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Base class for database Reading / Writing
@@ -52,6 +48,8 @@ public class DatabaseConnection {
         createTable(albumQuery);
         String playlistQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Playlists(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("creator TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("editable integer,\n").append("songs TEXT,\n unique(title));").toString();
         createTable(playlistQuery);
+        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, unique(username);");
+        createTable(userQuery);
     }
 
 

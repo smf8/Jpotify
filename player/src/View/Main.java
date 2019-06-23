@@ -1,10 +1,11 @@
 package View;
 
-import IO.DatabaseConnection;
-import IO.DatabaseHandler;
-import IO.DatabaseHelper;
+
 import Model.Song;
-import playback.PlaybackManager;
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHandler;
+import utils.IO.DatabaseHelper;
+import utils.playback.PlaybackManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Main {
-    static  PlaybackManager playbackManager;
+    static PlaybackManager playbackManager;
     public static void main(String[] args) throws MalformedURLException {
         // Testing playback controlling
 
@@ -20,17 +21,12 @@ public class Main {
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
         ArrayList<Song> songsQueue  = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
-//        MainFrame mainFrame = new MainFrame();
-     //   MainFrame frame = new MainFrame();
-//                SongPanel songPanel = new SongPanel();
+        MainFrame mainFrame = new MainFrame();
+         //       SongPanel songPanel = new SongPanel();
 
            //     frame.add(songPanel,BorderLayout.CENTER);
 //                frame.pack();
 //                frame.setVisible(true);
-            JFrame frame = new JFrame();
-            LoginPanel loginPanel = new LoginPanel();
-            frame.add(loginPanel);
-            frame.pack();
-            frame.setVisible(true);
+
     }
 }

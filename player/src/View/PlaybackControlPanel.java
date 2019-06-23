@@ -1,8 +1,10 @@
 package View;
 
-import playback.PlaybackManager;
-
+import Model.Song;
+import utils.playback.PlaybackManager;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,8 +19,8 @@ public class PlaybackControlPanel extends JPanel {
     private JPanel playProgressPanel = new JPanel();
     private JPanel volumePanel = new JPanel();
     private JPanel tempPanel = new JPanel();
-    private JSlider musicSlider = new JSlider(JSlider.HORIZONTAL, 0, 30, 30);
-    private JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 30, 30);
+    private JProgressBar musicSlider;
+    private JSlider volumeSlider;
     private JLabel playLabel = new JLabel();
     private JLabel pauseLabel = new JLabel();
     private JLabel shuffleLabel = new JLabel();
@@ -26,22 +28,63 @@ public class PlaybackControlPanel extends JPanel {
     private JLabel nextLabel = new JLabel();
     private JLabel previousLabel = new JLabel();
     private JLabel volumeLabel = new JLabel();
+    private PlaybackManager playbackManager;
+    private long duration;
+    private int playState = 0;
 
+    private Thread progressThread;
+    private void setupMusicSlider(){
+        System.out.println("init");
+        Song currentSong = playbackManager.getCurrentSong();
+        duration = currentSong.getLength();
+        musicSlider = new JProgressBar(0, (int) duration);
+//        musicSlider = new JSlider(JSlider.HORIZONTAL, 0, (int) (duration), 0);
+        musicSlider.setValue(0);
+        musicSlider.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                double pos = mouseEvent.getX()/(double) musicSlider.getWidth();
+                playState = (int) (duration*pos);
+                playbackManager.move((int) (duration*pos));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
+
+            }
+        });
+    }
+    private void setupAudioSlider() {
+        volumeSlider = new JSlider(JSlider.HORIZONTAL, -50, 20, 0);
+        volumeSlider.setValue(-20);
+        volumeSlider.addChangeListener(changeEvent -> {
+            playbackManager.changeVolume(((JSlider) changeEvent.getSource()).getValue());
+        });
+    }
     public PlaybackControlPanel(PlaybackManager playbackManager) {
+        this.playbackManager = playbackManager;
         isPlaying = false;
         isRepeating = false;
-        //Setting Layouts
         buttonsControlPanel.setLayout(new FlowLayout());
         playProgressPanel.setLayout(new BorderLayout());
         volumePanel.setLayout(new FlowLayout());
         tempPanel.setLayout(new BorderLayout());
         this.setLayout(new BorderLayout());
-
-        musicSlider.setMajorTickSpacing(100);
-        musicSlider.setMinorTickSpacing(1);
-        musicSlider.setPaintTicks(true);
-        musicSlider.setPaintLabels(true);
-        //slider.addChangeListener(changeLis);
+        setupMusicSlider();
+        setupAudioSlider();
         playProgressPanel.add(musicSlider);
         //URLs
         URL playUrl = null;
@@ -90,9 +133,25 @@ public class PlaybackControlPanel extends JPanel {
                 // change label image to pause image
                 playbackManager.play();
                 playLabel.setIcon(pausIcon);
+                    progressThread = new Thread(() -> {
+                        while(playState<=duration){
+                            System.out.println(playState);
+                            System.out.println(duration);
+                            musicSlider.setValue(playState);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException ex) {
+                                break;
+                            }
+                            playState+=100;
+                        }
+                    });
+                    progressThread.start();
                 isPlaying = true;
                 }else if (isPlaying == true){
                     playbackManager.pause();
+                    progressThread.interrupt();
+                    progressThread = null;
                     playLabel.setIcon(playIcon);
                     isPlaying = false;
                 }
@@ -122,6 +181,7 @@ public class PlaybackControlPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playbackManager.next();
+                playState = 0;
             }
 
             @Override
@@ -148,6 +208,7 @@ public class PlaybackControlPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playbackManager.previous();
+                playState = 0;
             }
 
             @Override
@@ -208,6 +269,7 @@ public class PlaybackControlPanel extends JPanel {
         shuffleLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                playState = 0;
                 playbackManager.shuffle();
             }
 
