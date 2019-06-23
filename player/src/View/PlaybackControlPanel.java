@@ -96,6 +96,9 @@ public class PlaybackControlPanel extends JPanel {
         URL volumeUrl = null;
         URL isNotRepeatingUrl = null;
         URL isRepeatingUrl = null;
+        buttonsControlPanel.setBackground(new Color(97, 97, 97));
+        volumePanel.setBackground(new Color(97, 97, 97));
+        playProgressPanel.setBackground(new Color(97, 97, 97));
         try {
             File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
             playUrl = playFile.toURI().toURL();

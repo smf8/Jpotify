@@ -14,6 +14,7 @@ public class FriendsActivityPanelsManager extends JPanel {
 
     public FriendsActivityPanelsManager() {
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        this.setBackground(new Color(22,22,22));
         this.add(friendActivityLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         this.add(findFriendsButton);

@@ -3,13 +3,16 @@ package View;
 import org.w3c.dom.html.HTMLObjectElement;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,13 +23,14 @@ public class OptionsPanel extends JPanel {
     JLabel searchLabel = new JLabel("SEARCH");
     JLabel yourLibraryLabel = new JLabel("YOUR LIBRARY");
     JLabel recentlyPlayedLabel = new JLabel("RECENTLY PLAYED");
-    JButton songsButton = new JButton("SONGS");
     JLabel albumsLabel = new JLabel("ALBUMS");
     JLabel artistsLabel = new JLabel("ARTISTS");
     JLabel playListsLabel = new JLabel("PLAYLISTS");
     private ArrayList<JLabel> playlistsArray;
 
     public OptionsPanel(){
+        this.setBackground(new Color(22,22,22));
+        this.setBorder(new EmptyBorder(10,10,0,0));
         playlistsArray = new ArrayList<>();
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         URL homeUrl = null;
@@ -42,11 +46,6 @@ public class OptionsPanel extends JPanel {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        songsButton.setOpaque(false);
-        songsButton.setContentAreaFilled(false);
-        songsButton.setBorderPainted(false);
-        songsButton.setMaximumSize(new Dimension(100 , 25));
-        songsButton.setToolTipText("songs");
 
         ImageIcon homeIcon = new ImageIcon(new ImageIcon(homeUrl).getImage().getScaledInstance(30,30, Image.SCALE_SMOOTH));
         ImageIcon libraryIcon = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
@@ -55,13 +54,11 @@ public class OptionsPanel extends JPanel {
         homeLabel.setIcon(homeIcon);
         homeLabel.setText("HOME");
         yourLibraryLabel.setText("YOUR LIBRARY ");
-        yourLibraryLabel.setFont(new Font("TimesRoman", Font.BOLD, 12));
         yourLibraryLabel.setIcon(libraryIcon);
         playListsLabel.setIcon(playlistIcon);
         //Adding elements to panel
         add(homeLabel);
-        add(Box.createRigidArea(new Dimension(0,5)));
-        add(Box.createRigidArea(new Dimension(0,5)));
+        add(Box.createRigidArea(new Dimension(0,15)));
 
         add(yourLibraryLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
@@ -70,15 +67,11 @@ public class OptionsPanel extends JPanel {
         add(recentlyPlayedLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
 
-        add(songsButton);
-        add(Box.createRigidArea(new Dimension(0,5)));
-
         add(albumsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
 
         add(artistsLabel);
-        add(Box.createRigidArea(new Dimension(0,5)));
-        add(Box.createRigidArea(new Dimension(0,5)));
+        add(Box.createRigidArea(new Dimension(0,15)));
 
 
         add(playListsLabel);

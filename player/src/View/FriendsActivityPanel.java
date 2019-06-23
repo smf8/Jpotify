@@ -25,13 +25,15 @@ public class FriendsActivityPanel extends JPanel {
         lastSongsArtistLabel.setText("reijgwpir");
         //
         friendsInformationPanel.setLayout(new BoxLayout(friendsInformationPanel,BoxLayout.PAGE_AXIS));
+        friendsInformationPanel.setBackground(new Color(22,22,22));
         friendsInformationPanel.add(friendsNameLabel);
         friendsInformationPanel.add(Box.createRigidArea(new Dimension(0,5)));
         friendsInformationPanel.add(lastPlayedSongLabel);
         friendsInformationPanel.add(Box.createRigidArea(new Dimension(0,5)));
         friendsInformationPanel.add(lastSongsArtistLabel);
         friendsInformationPanel.add(Box.createRigidArea(new Dimension(0,5)));
-
+        isOnlinePanel.setBackground(new Color(22,22,22));
+        friendsProfPicPanel.setBackground(new Color(22,22,22));
 
         //for test
         try {

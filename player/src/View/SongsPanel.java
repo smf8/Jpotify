@@ -9,15 +9,16 @@ public class SongsPanel extends JPanel {
         private ArrayList<SongPanel> songPanels = new ArrayList<>();
 
         public SongsPanel(){
-            SongPanel songPanel1 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "1.png");
-            SongPanel songPanel2 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "2.png");
-            SongPanel songPanel3 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "3.png");
-            SongPanel songPanel4 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "4.png");
-            SongPanel songPanel5 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "5.png");
-            SongPanel songPanel6 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "6.png");
-            SongPanel songPanel7 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "7.png");
-            SongPanel songPanel8 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "8.png");
-            SongPanel songPanel9 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "9.png");
+            this.setBackground(new Color(22,22,22));
+            SongPanel songPanel1 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "1.JPG");
+            SongPanel songPanel2 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "2.JPG");
+            SongPanel songPanel3 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "3.JPG");
+            SongPanel songPanel4 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "4.JPG");
+            SongPanel songPanel5 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "5.JPG");
+            SongPanel songPanel6 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "6.JPG");
+            SongPanel songPanel7 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "7.JPG");
+            SongPanel songPanel8 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "8.JPG");
+            SongPanel songPanel9 = new SongPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "9.JPG");
 
             songPanels.add(songPanel1);
             songPanels.add(songPanel2);
@@ -28,7 +29,7 @@ public class SongsPanel extends JPanel {
             songPanels.add(songPanel7);
             songPanels.add(songPanel8);
             songPanels.add(songPanel9);
-            this.setLayout(new WrapLayout());
+            this.setLayout(new WrapLayout(WrapLayout.LEFT));
             this.setSize(new Dimension(300,0));
 
             for(SongPanel x: songPanels){

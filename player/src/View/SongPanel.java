@@ -16,6 +16,7 @@ public class SongPanel extends JPanel {
     private JLabel songsArtist = new JLabel();
     private JLabel songsAlbum = new JLabel();
     public SongPanel(String path) {
+        this.setBackground(new Color(22,22,22));
         URL homeUrl;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         File homeFile = new File(path);

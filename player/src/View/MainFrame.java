@@ -1,8 +1,13 @@
 package View;
 
+import utils.FontManager;
+
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -13,7 +18,9 @@ public class MainFrame extends JFrame {
     public MainFrame(){
         this.setLayout(new BorderLayout());
         // OptionsPanel
+        UIManager.put("Label.foreground", new ColorUIResource(255,255,255));
         mainOptionsPanel.setLayout(new GridBagLayout());
+        UIManager.put("Label.font", new FontUIResource(FontManager.getUbuntuLight(20f)));
         OptionsPanel optionsPanel = new OptionsPanel();
         optionsPanel.addPlaylist("jkpk");
         optionsPanel.addPlaylist("jkpk");
@@ -43,7 +50,7 @@ public class MainFrame extends JFrame {
         mainOptionsPanel.add(optionsPanel);
         GridBagConstraints frameConstraints = new GridBagConstraints();
 
-        JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
        scrollPane.setPreferredSize(new Dimension(250, 700));
         //frameConstraints.gridx = 2;
         //frameConstraints.gridy = 2;
@@ -66,26 +73,18 @@ public class MainFrame extends JFrame {
         searchAndProfilesPanel.setProfileInformation("user");
         searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(1600, 1000));
         this.pack();
         //
         //BackGroundPanel
-//        URL backGroundUrl = null;
-//        try {
-//            File backGroundFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "lanadelrey.png");
-//            backGroundUrl = backGroundFile.toURI().toURL();
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//        backGroundImage = new ImageIcon(new ImageIcon(backGroundUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
-//        backGroundLabel.setIcon(backGroundImage);
    //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
         //SongsPanel
          SongsPanel songsPanel = new SongsPanel();
 
         JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane2.setPreferredSize(new Dimension(250, 700));
-        searchAndBackGroundPanel.add(scrollPane2,BorderLayout.CENTER);
-       // searchAndBackGroundPanel.add(songsPanel);
+        searchAndBackGroundPanel.add(songsPanel);
+//        searchAndBackGroundPanel.setMinimumSize(new Dimension(300, 800));
         this.add(searchAndBackGroundPanel,BorderLayout.CENTER);
         //
         this.setVisible(true);
