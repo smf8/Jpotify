@@ -10,12 +10,12 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-public class SongPanel extends JPanel {
+public class AlbumPanel extends JPanel {
     private JLabel imageLabel = new JLabel();
     private JLabel songsName = new JLabel();
     private JLabel songsArtist = new JLabel();
     private JLabel songsAlbum = new JLabel();
-    public SongPanel(String path) {
+    public AlbumPanel(String path) {
         URL homeUrl;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         File homeFile = new File(path);

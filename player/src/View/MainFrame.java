@@ -2,9 +2,6 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class MainFrame extends JFrame {
     private JPanel mainOptionsPanel = new JPanel();
@@ -79,8 +76,8 @@ public class MainFrame extends JFrame {
 //        backGroundImage = new ImageIcon(new ImageIcon(backGroundUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
 //        backGroundLabel.setIcon(backGroundImage);
    //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
-        //SongsPanel
-         SongsPanel songsPanel = new SongsPanel();
+        //AlbumsPanel
+         AlbumsPanel songsPanel = new AlbumsPanel();
 
         JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane2.setPreferredSize(new Dimension(250, 700));
