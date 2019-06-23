@@ -17,6 +17,5 @@ public class PlaybackControlPanelsMain {
         PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(new PlaybackManager(songs));
         frame.add(playbackControlPanel);
         frame.pack();
-        frame.setVisible(true);
-    }
+        frame.setVisible(true);}
 }

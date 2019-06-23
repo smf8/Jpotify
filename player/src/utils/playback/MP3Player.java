@@ -207,7 +207,7 @@ public class MP3Player {
         if (!this.stopped) {
             this.paused = true;
             if (this.listener != null) {
-                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
+//                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
             }
             this.close();
         }

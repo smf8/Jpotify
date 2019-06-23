@@ -4,15 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 public class BackGroundPanel extends JPanel {
     private Image backGroundImage;
 
-    public BackGroundPanel(){
+    public BackGroundPanel(URI uri){
         URL backGroundUrl = null;
         try {
-            File backGroundFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "lanadelrey.png");
+            File backGroundFile = new File(uri);
             backGroundUrl = backGroundFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();

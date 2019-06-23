@@ -131,8 +131,11 @@ public class PlaybackManager {
     }
 
     public void shuffle() {
+        stop();
         Collections.shuffle(songQueue);
         queueIndex = 0;
+        initPlayer();
+        play();
 //        play();
     }
 
