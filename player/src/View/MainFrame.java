@@ -7,7 +7,6 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -78,8 +77,8 @@ public class MainFrame extends JFrame {
         //
         //BackGroundPanel
    //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
-        //SongsPanel
-         SongsPanel songsPanel = new SongsPanel();
+        //AlbumsPanel
+         AlbumsPanel songsPanel = new AlbumsPanel();
 
         JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane2.setPreferredSize(new Dimension(250, 700));

@@ -41,14 +41,16 @@ public class Main {
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
         ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
-
         MainFrame mainFrame = new MainFrame();
-        //       SongPanel songPanel = new So  ngPanel();
-
-        //     frame.add(songPanel,BorderLayout.CENTER);
+//        SignUpPanel signUpPanel = new SignUpPanel();
+         //       AlbumPanel songPanel = new AlbumPanel();
+//                JFrame frame = new JFrame();
+//                SongPanel sPanel = new SongPanel();
+//                frame.add(sPanel);
+//                frame.setResizable(false);
+//                frame.add(,BorderLayout.CENTER);
 //                frame.pack();
 //                frame.setVisible(true);
-
 
     }
 }
