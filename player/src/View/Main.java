@@ -21,12 +21,14 @@ public class Main {
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
         ArrayList<Song> songsQueue  = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
-        MainFrame mainFrame = new MainFrame();
+   //     MainFrame mainFrame = new MainFrame();
+        SignUpPanel signUpPanel = new SignUpPanel();
          //       SongPanel songPanel = new SongPanel();
-
-           //     frame.add(songPanel,BorderLayout.CENTER);
-//                frame.pack();
-//                frame.setVisible(true);
+                JFrame frame = new JFrame();
+                frame.setResizable(false);
+                frame.add(signUpPanel,BorderLayout.CENTER);
+                frame.pack();
+                frame.setVisible(true);
 
     }
 }

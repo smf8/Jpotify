@@ -28,7 +28,7 @@ public class SongsPanel extends JPanel {
             songPanels.add(songPanel7);
             songPanels.add(songPanel8);
             songPanels.add(songPanel9);
-            this.setLayout(new WrapLayout());
+            this.setLayout(new WrapLayout(WrapLayout.LEFT));
             this.setSize(new Dimension(300,0));
 
             for(SongPanel x: songPanels){
