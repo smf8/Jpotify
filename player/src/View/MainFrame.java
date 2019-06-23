@@ -82,7 +82,7 @@ public class MainFrame extends JFrame {
         JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane2.setPreferredSize(new Dimension(250, 700));
         searchAndBackGroundPanel.add(scrollPane2,BorderLayout.CENTER);
-       // searchAndBackGroundPanel.add(songsPanel);
+       //` searchAndBackGroundPanel.add(songsPanel);
         this.add(searchAndBackGroundPanel,BorderLayout.CENTER);
         //
         this.setVisible(true);

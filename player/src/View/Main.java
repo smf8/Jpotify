@@ -23,7 +23,7 @@ public class Main {
         MainFrame mainFrame = new MainFrame();
 //        SignUpPanel signUpPanel = new SignUpPanel();
          //       AlbumPanel songPanel = new AlbumPanel();
-//                JFrame frame = new JFrame();
+                JFrame frame = new JFrame();
 //                SongPanel sPanel = new SongPanel();
 //                frame.add(sPanel);
 //                frame.setResizable(false);
