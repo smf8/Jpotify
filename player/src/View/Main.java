@@ -46,7 +46,7 @@ public class Main {
 //        SignUpPanel signUpPanel = new SignUpPanel();
          //       AlbumPanel songPanel = new AlbumPanel();
 //                JFrame frame = new JFrame();
-//                PlaylistPanel playlistPanel = new PlaylistPanel();
+//                AddNewPlaylistPanel playlistPanel = new AddNewPlaylistPanel();
 //                frame.add(playlistPanel);
 //                frame.pack();
 //                frame.setVisible(true);

@@ -354,7 +354,7 @@ public class PlaybackControlPanel extends JPanel {
 //        musicStringInformationPanel.setPreferredSize( new Dimension(80,80));
 //        musicStringInformationPanel.setMinimumSize(new Dimension(80,80));
 //        musicStringInformationPanel.setMaximumSize(new Dimension(80,80));
-        songImageLabel.setIcon(playIcon);
+        songImageLabel.setBackground(new Color(97,97,97));
 //        songImageLabel.setPreferredSize( new Dimension(80,80));
 //        songImageLabel.setMinimumSize(new Dimension(60,60));
 //        songImageLabel.setMaximumSize(new Dimension(60,60));

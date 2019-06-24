@@ -3,7 +3,7 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 
-public class PlaylistPanel extends JPanel {
+public class AddNewPlaylistPanel extends JPanel {
     private JTextField titleTextField = new JTextField();
     private JCheckBox permisionCheckBox = new JCheckBox("Public");
     private JButton songButton = new JButton("Choose the songs of your playlist");
@@ -14,7 +14,7 @@ public class PlaylistPanel extends JPanel {
     private JPanel leftPanel = new JPanel();
     private JPanel songsListPanel = new JPanel();
 
-    public PlaylistPanel() {
+    public AddNewPlaylistPanel() {
         this.setLayout(new BorderLayout());
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         createPlaylist.setAlignmentX(Component.CENTER_ALIGNMENT);
