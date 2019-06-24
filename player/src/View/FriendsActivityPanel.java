@@ -56,5 +56,8 @@ public class FriendsActivityPanel extends JPanel {
         this.add(friendsInformationPanel,BorderLayout.CENTER);
         this.add(friendsProfPicPanel,BorderLayout.WEST);
         this.add(isOnlinePanel,BorderLayout.EAST);
+        this.setMaximumSize(new Dimension(250,100));
+        this.setMinimumSize(new Dimension(250,100));
+        this.setPreferredSize(new Dimension(250,100));
     }
 }

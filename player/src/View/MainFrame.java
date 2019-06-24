@@ -49,8 +49,8 @@ public class MainFrame extends JFrame {
         mainOptionsPanel.add(optionsPanel);
         GridBagConstraints frameConstraints = new GridBagConstraints();
 
-        JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-       scrollPane.setPreferredSize(new Dimension(250, 700));
+        JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+       scrollPane.setPreferredSize(new Dimension(210, 700));
         //frameConstraints.gridx = 2;
         //frameConstraints.gridy = 2;
         //frameConstraints.weighty =2;
@@ -65,7 +65,10 @@ public class MainFrame extends JFrame {
         //FriendsActivityPanel
         FriendsActivityPanelsManager friendsActivityPanelsManager = new FriendsActivityPanelsManager();
         friendsActivityPanelsManager.showFriends();
-        this.add(friendsActivityPanelsManager,BorderLayout.EAST);
+        JScrollPane scrollPanel3 = new JScrollPane(friendsActivityPanelsManager,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        scrollPanel3.setPreferredSize(new Dimension(280,700));
+        this.add(scrollPanel3,BorderLayout.EAST);
         //
         //SearchAndProfilesPanel
         SearchAndProfilesPanel searchAndProfilesPanel = new SearchAndProfilesPanel();
@@ -73,19 +76,21 @@ public class MainFrame extends JFrame {
         searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        this.setPreferredSize(new Dimension(1600, 1000));
-        this.pack();
         //
         //BackGroundPanel
    //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
         //AlbumsPanel
          AlbumsPanel songsPanel = new AlbumsPanel();
 
-        JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane2.setPreferredSize(new Dimension(250, 700));
-        searchAndBackGroundPanel.add(scrollPane2);
-//        searchAndBackGroundPanel.setMinimumSize(new Dimension(300, 800));
+        JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+//        scrollPane2.setPreferredSize(new Dimension(250, 700));
+        searchAndBackGroundPanel.add(scrollPane2,BorderLayout.CENTER);
+        searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
+        //        searchAndBackGroundPanel.setMinimumSize(new Dimension(300, 800));
+//        this.add(scrollPane2,BorderLayout.CENTER);
         this.add(searchAndBackGroundPanel,BorderLayout.CENTER);
-    //
+        //
+        this.pack();
         this.setVisible(true);
-}
+    }
 }

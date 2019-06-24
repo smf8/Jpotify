@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.PrivateKey;
 
 public class PlaybackControlPanel extends JPanel {
     private boolean isPlaying ;
@@ -28,6 +29,8 @@ public class PlaybackControlPanel extends JPanel {
     private JLabel nextLabel = new JLabel();
     private JLabel previousLabel = new JLabel();
     private JLabel volumeLabel = new JLabel();
+    private JLabel dislikeLabel = new JLabel();
+    private boolean isLiked = false;
     private PlaybackManager playbackManager;
     private long duration;
     private int playState = 0;
@@ -87,6 +90,8 @@ public class PlaybackControlPanel extends JPanel {
         setupAudioSlider();
         playProgressPanel.add(musicSlider);
         //URLs
+        URL likeUrl = null;
+        URL disLikeUrl = null;
         URL playUrl = null;
         URL pausUrl = null;
         URL nextUrl = null;
@@ -100,6 +105,10 @@ public class PlaybackControlPanel extends JPanel {
         volumePanel.setBackground(new Color(97, 97, 97));
         playProgressPanel.setBackground(new Color(97, 97, 97));
         try {
+            File likeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "like.png");
+            likeUrl = likeFile.toURI().toURL();
+            File disLikeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "dislike.png");
+            disLikeUrl = disLikeFile.toURI().toURL();
             File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
             playUrl = playFile.toURI().toURL();
             File pausFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "paus.png");
@@ -127,6 +136,8 @@ public class PlaybackControlPanel extends JPanel {
         ImageIcon volumeIcon = new ImageIcon(new ImageIcon(volumeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon isNotRepeatingIcon = new ImageIcon(new ImageIcon(isNotRepeatingUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon isRepeatingIcon = new ImageIcon(new ImageIcon(isRepeatingUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        ImageIcon likeImage = new ImageIcon(new ImageIcon(likeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        ImageIcon disLikeImage = new ImageIcon(new ImageIcon(disLikeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 
         //Setting Listeners
         playLabel.addMouseListener(new MouseListener() {
@@ -296,15 +307,47 @@ public class PlaybackControlPanel extends JPanel {
 
             }
         });
+        dislikeLabel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(isLiked == false){
+                    dislikeLabel.setIcon(likeImage);
+                    isLiked = true;
+                }else if(isLiked == true){
+                    dislikeLabel.setIcon(disLikeImage);
+                    isLiked = false;
+                }
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
 
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
         volumeLabel.setIcon(volumeIcon);
         playLabel.setIcon(playIcon);
         pauseLabel.setIcon(pausIcon);
         shuffleLabel.setIcon(shuffleIcon);
         repeatLabel.setIcon(isNotRepeatingIcon);
         nextLabel.setIcon(nextIcon);
+        dislikeLabel.setIcon(disLikeImage);
         previousLabel.setIcon(previousIcon);
+        buttonsControlPanel.add(dislikeLabel);
         buttonsControlPanel.add(shuffleLabel);
         buttonsControlPanel.add(previousLabel);
         buttonsControlPanel.add(playLabel);

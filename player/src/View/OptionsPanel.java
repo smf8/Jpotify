@@ -37,11 +37,11 @@ public class OptionsPanel extends JPanel {
         URL libraryUrl = null;
         URL playlistUrl = null;
         try {
-            File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "home.png");
+            File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "n.png");
             homeUrl = homeFile.toURI().toURL();
-            File libraryFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "audiobook.png");
+            File libraryFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "book.png");
             libraryUrl = libraryFile.toURI().toURL();
-            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "playlist.png");
+            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "g.png");
             playlistUrl = playlistFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -58,10 +58,10 @@ public class OptionsPanel extends JPanel {
         playListsLabel.setIcon(playlistIcon);
         //Adding elements to panel
         add(homeLabel);
-        add(Box.createRigidArea(new Dimension(0,15)));
+        add(Box.createRigidArea(new Dimension(0,5)));
 
         add(yourLibraryLabel);
-        add(Box.createRigidArea(new Dimension(0,5)));
+        add(Box.createRigidArea(new Dimension(0,10)));
 
 
         add(recentlyPlayedLabel);
