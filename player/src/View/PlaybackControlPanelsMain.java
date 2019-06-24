@@ -4,6 +4,7 @@ import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHelper;
 import Model.Song;
 import utils.playback.PlaybackManager;
+import utils.playback.SimplePlaybackListener;
 
 import javax.swing.*;
 import java.util.ArrayList;

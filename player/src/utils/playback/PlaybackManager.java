@@ -20,6 +20,8 @@ public class PlaybackManager {
     private int queueIndex = 0; // controller of which songs to play
     private boolean isPlayerStopped;
     private boolean repeat;
+    private MP3Player.PlaybackListener playbackListener;
+
 
     /**
      * constructor with empty queue, use addSong method to add songs to queue
@@ -38,31 +40,15 @@ public class PlaybackManager {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        player.setPlaybackListener(new MP3Player.PlaybackListener() {
-            @Override
-            public void playbackStarted(MP3Player.PlaybackEvent event) {
-
-            }
-
-            @Override
-            public void playbackPaused(MP3Player.PlaybackEvent event) {
-
-            }
-
-
-            // handling what to do when reached the end of file
-            @Override
-            public void playbackFinished(MP3Player.PlaybackEvent event) {
-                if (!isPlayerStopped) {
-                    if (repeat) {
-                        play();
-                    } else {
-                        queueIndex++;
-                        play();
-                    }
-                }
-            }
-        });
+        player.setPlaybackListener(playbackListener);
+//        if (!isPlayerStopped) {
+//            if (repeat) {
+//                play();
+//            } else {
+//                queueIndex++;
+//                play();
+//            }
+//        }
     }
 
     public void shouldRepeat(boolean repeat) {
@@ -79,7 +65,9 @@ public class PlaybackManager {
         }
         play();
     }
-
+    public void setPlaybackListener(MP3Player.PlaybackListener listener){
+        this.playbackListener = listener;
+    }
     public void previous() {
         if (queueIndex >= 1) {
             queueIndex--;
