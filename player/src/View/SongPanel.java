@@ -34,29 +34,29 @@ public class SongPanel extends JPanel {
         column0.setHeaderValue("Add");
 
         TableColumn column1 = new TableColumn(1);
-        column0.setHeaderValue("Artwork");
+        column1.setHeaderValue("Artwork");
 
         TableColumn column2 = new TableColumn(2);
-        column0.setHeaderValue("Title");
+        column2.setHeaderValue("Title");
 
         TableColumn column3 = new TableColumn(3);
-        column0.setHeaderValue("Album");
+        column3.setHeaderValue("Album");
 
         TableColumn column4 = new TableColumn(4);
-        column0.setHeaderValue("Artist");
+        column4.setHeaderValue("Artist");
 
         TableColumn column5 = new TableColumn(5);
-        column0.setHeaderValue("Last Played");
+        column5.setHeaderValue("Last Played");
 
         TableColumn column6 = new TableColumn(6);
-        column0.setHeaderValue("Select");
-        model.addColumn(column0);
-        model.addColumn(column1);
-        model.addColumn(column2);
-        model.addColumn(column3);
-        model.addColumn(column4);
-        model.addColumn(column5);
-        model.addColumn(column6);
+        column6.setHeaderValue("Select");
+        model.addColumn(column0.getHeaderValue());
+        model.addColumn(column1.getHeaderValue());
+        model.addColumn(column2.getHeaderValue());
+        model.addColumn(column3.getHeaderValue());
+        model.addColumn(column4.getHeaderValue());
+        model.addColumn(column5.getHeaderValue());
+        model.addColumn(column6.getHeaderValue());
         table = new JTable(model);
         table.setRowHeight(80);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));

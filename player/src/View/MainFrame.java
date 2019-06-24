@@ -118,16 +118,21 @@ public class MainFrame extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(optionsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
        scrollPane.setPreferredSize(new Dimension(210, 700));
+       addNewPlaylistPanel.setBackground(new Color(22,22,22));
+       addNewPlaylistText.setFont(FontManager.getUbuntu(18f));
+       addNewPlaylistText.setForeground(Color.WHITE);
+       mainMainOptionsPanel.add(scrollPane, BorderLayout.CENTER);
+       mainMainOptionsPanel.add(addNewPlaylistPanel, BorderLayout.SOUTH);
         //frameConstraints.gridx = 2;
         //frameConstraints.gridy = 2;
         //frameConstraints.weighty =2;
 
        // mainOptionsPanel.add(scrollPane);
        // mainOptionsPanel.add(scrollPane,frameConstraints);
-        this.add(scrollPane,BorderLayout.WEST);
+        this.add(mainMainOptionsPanel,BorderLayout.WEST);
         //
         //PlaybackControlPanel
-        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(Main.playbackManager);
+        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(playbackManager);
         this.add(playbackControlPanel, BorderLayout.SOUTH);
         //FriendsActivityPanel
         FriendsActivityPanelsManager friendsActivityPanelsManager = new FriendsActivityPanelsManager();
@@ -139,7 +144,6 @@ public class MainFrame extends JFrame {
         //
         //SearchAndProfilesPanel
         SearchAndProfilesPanel searchAndProfilesPanel = new SearchAndProfilesPanel();
-        searchAndProfilesPanel.setProfileInformation("user");
         searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        this.setPreferredSize(new Dimension(1600, 1000));
