@@ -34,7 +34,7 @@ public class Main {
 //        f.pack();
 //        f.setVisible(true);
 //    }
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) {
         // Testing playback controlling
 
         DatabaseConnection connection = new DatabaseConnection("test");
@@ -44,7 +44,7 @@ public class Main {
         MainFrame mainFrame = new MainFrame();
 //        SignUpPanel signUpPanel = new SignUpPanel();
          //       AlbumPanel songPanel = new AlbumPanel();
-                JFrame frame = new JFrame();
+     //           JFrame frame = new JFrame();
 //                SongPanel sPanel = new SongPanel();
 //                frame.add(sPanel);
 //                frame.setResizable(false);
