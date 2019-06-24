@@ -2,6 +2,7 @@ package View;
 
 
 import Model.Song;
+import utils.IO.DatabaseAlterListener;
 import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHandler;
 import utils.IO.DatabaseHelper;
@@ -36,10 +37,21 @@ public class Main {
 //        f.setVisible(true);
 //    }
     public static void main(String[] args) {
-        // Testing playback controlling
 
+        // initializing databaseListeners
         DatabaseConnection connection = new DatabaseConnection("test");
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
+        DatabaseAlterListener listener = new DatabaseAlterListener() {
+            @Override
+            public void removeSong(Song song) {
+                databaseHandler.removeSong(song);
+            }
+        };
+
+
+        // Testing playback controlling
+
+
         ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
         MainFrame mainFrame = new MainFrame();
@@ -51,6 +63,7 @@ public class Main {
 //                frame.setResizable(false);
 //                frame.add(,BorderLayout.CENTER);
 //                frame.pack();
+
 //                frame.setVisible(true);
 
     }
