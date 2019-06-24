@@ -1,6 +1,7 @@
 package View;
 
 import Model.Song;
+import utils.IO.FileIO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class FriendsActivityPanel extends JPanel {
         //for test
         try {
             URL playUrl = null;
-            File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
+            File playFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "play.png");
             playUrl = playFile.toURI().toURL();
             ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
             friendsProfPicLabel.setIcon(playIcon);

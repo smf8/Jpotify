@@ -1,5 +1,7 @@
 package View;
 
+import utils.IO.FileIO;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
@@ -23,7 +25,7 @@ public class LoginPanel extends JPanel {
          this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
          try {
-             Font font = Font.createFont(Font.TRUETYPE_FONT, new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "font" + File.separator + "Roboto-Regular.ttf"));
+             Font font = Font.createFont(Font.TRUETYPE_FONT, new File(FileIO.RESOURCES_RELATIVE + "font" + File.separator + "Roboto-Regular.ttf"));
              GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
              genv.registerFont(font);
              font = font.deriveFont(12f);

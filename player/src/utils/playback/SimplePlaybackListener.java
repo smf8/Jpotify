@@ -11,6 +11,7 @@ public class SimplePlaybackListener implements MP3Player.PlaybackListener {
     @Override
     public void playbackStarted(MP3Player.PlaybackEvent event) {
         playbackControlPanel.updateInformation();
+        playbackControlPanel.startProgress();
         System.out.println("started");
     }
 

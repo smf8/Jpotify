@@ -64,7 +64,7 @@ public class TagReader {
         String[] musics = file.list();
         Thread t1 = new Thread(() -> {
             for (String s : musics) {
-                Path filePath = FileSystems.getDefault().getPath("player" + File.separator + "src" + File.separator + "resources" + File.separator + "test").normalize().toAbsolutePath().resolve(s);
+                Path filePath = FileSystems.getDefault().getPath(FileIO.RESOURCES_RELATIVE + "test").normalize().toAbsolutePath().resolve(s);
                 try {
                     reader.getAdvancedTags(filePath.toUri().toURL());
 //                    reader.getSimpleTags(filePath.toUri().toURL());
@@ -98,8 +98,10 @@ public class TagReader {
                     artist = "artistless";
                 }
                 this.title = id3v2.getTitle();
-                if (title == null)
-                    title = mp3File.getFilename();
+                if (title == null) {
+                    String[] s = mp3File.getFilename().split(File.separator);
+                    title = s[s.length-1];
+                }
                 this.durationInMiliSeconds= (int) mp3File.getLengthInMilliseconds();
                 mp3File.getLengthInMilliseconds();
                 this.releaseDate = id3v2.getYear();
@@ -114,10 +116,10 @@ public class TagReader {
                     // checking mime type of artwork
                     switch (mimeType) {
                         case "image/jpeg":
-                            imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".jpg";
+                            imgAddress = FileIO.RESOURCES_RELATIVE + "cache" + File.separator + "img" + File.separator + hashString + ".jpg";
                             break;
                         case "image/png":
-                            imgAddress = "player" + File.separator + "src" + File.separator + "resources" + File.separator + "cache" + File.separator + "img" + File.separator + hashString + ".png";
+                            imgAddress = FileIO.RESOURCES_RELATIVE + "cache" + File.separator + "img" + File.separator + hashString + ".png";
                             break;
                     }
                     if (!FileIO.checkIfFileExists(imgAddress)) {
@@ -148,7 +150,7 @@ public class TagReader {
 
                 // Creating a new song object from Tag data
 //                System.out.println(title + " - " + fileurl.toString());
-                URI imageURI = null;
+                URI imageURI = Paths.get(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "no-artwork.jpg").toAbsolutePath().toUri();
                 if (!imgAddress.equals("")) {
                     Path p = Paths.get(imgAddress);
                     imageURI = p.toAbsolutePath().toUri();

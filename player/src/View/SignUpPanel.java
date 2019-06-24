@@ -1,5 +1,7 @@
 package View;
 
+import utils.IO.FileIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -22,7 +24,7 @@ public class SignUpPanel extends JPanel{
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
         try {
-             font = Font.createFont(Font.TRUETYPE_FONT, new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "font" + File.separator + "Roboto-Regular.ttf"));
+             font = Font.createFont(Font.TRUETYPE_FONT, new File(FileIO.RESOURCES_RELATIVE + "font" + File.separator + "Roboto-Regular.ttf"));
             GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
             genv.registerFont(font);
             font = font.deriveFont(20f);

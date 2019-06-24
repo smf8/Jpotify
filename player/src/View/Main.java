@@ -41,12 +41,6 @@ public class Main {
         // initializing databaseListeners
         DatabaseConnection connection = new DatabaseConnection("test");
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
-        DatabaseAlterListener listener = new DatabaseAlterListener() {
-            @Override
-            public void removeSong(Song song) {
-                databaseHandler.removeSong(song);
-            }
-        };
 
 
         // Testing playback controlling

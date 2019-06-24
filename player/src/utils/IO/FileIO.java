@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class FileIO {
 
+
+    public static String RESOURCES_RELATIVE = "player" + File.separator + "src" + File.separator + "resources" + File.separator;
     /**
      * checks if the file in the given url exists
      * @param fileURL file url

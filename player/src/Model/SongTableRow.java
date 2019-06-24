@@ -1,5 +1,7 @@
 package Model;
 
+import utils.IO.FileIO;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -19,7 +21,7 @@ public class SongTableRow {
     private String lastPlayed;
     {
         try {
-            addIcon = new ImageIcon(new ImageIcon(new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "add.png").toURI().toURL()).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+            addIcon = new ImageIcon(new ImageIcon(new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "add.png").toURI().toURL()).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

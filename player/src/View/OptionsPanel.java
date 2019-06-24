@@ -1,6 +1,7 @@
 package View;
 
 import org.w3c.dom.html.HTMLObjectElement;
+import utils.IO.FileIO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -38,11 +39,11 @@ public class OptionsPanel extends JPanel {
         URL libraryUrl = null;
         URL playlistUrl = null;
         try {
-            File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "o.png");
+            File homeFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "o.png");
             homeUrl = homeFile.toURI().toURL();
-            File libraryFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "book.png");
+            File libraryFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "book.png");
             libraryUrl = libraryFile.toURI().toURL();
-            File playlistFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "g.png");
+            File playlistFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "g.png");
             playlistUrl = playlistFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -5,16 +5,18 @@ import Model.Song;
 import Model.SongTableRow;
 import utils.FontManager;
 import utils.IO.DatabaseAlterListener;
-import utils.IO.DatabaseConnection;
-import utils.IO.DatabaseHandler;
-import utils.IO.DatabaseHelper;
+import utils.IO.MyFileChooser;
+import utils.TagReader;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 
 public class SongPanel extends JPanel {
@@ -24,6 +26,7 @@ public class SongPanel extends JPanel {
     private ArrayList<SongTableRow> rows = new ArrayList<>();
     private DatabaseAlterListener databaseAlterListener;
     private SongTableModel model;
+
     //    public void
     public SongPanel(ArrayList<Song> songs) {
         super(new BorderLayout());
@@ -70,16 +73,17 @@ public class SongPanel extends JPanel {
         initColumnSizes(table);
         scrollPane.setBackground(new Color(22, 22, 22));
         table.setBackground(new Color(22, 22, 22));
+        this.setFont(FontManager.getUbuntuBold(12f));
         table.setForeground(Color.WHITE);
         table.setFont(FontManager.getUbuntuBold(16));
         //Add the scroll pane to this panel.
         add(scrollPane, BorderLayout.CENTER);
         JButton addBtn = new JButton("Add Song");
         JButton removeBtn = new JButton("Remove");
-        JPanel buttonsPanel = new JPanel(new GridLayout(1,2));
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
         buttonsPanel.add(addBtn);
         buttonsPanel.add(removeBtn);
-        for (int i = 0; i< songs.size(); i++) {
+        for (int i = 0; i < songs.size(); i++) {
             SongTableRow row = new SongTableRow(songs.get(i));
             rows.add(row);
             model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
@@ -87,19 +91,54 @@ public class SongPanel extends JPanel {
                     row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
         }
 
+        // what to do when add button is clicked
         addBtn.addActionListener(actionEvent -> {
-            Song s  = (new DatabaseHelper(new DatabaseConnection("test").getConnection()).searchSong("love").get(0));
-            addSong(s);
+            MyFileChooser fileChooser = new MyFileChooser(SongPanel.this, null, true);
+            TagReader songReader = new TagReader();
+            URI mp3 = fileChooser.getMP3File();
+            Song song = null;
+            try {
+                songReader.getAdvancedTags(mp3.toURL());
+                song = songReader.getSong();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            addSong(song);
+        });
+        // what to do when remove button is clicked
+        removeBtn.addActionListener(actionEvent -> {
+            ArrayList<Song> checked = getSelectedSongs();
+            new Thread(() -> {
+                for (Song song : checked) {
+                    removeSong(song);
+                }
+            }).start();
+        });
+
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
+                    Song selectedSong = songs.get(row);
+                    MainFrame.addSongToPlay(selectedSong);
+                    for (int i = 0; i < songs.size(); i++) {
+                        rows.set(i, new SongTableRow(songs.get(i)));
+                    }
+                    model.fireTableDataChanged();
+                }
+            }
         });
         add(buttonsPanel, BorderLayout.SOUTH);
     }
 
-    public ArrayList<Song> getSelectedSongs(){
+    public ArrayList<Song> getSelectedSongs() {
         SongTableModel songTableModel = (SongTableModel) table.getModel();
         ArrayList<Song> selected = new ArrayList<>();
         for (int i = 0; i < songs.size(); i++) {
-            Boolean checked = (Boolean) songTableModel.getValueAt(i,6);
-            if (checked){
+            Boolean checked = (Boolean) songTableModel.getValueAt(i, 6);
+            if (checked) {
                 selected.add(songs.get(i));
             }
         }
@@ -128,8 +167,18 @@ public class SongPanel extends JPanel {
             }
         });
         rows.add(new SongTableRow(song));
+        rows = new ArrayList<>();
+        for (Song s : songs){
+            rows.add(new SongTableRow(s));
+        }
+        databaseAlterListener.saveSong(song);
     }
 
+    /**
+     * method deletes song from all occurrences in tables. use this method inside another thread cause it may block the app for a couple of seconds
+     *
+     * @param song
+     */
     public void removeSong(Song song) {
         int index = -1;
         for (int i = 0; i < songs.size(); i++) {
@@ -167,7 +216,7 @@ public class SongPanel extends JPanel {
     class SongTableModel extends DefaultTableModel {
 
         public SongTableModel() {
-            super(0,0);
+            super(0, 0);
         }
 
         public int getColumnCount() {

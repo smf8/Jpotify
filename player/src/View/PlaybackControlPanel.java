@@ -2,6 +2,7 @@ package View;
 
 import Model.Song;
 import utils.FontManager;
+import utils.IO.FileIO;
 import utils.playback.PlaybackManager;
 import utils.playback.SimplePlaybackListener;
 
@@ -44,6 +45,9 @@ public class PlaybackControlPanel extends JPanel {
     private int playState = 0;
 
     private Thread progressThread;
+
+    private ImageIcon playIcon;
+    private ImageIcon pausIcon;
     public PlaybackControlPanel(PlaybackManager playbackManager) {
         this.playbackManager = playbackManager;
         playbackManager.setPlaybackListener(new SimplePlaybackListener(this));
@@ -76,31 +80,31 @@ public class PlaybackControlPanel extends JPanel {
         volumePanel.setBackground(new Color(97, 97, 97));
         playProgressPanel.setBackground(new Color(97, 97, 97));
         try {
-            File likeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "like.png");
+            File likeFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "like.png");
             likeUrl = likeFile.toURI().toURL();
-            File disLikeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "dislike.png");
+            File disLikeFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "dislike.png");
             disLikeUrl = disLikeFile.toURI().toURL();
-            File playFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "play.png");
+            File playFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "play.png");
             playUrl = playFile.toURI().toURL();
-            File pausFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "paus.png");
+            File pausFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "paus.png");
             pausUrl = pausFile.toURI().toURL();
-            File shuffleFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "shuffle.png");
+            File shuffleFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "shuffle.png");
             shuffleUrl = shuffleFile.toURI().toURL();
-            File nextFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "next.png");
+            File nextFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "next.png");
             nextUrl = nextFile.toURI().toURL();
-            File previousFlie = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "previous.png");
+            File previousFlie = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "previous.png");
             previousUrl = previousFlie.toURI().toURL();
-            File volumeFlie = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "volume.png");
+            File volumeFlie = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "volume.png");
             volumeUrl = volumeFlie.toURI().toURL();
-            File isNotRepeatingFlie = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "repeat(1).png");
+            File isNotRepeatingFlie = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "repeat(1).png");
             isNotRepeatingUrl = isNotRepeatingFlie.toURI().toURL();
-            File isRepeatingFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "repeat(2).png");
+            File isRepeatingFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "repeat(2).png");
             isRepeatingUrl = isRepeatingFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-        ImageIcon pausIcon = new ImageIcon(new ImageIcon(pausUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        pausIcon = new ImageIcon(new ImageIcon(pausUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon shuffleIcon = new ImageIcon(new ImageIcon(shuffleUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon nextIcon = new ImageIcon(new ImageIcon(nextUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon previousIcon = new ImageIcon(new ImageIcon(previousUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
@@ -110,27 +114,13 @@ public class PlaybackControlPanel extends JPanel {
         ImageIcon likeImage = new ImageIcon(new ImageIcon(likeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon disLikeImage = new ImageIcon(new ImageIcon(disLikeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         //Setting Listeners
-        playLabel.addMouseListener(new MouseListener() {
+        playLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (isPlaying == false) {
                     // change label image to pause image
                     playbackManager.play();
                     playLabel.setIcon(pausIcon);
-                    progressThread = new Thread(() -> {
-                        while (playState <= duration) {
-//                            System.out.println(playState);
-//                            System.out.println(duration);
-                            musicSlider.setValue(playState);
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException ex) {
-                                break;
-                            }
-                            playState += 100;
-                        }
-                    });
-                    progressThread.start();
                     isPlaying = true;
                 } else if (isPlaying == true) {
                     playbackManager.pause();
@@ -140,82 +130,22 @@ public class PlaybackControlPanel extends JPanel {
                     isPlaying = false;
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-        nextLabel.addMouseListener(new MouseListener() {
+        nextLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playbackManager.next();
                 playState = 0;
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-        previousLabel.addMouseListener(new MouseListener() {
+        previousLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playbackManager.previous();
                 playState = 0;
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-        repeatLabel.addMouseListener(new MouseListener() {
+        repeatLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //       playbackManager.
@@ -229,55 +159,15 @@ public class PlaybackControlPanel extends JPanel {
                     isRepeating = false;
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-        shuffleLabel.addMouseListener(new MouseListener() {
+        shuffleLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playState = 0;
                 playbackManager.shuffle();
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
-        dislikeLabel.addMouseListener(new MouseListener() {
+        dislikeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (isLiked == false) {
@@ -287,26 +177,6 @@ public class PlaybackControlPanel extends JPanel {
                     dislikeLabel.setIcon(disLikeImage);
                     isLiked = false;
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
         volumeLabel.setIcon(volumeIcon);
@@ -417,6 +287,23 @@ public class PlaybackControlPanel extends JPanel {
             playbackManager.changeVolume(((JSlider) changeEvent.getSource()).getValue());
         });
     }
+
+    public void startProgress(){
+        progressThread = new Thread(() -> {
+            while (playState <= duration) {
+//                            System.out.println(playState);
+//                            System.out.println(duration);
+                musicSlider.setValue(playState);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    break;
+                }
+                playState += 100;
+            }
+        });
+        progressThread.start();
+    }
     public void updateInformation(){
        //Updating artWork
         URL songArtWorkUrl;
@@ -437,6 +324,9 @@ public class PlaybackControlPanel extends JPanel {
         songNameLabel.setText(playbackManager.getCurrentSong().getTitle());
         //Updating Artist
         songArtistLabel.setText(playbackManager.getCurrentSong().getArtist());
+
+        playLabel.setIcon(pausIcon);
+        isPlaying = true;
     }
 
 }

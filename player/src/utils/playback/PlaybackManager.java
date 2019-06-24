@@ -82,6 +82,7 @@ public class PlaybackManager {
      * call MP3Player play method inside a thread
      */
     public void play() {
+
         if (player == null) {
             initPlayer();
         } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
@@ -180,7 +181,10 @@ public class PlaybackManager {
             }
         });
     }
-
+    public void resetQueue(ArrayList<Song> newQueue){
+        songQueue = newQueue;
+        queueIndex = 0;
+    }
     public void changeVolume(float vol) {
         if (player != null) {
             this.player.setVol(vol);

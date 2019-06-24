@@ -1,5 +1,7 @@
 package View;
 
+import utils.IO.FileIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,7 +33,7 @@ public class SearchAndProfilesPanel extends JPanel {
         URL searchUrl = null;
         try {
 
-            File searchFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "z.png");
+            File searchFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "z.png");
             searchUrl = searchFile.toURI().toURL();
         } catch (MalformedURLException e) {
             e.printStackTrace();

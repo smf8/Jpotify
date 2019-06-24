@@ -1,5 +1,7 @@
 package View;
 
+import utils.IO.FileIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -10,15 +12,15 @@ public class AlbumsPanel extends JPanel {
 
         public AlbumsPanel(){
             this.setBackground(new Color(22,22,22));
-            AlbumPanel songPanel1 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "1.JPG");
-            AlbumPanel songPanel2 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "2.JPG");
-            AlbumPanel songPanel3 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "3.JPG");
-            AlbumPanel songPanel4 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "4.JPG");
-            AlbumPanel songPanel5 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "5.JPG");
-            AlbumPanel songPanel6 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "6.JPG");
-            AlbumPanel songPanel7 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "7.JPG");
-            AlbumPanel songPanel8 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "8.JPG");
-            AlbumPanel songPanel9 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "9.JPG");
+            AlbumPanel songPanel1 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "1.JPG");
+            AlbumPanel songPanel2 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "2.JPG");
+            AlbumPanel songPanel3 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "3.JPG");
+            AlbumPanel songPanel4 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "4.JPG");
+            AlbumPanel songPanel5 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "5.JPG");
+            AlbumPanel songPanel6 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "6.JPG");
+            AlbumPanel songPanel7 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "7.JPG");
+            AlbumPanel songPanel8 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "8.JPG");
+            AlbumPanel songPanel9 = new AlbumPanel(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "9.JPG");
 
             songPanels.add(songPanel1);
             songPanels.add(songPanel2);
