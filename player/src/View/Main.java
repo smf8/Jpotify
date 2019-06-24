@@ -7,6 +7,7 @@ import utils.IO.DatabaseHandler;
 import utils.IO.DatabaseHelper;
 import utils.playback.PlaybackManager;
 
+import javax.swing.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -41,10 +42,14 @@ public class Main {
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
         ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
-        MainFrame mainFrame = new MainFrame();
+//        MainFrame mainFrame = new MainFrame();
 //        SignUpPanel signUpPanel = new SignUpPanel();
          //       AlbumPanel songPanel = new AlbumPanel();
-     //           JFrame frame = new JFrame();
+                JFrame frame = new JFrame();
+                PlaylistPanel playlistPanel = new PlaylistPanel();
+                frame.add(playlistPanel);
+                frame.pack();
+                frame.setVisible(true);
 //                SongPanel sPanel = new SongPanel();
 //                frame.add(sPanel);
 //                frame.setResizable(false);
