@@ -207,7 +207,7 @@ public class MP3Player {
         if (!this.stopped) {
             this.paused = true;
             if (this.listener != null) {
-//                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
+                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
             }
             this.close();
         }
@@ -227,12 +227,12 @@ public class MP3Player {
     public synchronized void stop() {
         if (!this.stopped) {
             if (!this.closed) {
-//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
+                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
                 System.out.println("stopped finished");
                 this.close();
             } else if (this.paused) {
                 int audioDevicePosition = -1; //this.audioDevice.getPosition(), audioDevice is null
-//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
+                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
             }
             this.stopped = true;
         }
