@@ -9,6 +9,7 @@ public class AlbumsPanel extends JPanel {
         private ArrayList<AlbumPanel> songPanels = new ArrayList<>();
 
         public AlbumsPanel(){
+            this.setBackground(new Color(22,22,22));
             AlbumPanel songPanel1 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "1.png");
             AlbumPanel songPanel2 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "2.png");
             AlbumPanel songPanel3 = new AlbumPanel("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "3.png");
