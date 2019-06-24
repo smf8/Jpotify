@@ -133,7 +133,7 @@ public class MainFrame extends JFrame {
         //
         //SearchAndProfilesPanel
         SearchAndProfilesPanel searchAndProfilesPanel = new SearchAndProfilesPanel();
-        searchAndProfilesPanel.setProfileInformation("user");
+       // searchAndProfilesPanel.setProfileInformation("user");
         searchAndBackGroundPanel.add(searchAndProfilesPanel, BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 //        this.setPreferredSize(new Dimension(1600, 1000));

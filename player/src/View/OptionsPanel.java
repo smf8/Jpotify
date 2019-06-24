@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
-    private JLabel homeLabel = new JLabel("HOME");
+    private JLabel homeLabel = new JLabel("PROFILE");
     private JLabel searchLabel = new JLabel("SEARCH");
     private JLabel yourLibraryLabel = new JLabel("YOUR LIBRARY");
     private JLabel recentlyPlayedLabel = new JLabel("RECENTLY PLAYED");
@@ -37,7 +37,7 @@ public class OptionsPanel extends JPanel {
         URL libraryUrl = null;
         URL playlistUrl = null;
         try {
-            File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "n.png");
+            File homeFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "o.png");
             homeUrl = homeFile.toURI().toURL();
             File libraryFile = new File("player" + File.separator + "src" + File.separator + "resources" + File.separator + "icons" + File.separator + "book.png");
             libraryUrl = libraryFile.toURI().toURL();
@@ -52,8 +52,7 @@ public class OptionsPanel extends JPanel {
         ImageIcon playlistIcon = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
 
         homeLabel.setIcon(homeIcon);
-        homeLabel.setText("HOME");
-        yourLibraryLabel.setText("YOUR LIBRARY ");
+        yourLibraryLabel.setText("LIBRARY ");
         yourLibraryLabel.setIcon(libraryIcon);
         playListsLabel.setIcon(playlistIcon);
 

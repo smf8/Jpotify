@@ -40,7 +40,7 @@ public class Main {
 
         DatabaseConnection connection = new DatabaseConnection("test");
         DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
-        ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
+        ArrayList<Song> songsQueue = databaseHandler.searchSong("");
         playbackManager = new PlaybackManager(songsQueue);
         MainFrame mainFrame = new MainFrame();
 //        SignUpPanel signUpPanel = new SignUpPanel();
