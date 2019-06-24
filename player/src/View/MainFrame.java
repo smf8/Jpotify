@@ -72,7 +72,7 @@ public class MainFrame extends JFrame {
         searchAndProfilesPanel.setProfileInformation("user");
         searchAndBackGroundPanel.add(searchAndProfilesPanel,BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(1600, 1000));
+//        this.setPreferredSize(new Dimension(1600, 1000));
         this.pack();
         //
         //BackGroundPanel
@@ -80,12 +80,12 @@ public class MainFrame extends JFrame {
         //AlbumsPanel
          AlbumsPanel songsPanel = new AlbumsPanel();
 
-        JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollPane2 = new JScrollPane(songsPanel,   ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane2.setPreferredSize(new Dimension(250, 700));
-        searchAndBackGroundPanel.add(songsPanel);
+        searchAndBackGroundPanel.add(scrollPane2);
 //        searchAndBackGroundPanel.setMinimumSize(new Dimension(300, 800));
         this.add(searchAndBackGroundPanel,BorderLayout.CENTER);
-        //
+    //
         this.setVisible(true);
-    }
+}
 }
