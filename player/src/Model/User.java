@@ -1,5 +1,9 @@
 package Model;
 
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHandler;
+
+import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -112,5 +116,9 @@ public class User {
 
     public void setFriends(String friends) {
         this.friends = friends;
+    }
+
+    public void initSongs(DatabaseHandler handler){
+//        if (song)
     }
 }

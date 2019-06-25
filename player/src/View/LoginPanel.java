@@ -2,6 +2,8 @@ package View;
 
 import Model.User;
 import utils.FontManager;
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHelper;
 import utils.IO.FileIO;
 
 import javax.swing.*;
@@ -66,13 +68,14 @@ public class LoginPanel extends JPanel {
 
         signInButton.addActionListener(actionEvent -> {
             ArrayList<User> users;
-            if ((users = Main.databaseHandler.getUserByUsername(userNameTextField.getText())).size() != 0) {
+            if ((users = Main.usersHandler.getUserByUsername(userNameTextField.getText())).size() != 0) {
                 User user = users.get(0);
                 if (user.getPassword().equals(FileIO.MD5(String.valueOf(passField.getPassword())))) {
                     // can login
                     System.out.println("Logged in");
                     Main.user = user;
-                    //
+                    //setting a database handler for this users Data;
+                    Main.databaseHandler = new DatabaseHelper(new DatabaseConnection(userNameTextField.getText()).getConnection());
                     Main.closeFrame();
                     MainFrame mainFrame = new MainFrame();
                 }else {

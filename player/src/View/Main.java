@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class Main {
     static PlaybackManager playbackManager;
+    public static DatabaseHandler usersHandler;
     public static DatabaseHandler databaseHandler;
     public static User user;
     private static JFrame frame;
@@ -37,8 +38,9 @@ public class Main {
         UIManager.put("PasswordField.font", new FontUIResource(FontManager.getUbuntu(20f)));
 
         // initializing databaseListeners
-        DatabaseConnection connection = new DatabaseConnection("test");
-        databaseHandler = new DatabaseHelper(connection.getConnection());
+        DatabaseConnection connection = new DatabaseConnection("users");
+        connection.initUserTable();
+        usersHandler = new DatabaseHelper(connection.getConnection());
 
                 frame = new JFrame();
                 LoginPanel loginPanel = new LoginPanel();

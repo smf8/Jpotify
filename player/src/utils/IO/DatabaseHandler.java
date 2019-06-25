@@ -37,7 +37,7 @@ public interface DatabaseHandler {
     ArrayList<Song> searchSong(String searchItem);
 
     boolean addUser(User user);
-
+    void deepInsertSong(ArrayList<Song> songs);
     ArrayList<User> getUserByUsername(String username);
     void removeUser(String username);
     void close();

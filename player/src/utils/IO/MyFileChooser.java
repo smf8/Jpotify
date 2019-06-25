@@ -22,7 +22,11 @@ public class MyFileChooser {
     }
 
     public URI getFolderURI(){
-        return fileChooser.getSelectedFile()!=null?fileChooser.getSelectedFile().toURI():null;
+        if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile().toURI();
+        }else{
+            return null;
+        }
     }
     public URI getImageFile(){
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image File", "jpg", "png");

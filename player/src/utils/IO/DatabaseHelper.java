@@ -200,7 +200,6 @@ public class DatabaseHelper implements DatabaseHandler {
         PreparedStatement statement = null;
         try {
             for (Song song : songs) {
-
                 statement = connection.prepareStatement(query);
                 statement.setString(1, song.getHash());
                 statement.setString(2, song.getTitle());
@@ -219,6 +218,74 @@ public class DatabaseHelper implements DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void deepInsertSong(ArrayList<Song> songs){
+        String query = "INSERT OR IGNORE INTO Songs(hash,title,artist,album,length,playCount,playDate,releaseDate,location,artwork) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement statement = null;
+        boolean succ = true;
+        try {
+            for (Song song : songs) {
+                statement = connection.prepareStatement(query);
+                statement.setString(1, song.getHash());
+                statement.setString(2, song.getTitle());
+                statement.setString(3, song.getArtist());
+                statement.setString(4, song.getAlbum());
+                statement.setInt(5, song.getLength());
+                statement.setInt(6, song.getPlayCount());
+                LocalDate LocalDate = song.getPlayDate();
+                String playDate = LocalDate.format(DateTimeFormatter.ofPattern(Song.DATE_FORMAT));
+                statement.setString(7, playDate);
+                statement.setInt(8, song.getReleasedDate());
+                statement.setString(9, song.getLocation().toString());
+                String artwork = song.getArtWork() == null ? "" : song.getArtWork().toString();
+                statement.setString(10, artwork);
+                statement.execute();
+                PreparedStatement albumStatement = null;
+                try {
+                    albumStatement = connection.prepareStatement("SELECT id,songs FROM Albums WHERE title=?");
+                    albumStatement.setString(1,song.getAlbum());
+                    ResultSet resultSet = albumStatement.executeQuery();
+                    boolean flag = false;
+                    while (resultSet.next()) {
+                        System.out.println("sfdkhgfdsj");
+                        flag = true;
+                        if (!resultSet.getString("songs").contains(song.getHash())) {
+                            String newHash = resultSet.getString("songs") + song.getHash() + Song.HASH_SEPERATOR;
+                            albumStatement = connection.prepareStatement("UPDATE Albums SET songs=? WHERE id=?");
+                            albumStatement.setString(1, newHash);
+                            albumStatement.setInt(2, resultSet.getInt("id"));
+                            albumStatement.execute();
+                        }
+                    }
+                    if (!flag){
+                        Album album = new Album(0,song.getAlbum(), song.getArtist(), song.getArtWork());
+                        album.addSong(song);
+                        insertAlbum(album);
+                    }
+                } catch (SQLException e) {
+                    // couldn't update the album table so we have to create it
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        albumStatement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+            succ = false;
         } finally {
             if (statement != null) {
                 try {
