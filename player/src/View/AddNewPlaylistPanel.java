@@ -1,7 +1,18 @@
 package View;
 
+import Model.Song;
+import utils.IO.MyFileChooser;
+import utils.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class AddNewPlaylistPanel extends JPanel {
     private JTextField titleTextField = new JTextField();
@@ -13,6 +24,9 @@ public class AddNewPlaylistPanel extends JPanel {
     private JPanel namePanel = new JPanel();
     private JPanel leftPanel = new JPanel();
     private JPanel songsListPanel = new JPanel();
+    private JButton createButton = new JButton("Create");
+    private MyFileChooser myFileChooser;
+    private ArrayList<Song> songArrayList = new ArrayList<>();
 
     public AddNewPlaylistPanel() {
         this.setLayout(new BorderLayout());
@@ -20,6 +34,11 @@ public class AddNewPlaylistPanel extends JPanel {
         createPlaylist.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftPanel.add(createPlaylist);
         add(Box.createRigidArea(new Dimension(0, 5)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
 
         titleTextField.setMaximumSize(new Dimension(500, 50));
         titleTextField.setMinimumSize(new Dimension(500, 50));
@@ -65,11 +84,62 @@ public class AddNewPlaylistPanel extends JPanel {
         imageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftPanel.add(imageButton);
         leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+//        leftPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        leftPanel.add(createButton);
+
 
         this.add(leftPanel, BorderLayout.WEST);
         this.add(songsListPanel, BorderLayout.CENTER);
         this.setMaximumSize(new Dimension(1000, 500));
         this.setMinimumSize(new Dimension(1000, 500));
         this.setPreferredSize(new Dimension(1000, 500));
+
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(titleTextField.getText());
+            }
+        });
+        songButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                URI uri;
+                Song song = null;
+                myFileChooser = new MyFileChooser(AddNewPlaylistPanel.this, null, true);
+                uri = myFileChooser.getMP3File();
+                TagReader reader = new TagReader();
+                try {
+                    reader.getAdvancedTags(uri.toURL());
+                    song = reader.getSong();
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
+                songArrayList.add(song);
+            }
+        });
+
+        imageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                URL url;
+                Image image;
+                ImageIcon imageIcon = null;
+
+                myFileChooser = new MyFileChooser(AddNewPlaylistPanel.this, null, true);
+//                uri =  myFileChooser.getImageFile();
+//                TagReader reader = new TagReader();
+                try {
+                    url = myFileChooser.getImageFile().toURL();
+                    imageIcon = new ImageIcon(url);
+                    image = imageIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+                    imageIcon = new ImageIcon(image);
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
     }
 }

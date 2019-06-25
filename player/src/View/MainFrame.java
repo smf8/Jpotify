@@ -1,5 +1,6 @@
 package View;
 
+import Model.Album;
 import Model.Song;
 import utils.FontManager;
 import utils.IO.*;
@@ -9,21 +10,25 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
 public class MainFrame extends JFrame {
+    public static MainFrame instance;
     static PlaybackManager playbackManager;
     static DatabaseAlterListener listener;
+    static AlbumsPanel albumsPanel = new AlbumsPanel();
     private static ArrayList<Song> songsQueue;
+    private static ArrayList<Album> albumArrayList;
     private JPanel mainOptionsPanel = new JPanel();
     private JPanel searchAndBackGroundPanel = new JPanel();
     private JLabel addNewPlaylistText = new JLabel("Add new playlist");
     private JLabel addNewPlaylistImageLabel = new JLabel();
+    private JScrollPane scrollPane2;
     private JPanel addNewPlaylistPanel = new JPanel();
     private JPanel mainMainOptionsPanel = new JPanel();
     //    private JLabel playingSondArtWorkLabel = new JLabel();
@@ -147,11 +152,9 @@ public class MainFrame extends JFrame {
         //BackGroundPanel
         //     searchAndBackGroundPanel.add(new BackGroundPanel(),BorderLayout.CENTER);
         //AlbumsPanel
-        AlbumsPanel songsPanel = new AlbumsPanel();
-        SongPanel songPanel = new SongPanel(songsQueue);
-        songPanel.setDatabaseAlterListener(listener);
-        JScrollPane scrollPane2 = new JScrollPane(songPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
+//        SongPanel songPanel = new SongPanel(songsQueue);
+//        songPanel.setDatabaseAlterListener(listener);
+        scrollPane2 = new JScrollPane(albumsPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         //        scrollPane2.setPreferredSize(new Dimension(250, 700));
         searchAndBackGroundPanel.add(scrollPane2, BorderLayout.CENTER);
         searchAndBackGroundPanel.add(searchAndProfilesPanel, BorderLayout.NORTH);
@@ -159,8 +162,18 @@ public class MainFrame extends JFrame {
 //        this.add(scrollPane2,BorderLayout.CENTER);
         this.add(searchAndBackGroundPanel, BorderLayout.CENTER);
         //
+        for (AlbumPanel p : albumsPanel.getPanels()) {
+            p.setViewUpdateListener((parent, child) -> {
+                searchAndBackGroundPanel.remove(scrollPane2);
+                scrollPane2 = new JScrollPane(child, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+                searchAndBackGroundPanel.add(scrollPane2, BorderLayout.CENTER);
+                searchAndBackGroundPanel.validate();
+                searchAndBackGroundPanel.repaint();
+            });
+        }
         this.pack();
         this.setVisible(true);
+
     }
 
     public static void addSongToQueue(Song song) {
@@ -198,9 +211,17 @@ public class MainFrame extends JFrame {
 
 
         // Testing playback controlling
+        albumArrayList = databaseHandler.searchAlbum("");
         songsQueue = databaseHandler.searchSong("go");
+
+        for (Album x : albumArrayList) {
+            albumsPanel.addAlbum(x);
+        }
+        albumsPanel.showAlbums();
+
         playbackManager = new PlaybackManager(songsQueue);
         MainFrame mainFrame = new MainFrame();
+        instance = mainFrame;
 //        SignUpPanel signUpPanel = new SignUpPanel();
         //       AlbumPanel songPanel = new AlbumPanel();
         //           JFrame frame = new JFrame();
@@ -217,16 +238,18 @@ public class MainFrame extends JFrame {
     public ArrayList<Song> getSongsQueue() {
         return songsQueue;
     }
-    public static void addSongToPlay(Song song){
-//        if (songsQueue.contains(song)) {
-//            songsQueue.remove(song);
-//        }
-//        songsQueue.add(0, song);
-//        playbackManager.resetQueue(songsQueue);
+    public static void addSongToPlay(Song song) {
+        if (songsQueue.contains(song)) {
+            songsQueue.remove(song);
+        }
+        songsQueue.add(0, song);
+        playbackManager.resetQueue(songsQueue);
 //        for (Song s : songsQueue){
 //            System.out.println(s.getTitle());
 //        }
         playbackManager.stop();
         playbackManager.play(song);
     }
+
+
 }
