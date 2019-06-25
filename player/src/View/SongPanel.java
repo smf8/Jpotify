@@ -158,14 +158,9 @@ public class SongPanel extends JPanel {
     public void addSong(Song song) {
         songs.add(song);
         SongTableRow row = new SongTableRow(song);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
-                        row.getTitle(),
-                        row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
-            }
-        });
+        SwingUtilities.invokeLater(() -> model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
+                row.getTitle(),
+                row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()}));
         rows.add(new SongTableRow(song));
         rows = new ArrayList<>();
         for (Song s : songs){

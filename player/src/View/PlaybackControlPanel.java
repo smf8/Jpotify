@@ -15,6 +15,8 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PlaybackControlPanel extends JPanel {
     private boolean isPlaying;
@@ -43,13 +45,16 @@ public class PlaybackControlPanel extends JPanel {
     private PlaybackManager playbackManager;
     private long duration;
     private int playState = 0;
-
+    double pos;
     private Thread progressThread;
 
     private ImageIcon playIcon;
     private ImageIcon pausIcon;
     public PlaybackControlPanel(PlaybackManager playbackManager) {
         this.playbackManager = playbackManager;
+        Song currentSong = playbackManager.getCurrentSong();
+        duration = currentSong.getLength();
+        musicSlider = new JProgressBar(0, (int) duration);
         playbackManager.setPlaybackListener(new SimplePlaybackListener(this));
         musicStringInformationPanel.setLayout(new BoxLayout(musicStringInformationPanel,BoxLayout.Y_AXIS));
         musicInformation.setLayout(new BorderLayout());
@@ -75,7 +80,6 @@ public class PlaybackControlPanel extends JPanel {
         URL volumeUrl = null;
         URL isNotRepeatingUrl = null;
         URL isRepeatingUrl = null;
-
         buttonsControlPanel.setBackground(new Color(97, 97, 97));
         volumePanel.setBackground(new Color(97, 97, 97));
         playProgressPanel.setBackground(new Color(97, 97, 97));
@@ -124,10 +128,6 @@ public class PlaybackControlPanel extends JPanel {
                     isPlaying = true;
                 } else if (isPlaying == true) {
                     playbackManager.pause();
-                    progressThread.interrupt();
-                    progressThread = null;
-                    playLabel.setIcon(playIcon);
-                    isPlaying = false;
                 }
             }
         });
@@ -217,64 +217,24 @@ public class PlaybackControlPanel extends JPanel {
         musicStringInformationPanel.add(songArtistLabel);
         musicStringInformationPanel.add(Box.createRigidArea(new Dimension(0,0)));
         musicStringInformationPanel.setBackground(new Color(97,97,97));
-//        buttonsControlPanel.setPreferredSize( new Dimension(80,80));
-//        buttonsControlPanel.setMinimumSize(new Dimension(80,80));
-//        buttonsControlPanel.setMaximumSize(new Dimension(80,80));
-
-//        musicStringInformationPanel.setPreferredSize( new Dimension(80,80));
-//        musicStringInformationPanel.setMinimumSize(new Dimension(80,80));
-//        musicStringInformationPanel.setMaximumSize(new Dimension(80,80));
         songImageLabel.setBackground(new Color(97,97,97));
-//        songImageLabel.setPreferredSize( new Dimension(80,80));
-//        songImageLabel.setMinimumSize(new Dimension(60,60));
-//        songImageLabel.setMaximumSize(new Dimension(60,60));
-//        musicImagePanel.add(songImageLabel);
-//        musicImagePanel.setBackground(Color.pink);
-//        musicImagePanel.setPreferredSize( new Dimension(80,80));
         musicInformation.add(songImageLabel,BorderLayout.WEST);
         musicInformation.add(musicStringInformationPanel,BorderLayout.CENTER);
-//        musicInformation.setPreferredSize( new Dimension(80,80));
-//        musicInformation.setMinimumSize(new Dimension(80,80));
-//        musicInformation.setMaximumSize(new Dimension(80,80));
-//        this.setPreferredSize( new Dimension(0,80));
-//        this.setMinimumSize(new Dimension(0,80));
-//        this.setMaximumSize(new Dimension(0,80));
         this.add(musicInformation,BorderLayout.WEST);
         this.add(buttunsVolumProgressPanel,BorderLayout.CENTER);
     }
 
-    private void setupMusicSlider() {
-        System.out.println("init");
-        Song currentSong = playbackManager.getCurrentSong();
-        duration = currentSong.getLength();
-        musicSlider = new JProgressBar(0, (int) duration);
-//        musicSlider = new JSlider(JSlider.HORIZONTAL, 0, (int) (duration), 0);
+    public void setupMusicSlider() {
+
         musicSlider.setValue(0);
 
-        musicSlider.addMouseListener(new MouseListener() {
+        musicSlider.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                double pos = mouseEvent.getX() / (double) musicSlider.getWidth();
+            public void mouseClicked(MouseEvent e) {
+                pos = e.getX() / (double) musicSlider.getWidth();
                 playState = (int) (duration * pos);
                 playbackManager.move((int) (duration * pos));
-            }
-
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent mouseEvent) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent mouseEvent) {
-
+                isPlaying = true;
             }
         });
     }
@@ -282,7 +242,8 @@ public class PlaybackControlPanel extends JPanel {
 
     private void setupAudioSlider() {
         volumeSlider = new JSlider(JSlider.HORIZONTAL, -50, 20, 0);
-        volumeSlider.setValue(-20);
+        volumeSlider.setValue(0);
+        playbackManager.changeVolume(0f);
         volumeSlider.addChangeListener(changeEvent -> {
             playbackManager.changeVolume(((JSlider) changeEvent.getSource()).getValue());
         });
@@ -290,19 +251,47 @@ public class PlaybackControlPanel extends JPanel {
 
     public void startProgress(){
         progressThread = new Thread(() -> {
-            while (playState <= duration) {
+            if (!isPlaying){
+                playState = 0;
+                isPlaying = true;
+            }
+            while (playState <= duration && isPlaying) {
+                if (Thread.interrupted()){
+                    return;
+                }
+                System.out.println(Thread.currentThread().getName());
 //                            System.out.println(playState);
 //                            System.out.println(duration);
                 musicSlider.setValue(playState);
+//                System.out.println(playState);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                    break;
+//                    System.out.println("Progress Stopped");
+                    return;
                 }
                 playState += 100;
             }
         });
         progressThread.start();
+    }
+
+    public void stopProgress(){
+        progressThread.stop();
+        progressThread = null;
+        playLabel.setIcon(playIcon);
+        isPlaying = false;
+    }
+    public void resetProgress(){
+            playState = 0;
+            if (progressThread != null) {
+                progressThread.stop();
+                progressThread = null;
+            }
+            Song currentSong = playbackManager.getCurrentSong();
+            duration = currentSong.getLength();
+            musicSlider.setMaximum((int) duration);
+            setupMusicSlider();
     }
     public void updateInformation(){
        //Updating artWork
@@ -328,5 +317,9 @@ public class PlaybackControlPanel extends JPanel {
         playLabel.setIcon(pausIcon);
         isPlaying = true;
     }
-
+    public void logData(){
+        System.out.println(duration);
+        System.out.println(playState);
+        System.out.println("-------");
+    }
 }

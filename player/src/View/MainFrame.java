@@ -190,8 +190,9 @@ public class MainFrame extends JFrame {
                 new Thread(() -> {
                     ArrayList<Song> s = new ArrayList<>();
                     s.add(song);
+//                    System.out.println("adding Song");
                     databaseHandler.insertSongs(s);
-                });
+                }).start();
             }
         };
 
@@ -217,14 +218,15 @@ public class MainFrame extends JFrame {
         return songsQueue;
     }
     public static void addSongToPlay(Song song){
-        if (songsQueue.contains(song)) {
-            songsQueue.remove(song);
-        }
-        songsQueue.add(0, song);
-        playbackManager.resetQueue(songsQueue);
+//        if (songsQueue.contains(song)) {
+//            songsQueue.remove(song);
+//        }
+//        songsQueue.add(0, song);
+//        playbackManager.resetQueue(songsQueue);
 //        for (Song s : songsQueue){
 //            System.out.println(s.getTitle());
 //        }
-        playbackManager.play();
+        playbackManager.stop();
+        playbackManager.play(song);
     }
 }

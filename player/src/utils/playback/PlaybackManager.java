@@ -63,6 +63,7 @@ public class PlaybackManager {
             // resetting queue
             queueIndex = 0;
         }
+        playbackListener.musicChanged(songQueue.get(queueIndex));
         play();
     }
     public void setPlaybackListener(MP3Player.PlaybackListener listener){
@@ -74,6 +75,7 @@ public class PlaybackManager {
         }else{
             queueIndex = 0;
         }
+        playbackListener.musicChanged(songQueue.get(queueIndex));
         play();
     }
 
@@ -116,6 +118,7 @@ public class PlaybackManager {
      */
     public void play(Song songInQueue) {
         songQueue.add(queueIndex, songInQueue);
+        playbackListener.musicChanged(songInQueue);
         play();
     }
 
@@ -136,6 +139,7 @@ public class PlaybackManager {
         if (player != null && !player.isStopped()) {
 //            playbackThread.interrupt();
 //            System.out.println("dsahlkj");
+            playbackListener.playbackPaused(null);
             player.stop();
 //            executorService.shutdown();
 //            playbackThread = null;

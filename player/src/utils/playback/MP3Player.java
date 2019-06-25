@@ -1,5 +1,6 @@
 package utils.playback;
 
+import Model.Song;
 import javazoom.jl.decoder.*;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
@@ -227,12 +228,11 @@ public class MP3Player {
     public synchronized void stop() {
         if (!this.stopped) {
             if (!this.closed) {
-                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
-                System.out.println("stopped finished");
+//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, this.audioDevice.getPosition()));
                 this.close();
             } else if (this.paused) {
                 int audioDevicePosition = -1; //this.audioDevice.getPosition(), audioDevice is null
-                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
+//                this.listener.playbackFinished(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition));
             }
             this.stopped = true;
         }
@@ -273,6 +273,9 @@ public class MP3Player {
         void playbackPaused(PlaybackEvent event);
 
         void playbackFinished(PlaybackEvent event);
+
+        void musicChanged(Song newSong);
+
     }
 
     // inner classes
@@ -316,6 +319,11 @@ public class MP3Player {
         @Override
         public void playbackFinished(PlaybackEvent event) {
             System.err.println("Playback stopped");
+        }
+
+        @Override
+        public void musicChanged(Song newSong) {
+
         }
     }
 }
