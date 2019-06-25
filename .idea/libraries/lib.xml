@@ -3,9 +3,7 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/player/lib" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/player/lib/mp3agic-0.9.1-javadoc.jar!/" />
-    </JAVADOC>
+    <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/player/lib" />
     </SOURCES>
