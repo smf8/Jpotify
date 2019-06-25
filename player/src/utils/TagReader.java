@@ -99,7 +99,8 @@ public class TagReader {
                 }
                 this.title = id3v2.getTitle();
                 if (title == null) {
-                    String[] s = mp3File.getFilename().split(File.separator);
+                    String[] s = mp3File.getFilename().split("\\\\");
+                    s[s.length -1] = s[s.length-1].replace(".mp3", "");
                     title = s[s.length-1];
                 }
                 this.durationInMiliSeconds= (int) mp3File.getLengthInMilliseconds();
