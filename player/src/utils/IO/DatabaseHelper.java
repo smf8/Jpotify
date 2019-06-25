@@ -4,7 +4,6 @@ import Model.Album;
 import Model.Playlist;
 import Model.Song;
 import Model.User;
-import View.PlaybackControlPanel;
 
 import java.net.URI;
 import java.sql.Connection;
@@ -27,17 +26,21 @@ public class DatabaseHelper implements DatabaseHandler {
     public DatabaseHelper(Connection connection) {
         this.connection = connection;
     }
-    public void deleteAlbum(){
+
+    public void deleteAlbum() {
 
     }
-    public void setConnection(Connection connection){
+
+    public void setConnection(Connection connection) {
         this.connection = connection;
     }
+
     /**
      * this method removes song from database and alters album and playlist's tables
+     *
      * @param song the song to be removed
      */
-    public void removeSong(Song song){
+    public void removeSong(Song song) {
         //removing song from Songs table
         String query = "DELETE FROM Songs WHERE hash=?";
         PreparedStatement statement = null;
@@ -47,7 +50,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -60,18 +63,18 @@ public class DatabaseHelper implements DatabaseHandler {
             playlistStatement = connection.prepareStatement("SELECT id,songs FROM Playlists WHERE songs LIKE ?");
             playlistStatement.setString(1, "%" + song.getHash() + "%");
             ResultSet resultSet = playlistStatement.executeQuery();
-            while(resultSet.next()){
-                if (resultSet.getString("songs").contains(song.getHash())){
+            while (resultSet.next()) {
+                if (resultSet.getString("songs").contains(song.getHash())) {
                     String newHash = resultSet.getString("songs").replace(song.getHash() + Song.HASH_SEPERATOR, "");
                     playlistStatement = connection.prepareStatement("UPDATE Playlists SET songs=? WHERE id=?");
                     playlistStatement.setString(1, newHash);
-                    playlistStatement.setInt(2,resultSet.getInt("id"));
+                    playlistStatement.setInt(2, resultSet.getInt("id"));
                     playlistStatement.execute();
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 playlistStatement.close();
             } catch (SQLException e) {
@@ -84,18 +87,18 @@ public class DatabaseHelper implements DatabaseHandler {
             albumStatement = connection.prepareStatement("SELECT id,songs FROM Albums WHERE songs LIKE ?");
             albumStatement.setString(1, "%" + song.getHash() + "%");
             ResultSet resultSet = albumStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 if (resultSet.getString("songs").contains(song.getHash())) {
                     String newHash = resultSet.getString("songs").replace(song.getHash() + Song.HASH_SEPERATOR, "");
                     albumStatement = connection.prepareStatement("UPDATE Albums SET songs=? WHERE id=?");
-                    albumStatement.setString(1,newHash);
-                    albumStatement.setInt(2,resultSet.getInt("id"));
+                    albumStatement.setString(1, newHash);
+                    albumStatement.setInt(2, resultSet.getInt("id"));
                     albumStatement.execute();
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 albumStatement.close();
             } catch (SQLException e) {
@@ -104,7 +107,7 @@ public class DatabaseHelper implements DatabaseHandler {
         }
     }
 
-    public void removeSongFromAlbum(Song song,Album album){
+    public void removeSongFromAlbum(Song song, Album album) {
 
         String query = "UPDATE Albums SET songs=? WHERE id=?";
         PreparedStatement statement = null;
@@ -113,15 +116,15 @@ public class DatabaseHelper implements DatabaseHandler {
             StringBuilder builder = new StringBuilder();
             ArrayList<Song> newSongs = album.getSongs();
             newSongs.remove(song);
-            for (Song s : album.getSongs()){
+            for (Song s : album.getSongs()) {
                 builder.append(s.getHash()).append(Song.HASH_SEPERATOR);
             }
             statement.setString(1, builder.toString());
-            statement.setInt(2,album.getId());
+            statement.setInt(2, album.getId());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -132,7 +135,7 @@ public class DatabaseHelper implements DatabaseHandler {
 
     }
 
-    public void removeSongFromPlaylist(Song song, Playlist playlist){
+    public void removeSongFromPlaylist(Song song, Playlist playlist) {
 
         String query = "UPDATE Playlists SET songs=? WHERE id=?";
         PreparedStatement statement = null;
@@ -141,7 +144,7 @@ public class DatabaseHelper implements DatabaseHandler {
             StringBuilder builder = new StringBuilder();
             ArrayList<Song> newSongs = playlist.getSongs();
             newSongs.remove(song);
-            for (Song s : playlist.getSongs()){
+            for (Song s : playlist.getSongs()) {
                 builder.append(s.getHash()).append(Song.HASH_SEPERATOR);
             }
             System.out.println(builder.toString() + "----");
@@ -150,7 +153,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -161,13 +164,13 @@ public class DatabaseHelper implements DatabaseHandler {
 
     }
 
-    public void addSongToPlaylist(Song song, Playlist playlist){
-            String query = "UPDATE Playlists SET songs=? WHERE id=?";
+    public void addSongToPlaylist(Song song, Playlist playlist) {
+        String query = "UPDATE Playlists SET songs=? WHERE id=?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
             StringBuilder builder = new StringBuilder();
-            for (Song s : playlist.getSongs()){
+            for (Song s : playlist.getSongs()) {
                 builder.append(s.getHash()).append(Song.HASH_SEPERATOR);
             }
             builder.append(song.getHash()).append(Song.HASH_SEPERATOR);
@@ -176,7 +179,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -185,6 +188,7 @@ public class DatabaseHelper implements DatabaseHandler {
         }
 
     }
+
     /**
      * code is pretty self explanatory, uses preparedStatement to execute query
      * <b>for large scale insertion use the method inside another thread to avoid UI lock </b>
@@ -596,13 +600,14 @@ public class DatabaseHelper implements DatabaseHandler {
     /**
      * gets Usernames with username like the enterd username
      * if you enter the exact username get the user object by get(0)<br>
-     *     <b>the user does' not contain friend information</b>
-     *     <br>
-     *     <b>this method uses several other queries to finish so make sure to use it inside another thread</b>
+     * <b>the user does' not contain friend information</b>
+     * <br>
+     * <b>this method uses several other queries to finish so make sure to use it inside another thread</b>
+     *
      * @param username the username of the user
      * @return an arraylist of user objects with similar username
      */
-    public ArrayList<User> getUserByUsername(String username){
+    public ArrayList<User> getUserByUsername(String username) {
         String query = "SELECT * FROM Users WHERE username LIKE ?";
         ArrayList<User> users = new ArrayList<>();
         PreparedStatement statement = null;
@@ -610,34 +615,42 @@ public class DatabaseHelper implements DatabaseHandler {
             statement = connection.prepareStatement(query);
             statement.setString(1, "%" + username + "%");
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User(resultSet.getString("username"), resultSet.getString("password"));
                 ArrayList<Song> recentSongs = new ArrayList<>();
                 ArrayList<Song> likedSongs = new ArrayList<>();
-                for (String song : resultSet.getString("recentlyPlayed").split(Song.HASH_SEPERATOR)){
-                    Song foundSong = getSongByHash(song);
-                    if (foundSong!= null){
-                        recentSongs.add(foundSong);
+                if (!resultSet.getString("albums").equals("")) {
+                    for (String song : resultSet.getString("recentlyPlayed").split(Song.HASH_SEPERATOR)) {
+                        Song foundSong = getSongByHash(song);
+                        if (foundSong != null) {
+                            recentSongs.add(foundSong);
+                        }
                     }
                 }
-                for(String song : resultSet.getString("likedSongs").split(Song.HASH_SEPERATOR)){
-                    Song foundSong = getSongByHash(song);
-                    if (foundSong != null){
-                        likedSongs.add(foundSong);
+                if (!resultSet.getString("likedSongs").equals("")) {
+                    for (String song : resultSet.getString("likedSongs").split(Song.HASH_SEPERATOR)) {
+                        Song foundSong = getSongByHash(song);
+                        if (foundSong != null) {
+                            likedSongs.add(foundSong);
+                        }
                     }
                 }
                 ArrayList<Album> albums = new ArrayList<>();
                 ArrayList<Playlist> playlists = new ArrayList<>();
-                for (String album : resultSet.getString("albums").split(Song.HASH_SEPERATOR)){
-                    Album foundAlbum = getAlbumByID(Integer.parseInt(album));
-                    if (foundAlbum!= null){
-                        albums.add(foundAlbum);
+                if (!resultSet.getString("albums").equals("")) {
+                    for (String album : resultSet.getString("albums").split(Song.HASH_SEPERATOR)) {
+                        Album foundAlbum = getAlbumByID(Integer.parseInt(album));
+                        if (foundAlbum != null) {
+                            albums.add(foundAlbum);
+                        }
                     }
                 }
-                for (String playlist : resultSet.getString("playlists").split(Song.HASH_SEPERATOR)){
-                    Playlist foundPlaylist = getPlaylistByID(Integer.parseInt(playlist));
-                    if (foundPlaylist != null){
-                        playlists.add(foundPlaylist);
+                if (!resultSet.getString("playlists").equals("")) {
+                    for (String playlist : resultSet.getString("playlists").split(Song.HASH_SEPERATOR)) {
+                        Playlist foundPlaylist = getPlaylistByID(Integer.parseInt(playlist));
+                        if (foundPlaylist != null) {
+                            playlists.add(foundPlaylist);
+                        }
                     }
                 }
                 user.setAlbums(albums);
@@ -654,7 +667,8 @@ public class DatabaseHelper implements DatabaseHandler {
         }
         return users;
     }
-    public void removeUser(String username){
+
+    public void removeUser(String username) {
         String query = "DELETE FROM Users WHERE username = ?";
         PreparedStatement statement = null;
         try {
@@ -663,7 +677,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -672,11 +686,13 @@ public class DatabaseHelper implements DatabaseHandler {
         }
 
     }
+
     /**
      * add a user to database
+     *
      * @param user the user object
      */
-    public boolean addUser(User user){
+    public boolean addUser(User user) {
         boolean success = true;
         String query = "INSERT OR IGNORE INTO Users(username, likedSongs, recentlyPlayed, password,profileImage,albums, playlists, friends) VALUES(?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
@@ -684,30 +700,30 @@ public class DatabaseHelper implements DatabaseHandler {
             statement = connection.prepareStatement(query);
             statement.setString(1, user.getUsername());
             StringBuilder builder = new StringBuilder();
-            for(Song song : user.getLikedSongs()){
-                if (!song.getHash().equals("")){
+            for (Song song : user.getLikedSongs()) {
+                if (!song.getHash().equals("")) {
                     builder.append(song.getHash()).append(Song.HASH_SEPERATOR);
                 }
             }
             statement.setString(2, builder.toString());
             builder = new StringBuilder();
-            for(Song song : user.getSongs()){
-                if (!song.getHash().equals("")){
+            for (Song song : user.getSongs()) {
+                if (!song.getHash().equals("")) {
                     builder.append(song.getHash()).append(Song.HASH_SEPERATOR);
                 }
             }
             statement.setString(3, builder.toString());
 
-            statement.setString(4,user.getPassword());
+            statement.setString(4, user.getPassword());
 
             statement.setString(5, user.getProfileImage().toString());
             builder = new StringBuilder();
-            for (Album album : user.getAlbums()){
+            for (Album album : user.getAlbums()) {
                 builder.append(album.getId()).append(Song.HASH_SEPERATOR);
             }
             statement.setString(6, builder.toString());
             builder = new StringBuilder();
-            for (Playlist playlist: user.getPlaylists()){
+            for (Playlist playlist : user.getPlaylists()) {
                 builder.append(playlist.getId()).append(Song.HASH_SEPERATOR);
             }
             statement.setString(7, builder.toString());
@@ -721,7 +737,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.execute();
         } catch (SQLException e) {
             success = false;
-        }finally {
+        } finally {
             try {
                 statement.close();
             } catch (SQLException e) {
@@ -730,6 +746,7 @@ public class DatabaseHelper implements DatabaseHandler {
         }
         return success;
     }
+
     public void close() {
         if (connection != null) {
             try {

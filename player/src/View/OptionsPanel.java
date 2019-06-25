@@ -22,7 +22,6 @@ import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
     private JLabel homeLabel = new JLabel("PROFILE");
-    private JLabel searchLabel = new JLabel("SEARCH");
     private JLabel yourLibraryLabel = new JLabel("YOUR LIBRARY");
     private JLabel recentlyPlayedLabel = new JLabel("RECENTLY PLAYED");
     private JLabel albumsLabel = new JLabel("ALBUMS");
@@ -68,7 +67,12 @@ public class OptionsPanel extends JPanel {
 
         add(recentlyPlayedLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-
+        albumsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainFrame.getInstance().setupAlbumsPanel(MainFrame.getAllAlbums());
+            }
+        });
         add(albumsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
 

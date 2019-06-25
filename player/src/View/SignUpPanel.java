@@ -93,6 +93,10 @@ public class SignUpPanel extends JPanel {
                     this.repaint();
                     Main.user = user;
                     // start the main application
+
+                    MainFrame mainFrame = new MainFrame();
+                    Main.closeFrame();
+
                 }
             }
         });

@@ -25,7 +25,6 @@ public class LoginPanel extends JPanel {
      private JButton createAccount = new JButton();
      private JPanel userNamePanel = new JPanel();
      private JPanel passPanel = new JPanel();
-
      public LoginPanel(){
          this.setBackground(new Color(22,22,22));
          this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -73,6 +72,9 @@ public class LoginPanel extends JPanel {
                     // can login
                     System.out.println("Logged in");
                     Main.user = user;
+                    //
+                    Main.closeFrame();
+                    MainFrame mainFrame = new MainFrame();
                 }else {
                     welcomeLabel.setText("Try again !");
                     welcomeLabel.setForeground(Color.RED);
@@ -103,5 +105,4 @@ public class LoginPanel extends JPanel {
          });
          add(createAccount);
      }
-
 }

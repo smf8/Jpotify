@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -21,7 +22,11 @@ public class Main {
     static PlaybackManager playbackManager;
     public static DatabaseHandler databaseHandler;
     public static User user;
+    private static JFrame frame;
 
+    public static void closeFrame(){
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
 
     public static void main(String[] args) {
         //setting default font and color
@@ -35,7 +40,7 @@ public class Main {
         DatabaseConnection connection = new DatabaseConnection("test");
         databaseHandler = new DatabaseHelper(connection.getConnection());
 
-                JFrame frame = new JFrame();
+                frame = new JFrame();
                 LoginPanel loginPanel = new LoginPanel();
                 frame.setContentPane(loginPanel);
                 frame.setMinimumSize(new Dimension(350,230));

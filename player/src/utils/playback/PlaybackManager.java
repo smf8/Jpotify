@@ -28,18 +28,21 @@ public class PlaybackManager {
      * @param songsToAdd List of songs
      */
     public PlaybackManager(ArrayList<Song> songsToAdd) {
-        songQueue.addAll(songsToAdd);
+        if (songsToAdd!= null && songsToAdd.size()>=1) {
+            songQueue.addAll(songsToAdd);
+        }
     }
 
     private void initPlayer() {
-        try {
-            player = new MP3Player(songQueue.get(queueIndex).getLocation().toURL());
-        } catch (JavaLayerException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        player.setPlaybackListener(playbackListener);
+        if (songQueue.size() >= 1) {
+            try {
+                player = new MP3Player(songQueue.get(queueIndex).getLocation().toURL());
+            } catch (JavaLayerException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            player.setPlaybackListener(playbackListener);
 //        if (!isPlayerStopped) {
 //            if (repeat) {
 //                play();
@@ -48,6 +51,7 @@ public class PlaybackManager {
 //                play();
 //            }
 //        }
+        }
     }
 
     public void shouldRepeat(boolean repeat) {
@@ -56,26 +60,34 @@ public class PlaybackManager {
 
 
     public void next() {
-        if (queueIndex <= (songQueue.size()-1))
-        queueIndex++;
-        else{
-            // resetting queue
-            queueIndex = 0;
+        if (songQueue.size() >= 1) {
+            if (queueIndex <= (songQueue.size() - 1))
+                queueIndex++;
+            else {
+                // resetting queue
+                queueIndex = 0;
+            }
+            playbackListener.musicChanged(songQueue.get(queueIndex));
+            play();
         }
-        playbackListener.musicChanged(songQueue.get(queueIndex));
-        play();
     }
     public void setPlaybackListener(MP3Player.PlaybackListener listener){
         this.playbackListener = listener;
     }
+
+    /**
+     * plays previous song if queue size is greater than 1
+     */
     public void previous() {
-        if (queueIndex >= 1) {
-            queueIndex--;
-        }else{
-            queueIndex = 0;
+        if (songQueue.size() >= 1) {
+            if (queueIndex >= 1) {
+                queueIndex--;
+            } else {
+                queueIndex = 0;
+            }
+            playbackListener.musicChanged(songQueue.get(queueIndex));
+            play();
         }
-        playbackListener.musicChanged(songQueue.get(queueIndex));
-        play();
     }
 
     /**
@@ -83,31 +95,22 @@ public class PlaybackManager {
      * call MP3Player play method inside a thread
      */
     public void play() {
-
-        if (player == null) {
-            initPlayer();
-        } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
-            stop();
-            initPlayer();
-        }
-        isPlayerStopped = false;
-//        playbackThread = new Thread(() -> {
-//            try {
-//                player.resume();
-//            } catch (JavaLayerException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        playbackThread.setDaemon(true);
-//        playbackThread.setName("Song utils.playback thread");
-//        playbackThread.start();
-        executorService.execute(() -> {
-            try {
-                player.resume();
-            } catch (JavaLayerException e) {
-                e.printStackTrace();
+        if (songQueue.size() >= 1) {
+            if (player == null) {
+                initPlayer();
+            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
+                stop();
+                initPlayer();
             }
-        });
+            isPlayerStopped = false;
+            executorService.execute(() -> {
+                try {
+                    player.resume();
+                } catch (JavaLayerException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
 
     /**
@@ -121,13 +124,17 @@ public class PlaybackManager {
         play();
     }
 
+    /**
+     * shuffles playlist by stopping the player and shuffling song queue and then playing the player
+     */
     public void shuffle() {
-        stop();
-        Collections.shuffle(songQueue);
-        queueIndex = 0;
-        initPlayer();
-        play();
-//        play();
+        if (songQueue.size() >=1) {
+            stop();
+            Collections.shuffle(songQueue);
+            queueIndex = 0;
+            initPlayer();
+            play();
+        }
     }
 
     /**
@@ -170,19 +177,21 @@ public class PlaybackManager {
      */
 
     public void move(int miliseconds) {
-        if (player == null) {
-            initPlayer();
-        } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
-            stop();
-            initPlayer();
-        }
-        executorService.execute(() -> {
-            try {
-                player.play((miliseconds) / 26);
-            } catch (JavaLayerException e) {
-                e.printStackTrace();
+        if (songQueue.size() >= 1) {
+            if (player == null) {
+                initPlayer();
+            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
+                stop();
+                initPlayer();
             }
-        });
+            executorService.execute(() -> {
+                try {
+                    player.play((miliseconds) / 26);
+                } catch (JavaLayerException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
     }
     public void resetQueue(ArrayList<Song> newQueue){
         songQueue = newQueue;

@@ -40,4 +40,8 @@ public class MyFileChooser {
         }
         return null;
     }
+
+    public void setTitle(String title){
+        fileChooser.setDialogTitle(title);
+    }
 }
