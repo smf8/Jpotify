@@ -48,7 +48,7 @@ public class DatabaseConnection {
         createTable(albumQuery);
         String playlistQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Playlists(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("creator TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("editable integer,\n").append("songs TEXT,\n unique(title));").toString();
         createTable(playlistQuery);
-        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, unique(username));");
+        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, friends TEXT, unique(username));");
         createTable(userQuery);
     }
 

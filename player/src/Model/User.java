@@ -13,7 +13,8 @@ public class User {
     private boolean isOnline;
     private String password;
     private URI profileImage;
-
+    private ArrayList<User> friendsList;
+    private String friends;
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -95,5 +96,21 @@ public class User {
 
     public void setProfileImage(URI profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public ArrayList<User> getFriendsList() {
+        return friendsList;
+    }
+
+    public void setFriendsList(ArrayList<User> friendsList) {
+        this.friendsList = friendsList;
+    }
+
+    public String getFriends() {
+        return friends;
+    }
+
+    public void setFriends(String friends) {
+        this.friends = friends;
     }
 }

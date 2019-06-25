@@ -596,6 +596,8 @@ public class DatabaseHelper implements DatabaseHandler {
     /**
      * gets Usernames with username like the enterd username
      * if you enter the exact username get the user object by get(0)<br>
+     *     <b>the user does' not contain friend information</b>
+     *     <br>
      *     <b>this method uses several other queries to finish so make sure to use it inside another thread</b>
      * @param username the username of the user
      * @return an arraylist of user objects with similar username
@@ -643,6 +645,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 user.setLikedSongs(likedSongs);
                 user.setSongs(recentSongs);
                 user.setCurrentSong(null);
+                user.setFriends(resultSet.getString("friends"));
                 user.setProfileImage(URI.create(resultSet.getString("profileImage")));
                 users.add(user);
             }
@@ -673,8 +676,9 @@ public class DatabaseHelper implements DatabaseHandler {
      * add a user to database
      * @param user the user object
      */
-    public void addUser(User user){
-        String query = "INSERT OR IGNORE INTO Users(username, likedSongs, recentlyPlayed, password,profileImage,albums, playlists) VALUES(?,?,?,?,?,?,?))";
+    public boolean addUser(User user){
+        boolean success = true;
+        String query = "INSERT OR IGNORE INTO Users(username, likedSongs, recentlyPlayed, password,profileImage,albums, playlists, friends) VALUES(?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
@@ -707,16 +711,24 @@ public class DatabaseHelper implements DatabaseHandler {
                 builder.append(playlist.getId()).append(Song.HASH_SEPERATOR);
             }
             statement.setString(7, builder.toString());
+            builder = new StringBuilder();
+            if (user.getFriendsList() != null) {
+                for (User friends : user.getFriendsList()) {
+                    builder.append(friends.getUsername()).append(Song.HASH_SEPERATOR);
+                }
+            }
+            statement.setString(8, builder.toString());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            success = false;
         }finally {
             try {
                 statement.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                success = false;
             }
         }
+        return success;
     }
     public void close() {
         if (connection != null) {
