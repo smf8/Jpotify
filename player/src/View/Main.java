@@ -2,14 +2,12 @@ package View;
 
 
 import Model.Song;
-import utils.IO.DatabaseAlterListener;
 import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHandler;
 import utils.IO.DatabaseHelper;
 import utils.playback.PlaybackManager;
 
 import javax.swing.*;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Main {
@@ -48,17 +46,19 @@ public class Main {
 
         ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
         playbackManager = new PlaybackManager(songsQueue);
-        MainFrame mainFrame = new MainFrame();
+//        MainFrame mainFrame = new MainFrame();
 //        SignUpPanel signUpPanel = new SignUpPanel();
          //       AlbumPanel songPanel = new AlbumPanel();
-     //           JFrame frame = new JFrame();
+                JFrame frame = new JFrame();
 //                SongPanel sPanel = new SongPanel();
 //                frame.add(sPanel);
 //                frame.setResizable(false);
 //                frame.add(,BorderLayout.CENTER);
-//                frame.pack();
-
-//                frame.setVisible(true);
+        PlayPanel playlistInfoPanel = new PlayPanel();
+        frame.add(playlistInfoPanel);
+                frame.pack();
+//        ProfileFrame profileFrame = new ProfileFrame();
+                frame.setVisible(true);
 
     }
 }
