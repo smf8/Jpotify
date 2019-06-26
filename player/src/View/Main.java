@@ -2,62 +2,53 @@ package View;
 
 
 import Model.Song;
+import Model.User;
+import utils.FontManager;
+import utils.IO.DatabaseAlterListener;
 import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHandler;
 import utils.IO.DatabaseHelper;
 import utils.playback.PlaybackManager;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 public class Main {
     static PlaybackManager playbackManager;
+    public static DatabaseHandler usersHandler;
+    public static DatabaseHandler databaseHandler;
+    public static User user;
+    private static JFrame frame;
 
-    //    public static void main(String[] args) {
-//        UIDefaults defaults = UIManager.getDefaults();
-//        System.out.println(defaults.size()+ " properties defined !");
-//        String[ ] colName = {"Key", "Value"};
-//        String[ ][ ] rowData = new String[ defaults.size() ][ 2 ];
-//        int i = 0;
-//        for(Enumeration e = defaults.keys(); e.hasMoreElements(); i++){
-//            Object key = e.nextElement();
-//            if (key.toString().contains("Label")) {
-//                rowData[i][0] = key.toString();
-//                rowData[i][1] = "" + defaults.get(key);
-//                System.out.println(rowData[i][0] + " ,, " + rowData[i][1]);
-//            }
-//        }
-//        JFrame f = new JFrame("UIManager properties default values");
-//        JTable t = new JTable(rowData, colName);
-//        f.setContentPane(new JScrollPane(t));
-//        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        f.pack();
-//        f.setVisible(true);
-//    }
+    public static void closeFrame(){
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    }
+
     public static void main(String[] args) {
+        //setting default font and color
+        UIManager.put("Label.foreground", new ColorUIResource(255, 255, 255));
+        UIManager.put("Label.font", new FontUIResource(FontManager.getUbuntu(18f)));
+        UIManager.put("Button.font", new FontUIResource(FontManager.getUbuntuBold(20f)));
+        UIManager.put("TextField.font", new FontUIResource(FontManager.getUbuntu(20f)));
+        UIManager.put("PasswordField.font", new FontUIResource(FontManager.getUbuntu(20f)));
 
         // initializing databaseListeners
-        DatabaseConnection connection = new DatabaseConnection("test");
-        DatabaseHandler databaseHandler = new DatabaseHelper(connection.getConnection());
+        DatabaseConnection connection = new DatabaseConnection("users");
+        connection.initUserTable();
+        usersHandler = new DatabaseHelper(connection.getConnection());
 
-
-        // Testing playback controlling
-
-
-        ArrayList<Song> songsQueue = databaseHandler.searchSong("gojira");
-        playbackManager = new PlaybackManager(songsQueue);
-//        MainFrame mainFrame = new MainFrame();
-//        SignUpPanel signUpPanel = new SignUpPanel();
-         //       AlbumPanel songPanel = new AlbumPanel();
-                JFrame frame = new JFrame();
-//                SongPanel sPanel = new SongPanel();
-//                frame.add(sPanel);
-//                frame.setResizable(false);
-//                frame.add(,BorderLayout.CENTER);
-        PlayPanel playlistInfoPanel = new PlayPanel();
-        frame.add(playlistInfoPanel);
+                frame = new JFrame();
+                LoginPanel loginPanel = new LoginPanel();
+                frame.setContentPane(loginPanel);
+                frame.setMinimumSize(new Dimension(350,230));
+                frame.setResizable(false);
                 frame.pack();
-//        ProfileFrame profileFrame = new ProfileFrame();
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
 
     }

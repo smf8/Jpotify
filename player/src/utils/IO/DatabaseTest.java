@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DatabaseTest {
     public static void main(String[] args) throws MalformedURLException, URISyntaxException {
         DatabaseConnection connection = new DatabaseConnection("test");
-        connection.initSqlTables();
+        connection.initMusicsTable();
 
         // initialize song table with songs inside a folder
         File dir = new File("player/src/resources");

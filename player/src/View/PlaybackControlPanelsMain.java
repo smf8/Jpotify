@@ -15,8 +15,9 @@ public class PlaybackControlPanelsMain {
 
         ArrayList<Song> songs = new DatabaseHelper(new DatabaseConnection("test").getConnection()).searchSong("love");
         JFrame frame = new JFrame();
-        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(new PlaybackManager(songs));
-        frame.add(playbackControlPanel);
-        frame.pack();
-        frame.setVisible(true);}
+//        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(new PlaybackManager(songs));
+//        frame.add(playbackControlPanel);
+//        frame.pack();
+        frame.setVisible(true);
+    }
 }

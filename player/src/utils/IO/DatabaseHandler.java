@@ -3,6 +3,7 @@ package utils.IO;
 import Model.Album;
 import Model.Playlist;
 import Model.Song;
+import Model.User;
 
 import java.util.ArrayList;
 
@@ -35,5 +36,9 @@ public interface DatabaseHandler {
 
     ArrayList<Song> searchSong(String searchItem);
 
+    boolean addUser(User user);
+    void deepInsertSong(ArrayList<Song> songs);
+    ArrayList<User> getUserByUsername(String username);
+    void removeUser(String username);
     void close();
 }

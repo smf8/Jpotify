@@ -16,11 +16,15 @@ public class Album extends Playlist {
     public Album(int id, String title, String artist) {
         super(id, title);
         this.artist = artist;
+        super.editable = false;
+        super.isPublic = false;
     }
 
     public Album(int id, String title, String artist, URI artWork) {
         super(id, title, artWork);
         this.artist = artist;
+        super.editable = false;
+        super.isPublic = false;
     }
 
     /**

@@ -37,8 +37,11 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
-
-    public synchronized void initSqlTables(){
+    public void initUserTable(){
+        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, friends TEXT, unique(username));");
+        createTable(userQuery);
+    }
+    public synchronized void initMusicsTable(){
         // create Song table
         String songQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Songs(").append("hash TEXT PRIMARY KEY,\n").append("title TEXT,\n").append("artist TEXT,\n").append("album TEXT,\n")
                 .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate integer,\n").append("location TEXT,\n artwork TEXT\n);").toString();
@@ -48,8 +51,6 @@ public class DatabaseConnection {
         createTable(albumQuery);
         String playlistQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Playlists(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("creator TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("editable integer,\n").append("songs TEXT,\n unique(title));").toString();
         createTable(playlistQuery);
-        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, unique(username));");
-        createTable(userQuery);
     }
 
 

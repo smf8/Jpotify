@@ -1,6 +1,7 @@
 package View;
 
 import Model.Song;
+import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.FontManager;
 import utils.IO.FileIO;
 import utils.playback.PlaybackManager;
@@ -50,12 +51,14 @@ public class PlaybackControlPanel extends JPanel {
 
     private ImageIcon playIcon;
     private ImageIcon pausIcon;
+
+
     public PlaybackControlPanel(PlaybackManager playbackManager) {
         this.playbackManager = playbackManager;
         Song currentSong = playbackManager.getCurrentSong();
         duration = currentSong.getLength();
         musicSlider = new JProgressBar(0, (int) duration);
-        playbackManager.setPlaybackListener(new SimplePlaybackListener(this));
+        playbackManager.getMediaController().mediaPlayer().events().addMediaPlayerEventListener(new SimplePlaybackListener(this));
         musicStringInformationPanel.setLayout(new BoxLayout(musicStringInformationPanel,BoxLayout.Y_AXIS));
         musicInformation.setLayout(new BorderLayout());
         isPlaying = false;
@@ -240,10 +243,14 @@ public class PlaybackControlPanel extends JPanel {
     }
     // set image method
 
+    /**
+     * setups audio slider with default 80% audio<br>
+     * <b>maximum value can be up to 200</b>
+     */
     private void setupAudioSlider() {
-        volumeSlider = new JSlider(JSlider.HORIZONTAL, -50, 20, 0);
-        volumeSlider.setValue(0);
-        playbackManager.changeVolume(0f);
+        volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
+        volumeSlider.setValue(80);
+        playbackManager.changeVolume(80f);
         volumeSlider.addChangeListener(changeEvent -> {
             playbackManager.changeVolume(((JSlider) changeEvent.getSource()).getValue());
         });
@@ -259,7 +266,7 @@ public class PlaybackControlPanel extends JPanel {
                 if (Thread.interrupted()){
                     return;
                 }
-                System.out.println(Thread.currentThread().getName());
+//                System.out.println(Thread.currentThread().getName());
 //                            System.out.println(playState);
 //                            System.out.println(duration);
                 musicSlider.setValue(playState);
@@ -321,5 +328,9 @@ public class PlaybackControlPanel extends JPanel {
         System.out.println(duration);
         System.out.println(playState);
         System.out.println("-------");
+    }
+
+    public PlaybackManager getPlaybackManager() {
+        return playbackManager;
     }
 }
