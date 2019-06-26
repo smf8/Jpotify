@@ -30,6 +30,8 @@ public class FriendsActivityPanelsManager extends JPanel {
         friendActivityPanel.setBackground(new Color(22,22,22));
         this.add(friendActivityPanel);
         add(Box.createRigidArea(new Dimension(0,20)));
+        findFriendsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        findFriendsButton.setForeground(Color.WHITE);
         this.add(findFriendsButton);
         add(Box.createRigidArea(new Dimension(0,10)));
         FriendsActivityPanel friendsActivityPanel = new FriendsActivityPanel("salam");

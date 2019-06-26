@@ -48,6 +48,14 @@ public class SearchAndProfilesPanel extends JPanel {
         search = new ImageIcon(new ImageIcon(searchUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         searhLabel.setIcon(search);
         searchPanel.add(searhLabel, BorderLayout.WEST);
+
+        searchTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                searchTextField.setText("");
+            }
+        });
         searchPanel.add(searchTextField, BorderLayout.CENTER);
         searchPanel.setBackground(new Color(22,22,22));
 

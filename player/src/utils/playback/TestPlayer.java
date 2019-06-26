@@ -1,5 +1,6 @@
 package utils.playback;
 
+import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHelper;
 import Model.Playlist;
@@ -15,7 +16,7 @@ public class TestPlayer {
         while(!(com = sc.next()).equals("exit")){
             switch (com){
                 case "play":
-                    playbackManager.play();
+                    new AudioPlayerComponent().mediaPlayer().media().play("C:\\Users\\ASUS\\Desktop\\Project\\Jpotify\\player\\src\\resources\\test\\Gojira - The Gift Of Guilt.mp3");
                     break;
                 case "next":
                     playbackManager.next();
