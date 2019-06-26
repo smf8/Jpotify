@@ -243,6 +243,10 @@ public class PlaybackControlPanel extends JPanel {
     }
     // set image method
 
+    /**
+     * setups audio slider with default 80% audio<br>
+     * <b>maximum value can be up to 200</b>
+     */
     private void setupAudioSlider() {
         volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
         volumeSlider.setValue(80);

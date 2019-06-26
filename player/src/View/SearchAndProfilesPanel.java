@@ -1,24 +1,30 @@
 package View;
 
+import Model.Album;
+import Model.Playlist;
+import Model.Song;
+import utils.IO.DatabaseAlterListener;
 import utils.IO.FileIO;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
+import static View.Main.databaseHandler;
 
 public class SearchAndProfilesPanel extends JPanel {
     private JTextField searchTextField = new JTextField();
     private JLabel searhLabel = new JLabel();
-    //    private JLabel profileLabel = new JLabel();
     private JPanel searchPanel = new JPanel();
-    //private JPanel profilePanel = new JPanel();
     private ImageIcon search = null;
+
+    ArrayList<Album> resultAlbum;
+    ArrayList<Song> resultSong;
+    ArrayList<Playlist> resultPlaylist;
 
     public SearchAndProfilesPanel() {
         searchPanel.setLayout(new BorderLayout());
@@ -44,8 +50,70 @@ public class SearchAndProfilesPanel extends JPanel {
         searchPanel.add(searhLabel, BorderLayout.WEST);
         searchPanel.add(searchTextField, BorderLayout.CENTER);
         searchPanel.setBackground(new Color(22,22,22));
+
+        searchTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                searchTextField.setText("");
+            }
+        });
+        searchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                if (searchTextField.getText().length() >= 3){
+                    new Thread(()->{
+                        resultAlbum = databaseHandler.searchAlbum(searchTextField.getText());
+                        resultSong = databaseHandler.searchSong(searchTextField.getText());
+                        resultPlaylist = databaseHandler.searchPlaylist(searchTextField.getText());
+                        MainFrame.setContentPanel(setupSearchResult());
+                        System.out.println("Nasro menallah va fathon gharib");
+                    }).start();
+                }
+            }
+        });
         this.setBackground(new Color(22,22,22));
         this.add(searchPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel setupSearchResult(){
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        AlbumsPanel albumsPanel = new AlbumsPanel();
+        for (Album m : resultAlbum){
+            albumsPanel.addAlbum(m);
+        }
+        albumsPanel.showAlbums();
+
+        for (AlbumPanel p : albumsPanel.getPanels()) {
+            p.setViewUpdateListener((parent, child) -> {
+                MainFrame.setContentPanel(child);
+            });
+        }
+
+        albumsPanel.setAlignmentX(CENTER_ALIGNMENT);
+        container.add(albumsPanel);
+        SongPanel songs = new SongPanel(resultSong);
+        songs.setDatabaseAlterListener(new DatabaseAlterListener() {
+            @Override
+            public void removeSong(Song song) {
+                                new Thread(() -> {
+                    databaseHandler.removeSong(song);
+                }).start();
+            }
+
+            @Override
+            public void saveSong(Song song) {
+                new Thread(() -> {
+                    ArrayList<Song> s = new ArrayList<>();
+                    s.add(song);
+//                    System.out.println("adding Song");
+                    databaseHandler.insertSongs(s);
+                }).start();
+            }
+        });
+        container.add(songs);
+        return container;
     }
 
 }

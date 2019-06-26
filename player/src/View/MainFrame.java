@@ -33,10 +33,10 @@ public class MainFrame extends JFrame {
     private AudioPlayerComponent mediaController = new AudioPlayerComponent();
     //
     private JPanel mainOptionsPanel = new JPanel();
-    private JPanel searchAndBackGroundPanel = new JPanel();
+    private static JPanel searchAndBackGroundPanel = new JPanel();
     private JLabel addNewPlaylistText = new JLabel("Add new playlist");
     private JLabel addNewPlaylistImageLabel = new JLabel();
-    private JScrollPane scrollPane2;
+    private static JScrollPane scrollPane2;
     private JPanel addNewPlaylistPanel = new JPanel();
     private JPanel mainMainOptionsPanel = new JPanel();
     private static MainFrame mainFrame;
@@ -145,30 +145,11 @@ public class MainFrame extends JFrame {
         this.add(scrollPanel3, BorderLayout.EAST);
         // top side search bar
         SearchAndProfilesPanel searchAndProfilesPanel = new SearchAndProfilesPanel();
-        searchAndBackGroundPanel.add(searchAndProfilesPanel, BorderLayout.NORTH);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         // center side init it inside another method
         searchAndBackGroundPanel.add(searchAndProfilesPanel, BorderLayout.NORTH);
         this.add(searchAndBackGroundPanel, BorderLayout.CENTER);
     }
-//    listener = new DatabaseAlterListener() {
-//            @Override
-//            public void removeSong(Song song) {
-//                new Thread(() -> {
-//                    databaseHandler.removeSong(song);
-//                }).start();
-//            }
-//
-//            @Override
-//            public void saveSong(Song song) {
-//                new Thread(() -> {
-//                    ArrayList<Song> s = new ArrayList<>();
-//                    s.add(song);
-////                    System.out.println("adding Song");
-//                    databaseHandler.insertSongs(s);
-//                }).start();
-//            }
-//        };
 
     public void setupAlbumsPanel(ArrayList<Album> albums) {
         if (albumsPanel.getPanels().size() == 0) {
@@ -198,7 +179,13 @@ public class MainFrame extends JFrame {
         searchAndBackGroundPanel.validate();
         searchAndBackGroundPanel.repaint();
     }
-
+    public static void setContentPanel(JPanel panel){
+        searchAndBackGroundPanel.remove(scrollPane2);
+        scrollPane2 = new JScrollPane(panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        searchAndBackGroundPanel.add(scrollPane2, BorderLayout.CENTER);
+        searchAndBackGroundPanel.validate();
+        searchAndBackGroundPanel.repaint();
+    }
     private void initializeSongs() {
         // get all saved songs from database
         ArrayList<Song> songs = Main.databaseHandler.searchSong("");
