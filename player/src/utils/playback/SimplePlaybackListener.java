@@ -1,38 +1,50 @@
 package utils.playback;
 
-import Model.Song;
 import View.PlaybackControlPanel;
+import uk.co.caprica.vlcj.media.MediaRef;
+import uk.co.caprica.vlcj.player.base.MediaPlayer;
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
-public class SimplePlaybackListener implements MP3Player.PlaybackListener {
+import static View.MainFrame.queueIndex;
+import static View.MainFrame.songsQueue;
+
+public class SimplePlaybackListener extends MediaPlayerEventAdapter {
     private PlaybackControlPanel playbackControlPanel;
 
-    public SimplePlaybackListener(PlaybackControlPanel playbackControlPanel){
+    public SimplePlaybackListener(PlaybackControlPanel playbackControlPanel) {
         this.playbackControlPanel = playbackControlPanel;
     }
+
     @Override
-    public void playbackStarted(MP3Player.PlaybackEvent event) {
+    public void mediaChanged(MediaPlayer mediaPlayer, MediaRef media) {
+
+        System.out.println("music changed - " + Thread.activeCount());
+        playbackControlPanel.updateInformation();
+        playbackControlPanel.resetProgress();
+        playbackControlPanel.logData();
+    }
+
+    @Override
+    public void playing(MediaPlayer mediaPlayer) {
         System.out.println("started");
         playbackControlPanel.updateInformation();
         playbackControlPanel.startProgress();
-
     }
 
     @Override
-    public void playbackPaused(MP3Player.PlaybackEvent event) {
+    public void paused(MediaPlayer mediaPlayer) {
         System.out.println("paused");
         playbackControlPanel.stopProgress();
     }
 
     @Override
-    public void playbackFinished(MP3Player.PlaybackEvent event) {
-        System.out.println("finished");
+    public void stopped(MediaPlayer mediaPlayer) {
         playbackControlPanel.resetProgress();
     }
 
     @Override
-    public void musicChanged(Song newSong) {
-        System.out.println("music changed - " + Thread.activeCount());
-        playbackControlPanel.resetProgress();
-        playbackControlPanel.logData();
+    public void finished(MediaPlayer mediaPlayer) {
+        System.out.println("finished");
+        mediaPlayer.submit(() -> playbackControlPanel.getPlaybackManager().next());
     }
 }

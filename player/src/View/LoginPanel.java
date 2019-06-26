@@ -75,9 +75,12 @@ public class LoginPanel extends JPanel {
                     System.out.println("Logged in");
                     Main.user = user;
                     //setting a database handler for this users Data;
-                    Main.databaseHandler = new DatabaseHelper(new DatabaseConnection(userNameTextField.getText()).getConnection());
+                    DatabaseConnection connection = new DatabaseConnection(userNameTextField.getText());
+                    connection.initMusicsTable();
+                    Main.databaseHandler = new DatabaseHelper(connection.getConnection());
                     Main.closeFrame();
                     MainFrame mainFrame = new MainFrame();
+                    Main.closeFrame();
                 }else {
                     welcomeLabel.setText("Try again !");
                     welcomeLabel.setForeground(Color.RED);

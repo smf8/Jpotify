@@ -3,6 +3,7 @@ package View;
 import Model.Album;
 import Model.Playlist;
 import Model.Song;
+import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.FontManager;
 import utils.IO.DatabaseAlterListener;
 import utils.IO.FileIO;
@@ -26,7 +27,11 @@ public class MainFrame extends JFrame {
     static PlaybackManager playbackManager;
     static DatabaseAlterListener listener;
     static AlbumsPanel albumsPanel = new AlbumsPanel();
-    private static ArrayList<Song> songsQueue;
+    // song playback management
+    public static ArrayList<Song> songsQueue;
+    public static int queueIndex = 0;
+    private AudioPlayerComponent mediaController = new AudioPlayerComponent();
+    //
     private JPanel mainOptionsPanel = new JPanel();
     private JPanel searchAndBackGroundPanel = new JPanel();
     private JLabel addNewPlaylistText = new JLabel("Add new playlist");
@@ -64,7 +69,9 @@ public class MainFrame extends JFrame {
             songsQueue.add(0, song);
         }
     }
-
+    public static void setupQueue(ArrayList<Song> newQueue){
+        songsQueue = newQueue;
+    }
     public static void addSongToPlay(Song song) {
         songsQueue.remove(song);
         songsQueue.add(0, song);
@@ -127,7 +134,7 @@ public class MainFrame extends JFrame {
 
 
         // init bottom control panel
-        playbackManager = new PlaybackManager(songsQueue);
+        playbackManager = new PlaybackManager(songsQueue, mediaController);
         PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(playbackManager);
         this.add(playbackControlPanel, BorderLayout.SOUTH);
         // add right side friends panel
@@ -195,31 +202,12 @@ public class MainFrame extends JFrame {
     private void initializeSongs() {
         // get all saved songs from database
         ArrayList<Song> songs = Main.databaseHandler.searchSong("");
-        if (songs.size() <= 0) {
-            MyFileChooser fileChooser = new MyFileChooser(this, null, false);
-            fileChooser.setTitle("Select musics folder");
-            URI dir = fileChooser.getFolderURI();
-            while (dir == null) {
-                dir = fileChooser.getFolderURI();
-            }
-            ArrayList<URI> mp3sInFolder = FileIO.findMP3Files(FileIO.findFilesRecursive(new File(dir)));
-            TagReader reader = new TagReader();
-            for (URI mp3File : mp3sInFolder) {
-                try {
-                    reader.getAdvancedTags(mp3File.toURL());
-                    songs.add(reader.getSong());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         songsQueue = songs;
     }
 
-    public ArrayList<Song> getSongsQueue() {
+    public static ArrayList<Song> getSongsQueue() {
         return songsQueue;
     }
-
     public static MainFrame getInstance(){
         if (mainFrame== null){
             return new MainFrame();

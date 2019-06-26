@@ -1,9 +1,9 @@
 package utils.playback;
 
 import Model.Song;
-import javazoom.jl.decoder.JavaLayerException;
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventListener;
+import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -19,43 +19,37 @@ public class PlaybackManager {
     private int queueIndex = 0; // controller of which songs to play
     private boolean isPlayerStopped;
     private boolean repeat;
-    private MP3Player.PlaybackListener playbackListener;
-
+    private MediaPlayerEventListener playbackListener;
+    private AudioPlayerComponent mediaController;
 
     /**
      * constructor with empty queue, use addSong method to add songs to queue
      *
      * @param songsToAdd List of songs
      */
-    public PlaybackManager(ArrayList<Song> songsToAdd) {
+    public PlaybackManager(ArrayList<Song> songsToAdd, AudioPlayerComponent mediaController) {
         if (songsToAdd!= null && songsToAdd.size()>=1) {
             songQueue.addAll(songsToAdd);
         }
+        this.mediaController = mediaController;
     }
 
     private void initPlayer() {
         if (songQueue.size() >= 1) {
-            try {
-                player = new MP3Player(songQueue.get(queueIndex).getLocation().toURL());
-            } catch (JavaLayerException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            player.setPlaybackListener(playbackListener);
-//        if (!isPlayerStopped) {
-//            if (repeat) {
-//                play();
-//            } else {
-//                queueIndex++;
-//                play();
+//            try {
+//                player = new MP3Player(songQueue.get(queueIndex).getLocation().toURL());
+//            } catch (JavaLayerException e) {
+//                e.printStackTrace();
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
 //            }
-//        }
+//            player.setPlaybackListener(playbackListener);
         }
+
     }
 
     public void shouldRepeat(boolean repeat) {
-        this.repeat = repeat;
+        mediaController.mediaPlayer().controls().setRepeat(repeat);
     }
 
 
@@ -64,14 +58,15 @@ public class PlaybackManager {
             if (queueIndex <= (songQueue.size() - 1))
                 queueIndex++;
             else {
-                // resetting queue
+//                 resetting queue
                 queueIndex = 0;
             }
-            playbackListener.musicChanged(songQueue.get(queueIndex));
-            play();
+            System.out.println(mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath()));
+//            playbackListener.musicChanged(songQueue.get(queueIndex));
+//            play();
         }
     }
-    public void setPlaybackListener(MP3Player.PlaybackListener listener){
+    public void setPlaybackListener(MediaPlayerEventListener listener){
         this.playbackListener = listener;
     }
 
@@ -85,8 +80,9 @@ public class PlaybackManager {
             } else {
                 queueIndex = 0;
             }
-            playbackListener.musicChanged(songQueue.get(queueIndex));
-            play();
+            mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath());
+//            playbackListener.musicChanged(songQueue.get(queueIndex));
+//            play();
         }
     }
 
@@ -96,20 +92,30 @@ public class PlaybackManager {
      */
     public void play() {
         if (songQueue.size() >= 1) {
-            if (player == null) {
-                initPlayer();
-            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
-                stop();
-                initPlayer();
-            }
-            isPlayerStopped = false;
-            executorService.execute(() -> {
-                try {
-                    player.resume();
-                } catch (JavaLayerException e) {
-                    e.printStackTrace();
+            initPlayer();
+                if (!mediaController.mediaPlayer().media().isValid()){
+                    System.out.println(songQueue.get(queueIndex).getLocation().getPath());
+                    System.out.println(mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath()));
+                }else{
+                    mediaController.mediaPlayer().controls().play();
                 }
-            });
+
+
+//            if (player == null) {
+//                initPlayer();
+//            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
+//                stop();
+//                initPlayer();
+//            }
+//            isPlayerStopped = false;
+//            executorService.execute(() -> {
+//                try {
+//                    playbackListener.playbackStarted(null);
+//                    player.resume();
+//                } catch (JavaLayerException e) {
+//                    e.printStackTrace();
+//                }
+//            });
         }
     }
 
@@ -120,8 +126,7 @@ public class PlaybackManager {
      */
     public void play(Song songInQueue) {
         songQueue.add(queueIndex, songInQueue);
-        playbackListener.musicChanged(songInQueue);
-        play();
+        mediaController.mediaPlayer().media().play(songInQueue.getLocation().getPath());
     }
 
     /**
@@ -129,11 +134,10 @@ public class PlaybackManager {
      */
     public void shuffle() {
         if (songQueue.size() >=1) {
-            stop();
+            mediaController.mediaPlayer().controls().stop();
             Collections.shuffle(songQueue);
             queueIndex = 0;
-            initPlayer();
-            play();
+            mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath());
         }
     }
 
@@ -141,15 +145,18 @@ public class PlaybackManager {
      * call MP3Player stop method and destroys the play thread
      */
     public void stop() {
-        isPlayerStopped = true;
-        if (player != null && !player.isStopped()) {
+        if (mediaController.mediaPlayer().status().isPlaying()){
+            mediaController.mediaPlayer().controls().stop();
+        }
+//        isPlayerStopped = true;
+//        if (player != null && !player.isStopped()) {
 //            playbackThread.interrupt();
 //            System.out.println("dsahlkj");
-            playbackListener.playbackPaused(null);
-            player.stop();
+//            playbackListener.playbackFinished(null);
+//            player.stop();
 //            executorService.shutdown();
 //            playbackThread = null;
-        }
+//        }
     }
 
     public Song getCurrentSong() {
@@ -157,17 +164,22 @@ public class PlaybackManager {
     }
 
     /**
-     * pauses the audio by invoking MP3Player.pause() method
+     * pauses the mediaController by invoking MP3Player.pause() method
      */
     public void pause() {
-        isPlayerStopped = true;
-        if (this.player != null && !this.player.isPaused()) {
-            this.player.pause();
+        if (mediaController.mediaPlayer().status().canPause()){
+            mediaController.mediaPlayer().controls().pause();
         }
+//        isPlayerStopped = true;
+//        if (this.player != null && !this.player.isPaused()) {
+//            playbackListener.playbackPaused(null);
+//            this.player.pause();
+//        }
     }
 
     public int getSec() {
-        return player.getCurrentFrame() * 26;
+//        return player.getCurrentFrame() * 26;
+        return (int) (mediaController.mediaPlayer().status().position()* mediaController.mediaPlayer().status().length());
     }
 
     /**
@@ -178,30 +190,41 @@ public class PlaybackManager {
 
     public void move(int miliseconds) {
         if (songQueue.size() >= 1) {
-            if (player == null) {
-                initPlayer();
-            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
-                stop();
-                initPlayer();
+            if (mediaController.mediaPlayer().status().isSeekable()){
+                mediaController.mediaPlayer().controls().setTime(miliseconds);
             }
-            executorService.execute(() -> {
-                try {
-                    player.play((miliseconds) / 26);
-                } catch (JavaLayerException e) {
-                    e.printStackTrace();
-                }
-            });
+//            if (player == null) {
+//                initPlayer();
+//            } else if (!this.player.isPaused() || player.isComplete() || player.isStopped()) {
+//                stop();
+//                initPlayer();
+//            }
+//            executorService.execute(() -> {
+//                try {
+//                    playbackListener.playbackStarted(null);
+//                    player.play((miliseconds) / 26);
+//                } catch (JavaLayerException e) {
+//                    e.printStackTrace();
+//                }
+//            });
         }
+    }
+
+    public AudioPlayerComponent getController(){
+        return mediaController;
     }
     public void resetQueue(ArrayList<Song> newQueue){
         songQueue = newQueue;
         queueIndex = 0;
     }
     public void changeVolume(float vol) {
-        if (player != null) {
-            this.player.setVol(vol);
-        }
+        mediaController.mediaPlayer().audio().setVolume((int) vol);
+//        if (player != null) {
+//            this.player.setVol(vol);
+//        }
     }
 
-
+    public AudioPlayerComponent getMediaController() {
+        return mediaController;
+    }
 }

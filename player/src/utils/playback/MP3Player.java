@@ -104,7 +104,7 @@ public class MP3Player {
         }
 
         if (this.listener != null) {
-            this.listener.playbackStarted(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Started, this.audioDevice.getPosition()));
+//            this.listener.playbackStarted(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Started, this.audioDevice.getPosition()));
         }
 
         if (frameIndexFinal < 0) {
@@ -125,7 +125,7 @@ public class MP3Player {
             }
         }
 
-        // last frame, ensure all data flushed to the audio device.
+        // last frame, ensure all data flushed to the mediaController device.
         if (this.audioDevice != null && !this.paused) {
             this.audioDevice.flush();
 
@@ -142,8 +142,8 @@ public class MP3Player {
                 } else {
                     //throw new NullPointerException("attribute audioDevice in " + this.getClass() + " is NULL");
                 }
-                PlaybackEvent playbackEvent = new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition);
-                this.listener.playbackFinished(playbackEvent);
+//                PlaybackEvent playbackEvent = new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Stopped, audioDevicePosition);
+//                this.listener.playbackFinished(playbackEvent);
             }
         }
 
@@ -199,7 +199,7 @@ public class MP3Player {
                 }
             }
         } catch (RuntimeException ex) {
-            throw new JavaLayerException("Exception decoding audio frame", ex);
+            throw new JavaLayerException("Exception decoding mediaController frame", ex);
         }
         return returnValue;
     }
@@ -208,7 +208,7 @@ public class MP3Player {
         if (!this.stopped) {
             this.paused = true;
             if (this.listener != null) {
-                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
+//                this.listener.playbackPaused(new PlaybackEvent(this, PlaybackEvent.EventType.Instances.Paused, this.audioDevice.getPosition()));
             }
             this.close();
         }

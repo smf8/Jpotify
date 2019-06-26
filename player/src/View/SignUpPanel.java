@@ -128,8 +128,8 @@ public class SignUpPanel extends JPanel {
                         }
                         Main.databaseHandler.deepInsertSong(songs);
                     }
-//                    MainFrame mainFrame = new MainFrame();
-//                    Main.closeFrame();
+                    MainFrame mainFrame = new MainFrame();
+                    Main.closeFrame();
 
                 }
             } else {
