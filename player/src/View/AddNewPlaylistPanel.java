@@ -158,7 +158,11 @@ public class AddNewPlaylistPanel extends JPanel {
             }
             Playlist playlist = new Playlist(0, name, Main.user.getUsername(), artworkURI, isPublic, true);
             playlist.setSongs(selectedSongs);
+            Main.databaseHandler.insertSongs(selectedSongs);
             Main.databaseHandler.insertPlaylist(playlist);
+            Main.user.addPlaylist(playlist);
+            Main.usersHandler.removeUser(Main.user.getUsername());
+            Main.usersHandler.addUser(Main.user);
             MainFrame.getInstance().updatePlaylists();
             MainFrame.getInstance().playListFrame.dispatchEvent(new WindowEvent(MainFrame.getInstance().playListFrame, WindowEvent.WINDOW_CLOSING));
         });

@@ -118,7 +118,29 @@ public class User {
         this.friends = friends;
     }
 
-    public void initSongs(DatabaseHandler handler){
-//        if (song)
+    public void addPlaylist(Playlist playlist){
+        if (playlists == null){
+            playlists = new ArrayList<>();
+        }
+    }
+    public void addAlbum(Album album){
+        if (albums == null){
+            albums = new ArrayList<>();
+        }
+        albums.add(album);
+    }
+    public void addLikesSong(Song song){
+        if (likedSongs == null){
+            likedSongs = new ArrayList<>();
+        }
+        likedSongs.add(song);
+    }
+    public void listened(Song song){
+        if (songs.contains(song)){
+            songs.remove(song);
+            songs.add(0, song);
+        }else{
+            songs.add(0, song);
+        }
     }
 }

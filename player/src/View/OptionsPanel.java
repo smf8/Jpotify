@@ -1,6 +1,7 @@
 package View;
 
 import Model.Playlist;
+import Model.Song;
 import org.w3c.dom.html.HTMLObjectElement;
 import utils.IO.FileIO;
 
@@ -92,8 +93,12 @@ public class OptionsPanel extends JPanel {
         newPlaylist.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-        }
+                System.out.println(playlist.getSongs().size());
+                PlayPanel playPanel = new PlayPanel(playlist);
+                SongPanel songPanel = new SongPanel(playlist.getSongs());
+                playPanel.addSongs(songPanel);
+                MainFrame.setContentPanel(playPanel);
+             }
         });
         playlistsArray.add(newPlaylist);
     }

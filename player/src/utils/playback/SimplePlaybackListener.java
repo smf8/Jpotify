@@ -1,5 +1,6 @@
 package utils.playback;
 
+import View.Main;
 import View.PlaybackControlPanel;
 import uk.co.caprica.vlcj.media.MediaRef;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
@@ -29,6 +30,7 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         System.out.println("started");
         playbackControlPanel.updateInformation();
         playbackControlPanel.startProgress();
+        Main.user.listened(playbackControlPanel.getPlaybackManager().getCurrentSong());
     }
 
     @Override

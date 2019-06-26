@@ -1,5 +1,6 @@
 package View;
 
+import Model.Album;
 import Model.Song;
 import Model.User;
 import utils.FontManager;
@@ -127,6 +128,13 @@ public class SignUpPanel extends JPanel {
                             }
                         }
                         Main.databaseHandler.deepInsertSong(songs);
+                        ArrayList<Album> insertedAlbums = Main.databaseHandler.searchAlbum("");
+                        StringBuilder builder = new StringBuilder();
+                        for (Album album : insertedAlbums){
+                            builder.append(album.getId()).append(Song.HASH_SEPERATOR);
+                        }
+                        Main.usersHandler.removeUser(user.getUsername());
+                        Main.usersHandler.addUser(user);
                     }
                     MainFrame mainFrame = new MainFrame();
                     Main.closeFrame();
