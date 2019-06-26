@@ -257,7 +257,6 @@ public class DatabaseHelper implements DatabaseHandler {
                     ResultSet resultSet = albumStatement.executeQuery();
                     boolean flag = false;
                     while (resultSet.next()) {
-                        System.out.println("sfdkhgfdsj");
                         flag = true;
                         if (!resultSet.getString("songs").contains(song.getHash())) {
                             String newHash = resultSet.getString("songs") + song.getHash() + Song.HASH_SEPERATOR;

@@ -45,7 +45,9 @@ public class MainFrame extends JFrame {
     private static ArrayList<Playlist> allPlaylists;
     private static ArrayList<Song> likedSongs = new ArrayList<>();
     private static ArrayList<Song> playedSongs = new ArrayList<>();
+    public JFrame playListFrame;
 
+    private OptionsPanel optionsPanel;
 
     public MainFrame() {
         this.setLayout(new BorderLayout());
@@ -105,22 +107,19 @@ public class MainFrame extends JFrame {
         addNewPlaylistText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JFrame frame = new JFrame();
+                playListFrame = new JFrame();
                 AddNewPlaylistPanel addNewPlaylistPanel = new AddNewPlaylistPanel();
-                frame.add(addNewPlaylistPanel);
-                frame.pack();
-                frame.setVisible(true);
+                playListFrame.add(addNewPlaylistPanel);
+                playListFrame.pack();
+                playListFrame.setVisible(true);
             }
         });
 
         addNewPlaylistPanel.add(addNewPlaylistImageLabel, BorderLayout.WEST);
         addNewPlaylistPanel.add(addNewPlaylistText, BorderLayout.CENTER);
         mainOptionsPanel.setLayout(new GridBagLayout());
-        OptionsPanel optionsPanel = new OptionsPanel();
-        optionsPanel.addPlaylist("jkpk");
-        optionsPanel.addPlaylist("jkpk");
-        optionsPanel.addPlaylist("jkpk");
-        optionsPanel.showPlaylist();
+        optionsPanel = new OptionsPanel();
+        updatePlaylists();
         searchAndBackGroundPanel.setLayout(new BorderLayout());
         mainOptionsPanel.add(optionsPanel);
         JScrollPane scrollPane = new JScrollPane(optionsPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -215,5 +214,15 @@ public class MainFrame extends JFrame {
         }else{
             return allSongs;
         }
+    }
+
+    public void updatePlaylists(){
+        ArrayList<Playlist> playlists = Main.databaseHandler.searchPlaylist("");
+        optionsPanel.removePlaylist("s");
+        for (Playlist playlist : playlists){
+            optionsPanel.addPlaylist(playlist);
+        }
+        optionsPanel.showPlaylist();
+        System.out.println("biiiii");
     }
 }

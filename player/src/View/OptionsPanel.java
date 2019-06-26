@@ -1,5 +1,6 @@
 package View;
 
+import Model.Playlist;
 import org.w3c.dom.html.HTMLObjectElement;
 import utils.IO.FileIO;
 
@@ -86,24 +87,32 @@ public class OptionsPanel extends JPanel {
 
     }
 
-    public void addPlaylist(String playlistsName){
-        JLabel newPlaylist = new JLabel(playlistsName);
+    public void addPlaylist(Playlist playlist){
+        JLabel newPlaylist = new JLabel(playlist.getTitle());
+        newPlaylist.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+        }
+        });
         playlistsArray.add(newPlaylist);
     }
 
     public void removePlaylist(String playlistsName){
-        for(int i=0;i<playlistsArray.size() ;i++){
-            if(playlistsArray.get(i).getText().equals( playlistsName)){
-                this.remove(playlistsArray.get(i));
-                playlistsArray.remove(i);
-            }
+        for (JLabel label : playlistsArray){
+            remove(label);
         }
+        playlistsArray.clear();
+        validate();
     }
 
     public void showPlaylist(){
+
         for(JLabel x: playlistsArray){
             add(x);
             add(Box.createRigidArea(new Dimension(0,5)));
         }
+        validate();
+        repaint();
     }
 }
