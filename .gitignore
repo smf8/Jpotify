@@ -3,7 +3,8 @@
 *.mp3
 # Log file
 *.log
-
+*.xml
+*.iml
 # BlueJ files
 *.ctxt
 
