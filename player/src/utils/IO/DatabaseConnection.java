@@ -38,7 +38,7 @@ public class DatabaseConnection {
         }
     }
     public void initUserTable(){
-        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, friends TEXT, unique(username));");
+        String userQuery = ("CREATE TABLE IF NOT EXISTS Users(username TEXT PRIMARY KEY, likedSongs TEXT, recentlyPlayed TEXT, password TEXT, profileImage TEXT, albums TEXT, playlists TEXT, friends TEXT, online INT, lastOnline LONG, unique(username));");
         createTable(userQuery);
     }
     public synchronized void initMusicsTable(){

@@ -16,6 +16,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SignUpPanel extends JPanel {
     private JLabel createAccountLabel = new JLabel();
@@ -89,6 +90,7 @@ public class SignUpPanel extends JPanel {
             if (!userNameTextField.getText().equals("")) {
 //                ArrayList<URI> usersDatabaseFiles = FileIO.findFilesRecursive(new File(FileIO.RESOURCES_RELATIVE));
                 if (!Main.usersHandler.addUser(user)) {
+                    System.out.println("fai");
                     createAccountLabel.setText("Username taken, choose another !");
                     createAccountLabel.setForeground(Color.RED);
                     this.validate();
@@ -99,6 +101,8 @@ public class SignUpPanel extends JPanel {
                     this.validate();
                     this.repaint();
                     Main.user = user;
+                    Main.user.setOnline(true);
+                    Main.user.setLastOnline(new Date().getTime());
                     // start the main application
                     // setting the database handler
                     DatabaseConnection connection = new DatabaseConnection(userNameTextField.getText());

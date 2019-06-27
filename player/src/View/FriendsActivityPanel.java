@@ -1,6 +1,8 @@
 package View;
 
 import Model.Song;
+import Model.User;
+import utils.FontManager;
 import utils.IO.FileIO;
 
 import javax.swing.*;
@@ -8,7 +10,10 @@ import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FriendsActivityPanel extends JPanel {
     private JLabel friendsNameLabel = new JLabel();
@@ -20,10 +25,11 @@ public class FriendsActivityPanel extends JPanel {
     private JPanel friendsProfPicPanel = new JPanel();
     private JPanel isOnlinePanel = new JPanel();
 
-    public FriendsActivityPanel(String userName) {
-        friendsNameLabel.setText(userName);
-        lastPlayedSongLabel.setText("dohdyfoifuy");
-        lastSongsArtistLabel.setText("reijgwpir");
+    public FriendsActivityPanel(User user) {
+        friendsNameLabel.setFont(FontManager.getUbuntuBold(16f));
+        friendsNameLabel.setText(user.getUsername());
+        lastPlayedSongLabel.setText(user.getCurrentSong().getTitle());
+        lastSongsArtistLabel.setText(user.getCurrentSong().getArtist());
         //
         friendsInformationPanel.setLayout(new BoxLayout(friendsInformationPanel,BoxLayout.PAGE_AXIS));
         friendsInformationPanel.setBackground(new Color(22,22,22));
@@ -36,17 +42,33 @@ public class FriendsActivityPanel extends JPanel {
         isOnlinePanel.setBackground(new Color(22,22,22));
         friendsProfPicPanel.setBackground(new Color(22,22,22));
 
-        //for test
         try {
-            URL playUrl = null;
-            File playFile = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "play.png");
-            playUrl = playFile.toURI().toURL();
-            ImageIcon playIcon = new ImageIcon(new ImageIcon(playUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-            friendsProfPicLabel.setIcon(playIcon);
+            ImageIcon profileImage = new ImageIcon(new ImageIcon(user.getProfileImage().toURL()).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+            friendsProfPicLabel.setIcon(profileImage);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        isOnlineLabel.setText("Online");
+        if (user.isOnline()){
+            isOnlineLabel.setText("Online");
+        }else{
+            new Thread(()->{
+
+                while (true) {
+                    long diff = user.getLastOnline() - new Date().getTime();
+                    int day = (int) ((diff / 1000) / (24 * 3600));
+                    int hour = (int) (((diff / 1000) % (24 * 3600)) / 3600);
+                    int min = (int) (((diff / 1000) % 3600) / 60);
+                    isOnlineLabel.setText(day + "  " + hour + ":" + min + " ago");
+                    this.validate();
+                    this.repaint();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
 
         //
 

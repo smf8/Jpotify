@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class LoginPanel extends JPanel {
     private JLabel welcomeLabel = new JLabel();
@@ -77,8 +78,9 @@ public class LoginPanel extends JPanel {
                     if (user.getPassword().equals(FileIO.MD5(String.valueOf(passField.getPassword())))) {
                         // can login
                         System.out.println("Logged in");
+                        user.setOnline(true);
+                        user.setLastOnline(new Date().getTime());
                         Main.user = user;
-                        //setting a database handler for this users Data;
                         Main.closeFrame();
                         MainFrame mainFrame = new MainFrame();
                         Main.closeFrame();

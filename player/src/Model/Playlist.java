@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class Playlist {
+public class Playlist implements Serializable {
     protected int id;
     protected String title;
     private String creator;
