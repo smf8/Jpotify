@@ -257,7 +257,6 @@ public class DatabaseHelper implements DatabaseHandler {
                     ResultSet resultSet = albumStatement.executeQuery();
                     boolean flag = false;
                     while (resultSet.next()) {
-                        System.out.println("sfdkhgfdsj");
                         flag = true;
                         if (!resultSet.getString("songs").contains(song.getHash())) {
                             String newHash = resultSet.getString("songs") + song.getHash() + Song.HASH_SEPERATOR;
@@ -674,7 +673,7 @@ public class DatabaseHelper implements DatabaseHandler {
      * @param username the username of the user
      * @return an arraylist of user objects with similar username
      */
-    public ArrayList<User> getUserByUsername(String username) {
+    public ArrayList<User> getUserByUsername(String username, DatabaseHandler handler) {
         String query = "SELECT * FROM Users WHERE username LIKE ?";
         ArrayList<User> users = new ArrayList<>();
         PreparedStatement statement = null;
@@ -688,7 +687,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 ArrayList<Song> likedSongs = new ArrayList<>();
                 if (!resultSet.getString("albums").equals("")) {
                     for (String song : resultSet.getString("recentlyPlayed").split(Song.HASH_SEPERATOR)) {
-                        Song foundSong = getSongByHash(song);
+                        Song foundSong = handler.getSongByHash(song);
                         if (foundSong != null) {
                             recentSongs.add(foundSong);
                         }
@@ -696,7 +695,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 }
                 if (!resultSet.getString("likedSongs").equals("")) {
                     for (String song : resultSet.getString("likedSongs").split(Song.HASH_SEPERATOR)) {
-                        Song foundSong = getSongByHash(song);
+                        Song foundSong = handler.getSongByHash(song);
                         if (foundSong != null) {
                             likedSongs.add(foundSong);
                         }
@@ -706,7 +705,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 ArrayList<Playlist> playlists = new ArrayList<>();
                 if (!resultSet.getString("albums").equals("")) {
                     for (String album : resultSet.getString("albums").split(Song.HASH_SEPERATOR)) {
-                        Album foundAlbum = getAlbumByID(Integer.parseInt(album));
+                        Album foundAlbum = handler.getAlbumByID(Integer.parseInt(album));
                         if (foundAlbum != null) {
                             albums.add(foundAlbum);
                         }
@@ -714,7 +713,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 }
                 if (!resultSet.getString("playlists").equals("")) {
                     for (String playlist : resultSet.getString("playlists").split(Song.HASH_SEPERATOR)) {
-                        Playlist foundPlaylist = getPlaylistByID(Integer.parseInt(playlist));
+                        Playlist foundPlaylist = handler.getPlaylistByID(Integer.parseInt(playlist));
                         if (foundPlaylist != null) {
                             playlists.add(foundPlaylist);
                         }
@@ -793,6 +792,7 @@ public class DatabaseHelper implements DatabaseHandler {
             for (Playlist playlist : user.getPlaylists()) {
                 builder.append(playlist.getId()).append(Song.HASH_SEPERATOR);
             }
+            System.out.println(builder.toString() + "---");
             statement.setString(7, builder.toString());
             builder = new StringBuilder();
             if (user.getFriendsList() != null) {

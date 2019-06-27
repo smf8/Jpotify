@@ -19,6 +19,8 @@ public class SongTableRow {
     private String artist;
     private Boolean checked;
     private String lastPlayed;
+    private Song song;
+
     {
         try {
             addIcon = new ImageIcon(new ImageIcon(new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "add.png").toURI().toURL()).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
@@ -27,6 +29,7 @@ public class SongTableRow {
         }
     }
     public SongTableRow(Song song) {
+        this.song = song;
         try {
             this.artWork = new ImageIcon(new ImageIcon(song.getArtWork().toURL()).getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
         } catch (MalformedURLException e) {
@@ -72,5 +75,9 @@ public class SongTableRow {
 
     public String getLastPlayed() {
         return lastPlayed;
+    }
+
+    public Song getSong() {
+        return song;
     }
 }

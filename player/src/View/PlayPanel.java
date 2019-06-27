@@ -7,6 +7,7 @@ import utils.FontManager;
 import utils.IO.FileIO;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -24,7 +25,7 @@ public class PlayPanel extends JPanel{
     public PlayPanel(Album album){
         mainInfPanel.setLayout(new BorderLayout());
         stringInfPanel.setLayout(new BoxLayout(stringInfPanel,BoxLayout.Y_AXIS));
-            this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout());
         URL homeUrl;
         File homeFile = new File(album.getImageURI());
         Image homeImage;
@@ -88,24 +89,18 @@ public class PlayPanel extends JPanel{
         picPanel.add(picLabel);
         nameLabel.setText(playlist.getTitle());
         nameLabel.setFont(FontManager.getUbuntuBold(25f));
-        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        stringInfPanel.add(Box.createRigidArea(new Dimension(0,70)));
 
         stringInfPanel.add(nameLabel);
-        stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
-
+        stringInfPanel.setBackground(new Color(22,22,22));
+        stringInfPanel.setBorder(new EmptyBorder(30,30,0,0));
         creatorLabel.setText(playlist.getCreator());
         creatorLabel.setFont(FontManager.getUbuntu(20f));
-        creatorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(creatorLabel);
-        stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         listSizeLabel.setText(playlist.getSongs().size()+"");
 
         listSizeLabel.setFont(FontManager.getUbuntuLight(15f));
-        listSizeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(listSizeLabel);
-        stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         mainInfPanel.add(picPanel,BorderLayout.WEST);
         mainInfPanel.add(stringInfPanel,BorderLayout.CENTER);

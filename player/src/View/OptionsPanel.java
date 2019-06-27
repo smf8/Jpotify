@@ -1,5 +1,7 @@
 package View;
 
+import Model.Playlist;
+import Model.Song;
 import org.w3c.dom.html.HTMLObjectElement;
 import utils.IO.FileIO;
 
@@ -71,7 +73,14 @@ public class OptionsPanel extends JPanel {
 
         add(yourLibraryLabel);
         add(Box.createRigidArea(new Dimension(0,10)));
-
+        recentlyPlayedLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SongPanel songPanel = new SongPanel(Main.user.getSongs());
+                // setup database listener because users must be able to remove songs from here
+                MainFrame.setContentPanel(songPanel);
+            }
+        });
         add(recentlyPlayedLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         albumsLabel.addMouseListener(new MouseAdapter() {
@@ -82,7 +91,12 @@ public class OptionsPanel extends JPanel {
         });
         add(albumsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-
+        artistsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainFrame.setContentPanel(new SongPanel(Main.user.getLikedSongs()));
+            }
+        });
         add(artistsLabel);
         add(Box.createRigidArea(new Dimension(0,15)));
 
@@ -93,24 +107,36 @@ public class OptionsPanel extends JPanel {
 
     }
 
-    public void addPlaylist(String playlistsName){
-        JLabel newPlaylist = new JLabel(playlistsName);
+    public void addPlaylist(Playlist playlist){
+        JLabel newPlaylist = new JLabel(playlist.getTitle());
+        newPlaylist.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(playlist.getSongs().size());
+                PlayPanel playPanel = new PlayPanel(playlist);
+                SongPanel songPanel = new SongPanel(playlist.getSongs());
+                playPanel.addSongs(songPanel);
+                MainFrame.setContentPanel(playPanel);
+             }
+        });
         playlistsArray.add(newPlaylist);
     }
 
     public void removePlaylist(String playlistsName){
-        for(int i=0;i<playlistsArray.size() ;i++){
-            if(playlistsArray.get(i).getText().equals( playlistsName)){
-                this.remove(playlistsArray.get(i));
-                playlistsArray.remove(i);
-            }
+        for (JLabel label : playlistsArray){
+            remove(label);
         }
+        playlistsArray.clear();
+        validate();
     }
 
     public void showPlaylist(){
+
         for(JLabel x: playlistsArray){
             add(x);
             add(Box.createRigidArea(new Dimension(0,5)));
         }
+        validate();
+        repaint();
     }
 }
