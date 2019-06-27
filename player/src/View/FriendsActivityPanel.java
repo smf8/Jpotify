@@ -1,5 +1,7 @@
 package View;
 
+import Model.Album;
+import Model.Playlist;
 import Model.Song;
 import Model.User;
 import utils.FontManager;
@@ -28,8 +30,13 @@ public class FriendsActivityPanel extends JPanel {
     public FriendsActivityPanel(User user) {
         friendsNameLabel.setFont(FontManager.getUbuntuBold(16f));
         friendsNameLabel.setText(user.getUsername());
-        lastPlayedSongLabel.setText(user.getCurrentSong().getTitle());
-        lastSongsArtistLabel.setText(user.getCurrentSong().getArtist());
+        if (user.getCurrentSong() == null) {
+            lastPlayedSongLabel.setText("Listened to nothing");
+            lastSongsArtistLabel.setText("Nobody :(");
+        }else{
+            lastPlayedSongLabel.setText(user.getCurrentSong().getTitle());
+            lastSongsArtistLabel.setText(user.getCurrentSong().getArtist());
+        }
         //
         friendsInformationPanel.setLayout(new BoxLayout(friendsInformationPanel,BoxLayout.PAGE_AXIS));
         friendsInformationPanel.setBackground(new Color(22,22,22));
