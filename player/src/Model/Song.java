@@ -90,6 +90,11 @@ public class Song {
         return artWork;
     }
 
+    /**
+     * travels through files in a folder in order to find mp3 files
+     * @param directory the given directory as a File object
+     * @return an array list of song objects found in dir
+     */
     public static  ArrayList<Song> findSongsInFolder(File directory){
         ArrayList<URI> files = FileIO.findMP3Files(FileIO.findFilesRecursive(directory));
         // creating a list of songs
