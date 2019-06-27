@@ -85,7 +85,9 @@ public class MainFrame extends JFrame {
     }
     private void initClient(){
         new Thread(()->{
-        userClient = new Client("localhost", Main.user);
+            userClient = new Client("localhost", Main.user);
+            userClient.sendRequest(new Request(0, Main.user));
+
         }).start();
     }
     public static void addSongToQueue(Song song) {
@@ -132,12 +134,11 @@ public class MainFrame extends JFrame {
         addNewPlaylistText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                userClient.sendRequest(new Request(0, Main.user));
-//                playListFrame = new JFrame();
-//                AddNewPlaylistPanel addNewPlaylistPanel = new AddNewPlaylistPanel();
-//                playListFrame.add(addNewPlaylistPanel);
-//                playListFrame.pack();
-//                playListFrame.setVisible(true);
+                playListFrame = new JFrame();
+                AddNewPlaylistPanel addNewPlaylistPanel = new AddNewPlaylistPanel();
+                playListFrame.add(addNewPlaylistPanel);
+                playListFrame.pack();
+                playListFrame.setVisible(true);
             }
         });
 

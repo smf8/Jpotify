@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class Request implements Serializable {
     private int type;
     // request types :
-    // 0 : connecting -> Only contains User object
-    // 1 : sendin
-
+    // 0 : connecting -> Only contains User object to alert other users to update their list
+    //1 : receiving friend's current song
+//2 : Sending a song's file
     private byte[] dataToTransfer;
     private Playlist alteredPlaylist;
-    private ArrayList<String> requestedStringData;
+    private ArrayList<String> requestedStringData = new ArrayList<>();
     private Song song;
     private User user;
 
@@ -20,6 +20,9 @@ public class Request implements Serializable {
         this.user = user;
     }
 
+    public void addRequestedStringData(String string){
+        requestedStringData.add(string);
+    }
     public int getType() {
         return type;
     }

@@ -70,13 +70,16 @@ public class FriendsActivityPanelsManager extends JPanel {
         repaint();
     }
 
-
+    /**
+     * travles through database to find user's friend's and give them to the manager
+     */
     public void updateFriendsList(){
         ArrayList<User> currentFriends = new ArrayList<>();
         ArrayList<User> tmp;
         clearFirendsPanel();
         for (String username : Main.user.getFriends().split(Song.HASH_SEPERATOR)) {
             DatabaseConnection userC = new DatabaseConnection(username);
+            // set a handler to read a special user's songs
             DatabaseHandler handler = new DatabaseHelper(userC.getConnection());
             System.out.println(username + "***");
             tmp = Main.usersHandler.getUserByUsername(username, handler);

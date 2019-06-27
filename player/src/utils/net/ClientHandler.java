@@ -53,6 +53,22 @@ public class ClientHandler implements Runnable {
                                 }
                         }
                         break;
+                    case 1:
+                        for (Map.Entry<User, ObjectOutputStream> entry : othersOutputStream.entrySet()) {
+                            if(entry.getKey().getUsername().equals(request.getRequestedStringData().get(0))){
+                                entry.getValue().writeObject(request);
+                                entry.getValue().flush();
+                                System.out.println("sending request from [" + client.getUsername() + "] to [" + entry.getKey().getUsername() + "] - SendFile Request");
+
+                            }
+                        }
+                    case 2:
+                        for (Map.Entry<User, ObjectOutputStream> entry : othersOutputStream.entrySet()) {
+                            if (entry.getKey().getUsername().equals(request.getRequestedStringData().get(0))) {
+                                entry.getValue().writeObject(request);
+                                entry.getValue().flush();
+                            }
+                        }
                 }
                 request = (Request) inputStream.readObject();
             }

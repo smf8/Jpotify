@@ -42,6 +42,9 @@ public class Song implements Serializable {
         hash = FileIO.MD5(title + "-" + artist);
     }
 
+    public void setLocation(URI location) {
+        this.location = location;
+    }
 
     public String getHash() {
         return hash;
