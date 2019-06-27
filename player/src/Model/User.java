@@ -122,6 +122,7 @@ public class User {
         if (playlists == null){
             playlists = new ArrayList<>();
         }
+        playlists.add(playlist);
     }
     public void addAlbum(Album album){
         if (albums == null){
@@ -129,11 +130,14 @@ public class User {
         }
         albums.add(album);
     }
-    public void addLikesSong(Song song){
+    public void likeSong(Song song){
         if (likedSongs == null){
             likedSongs = new ArrayList<>();
         }
         likedSongs.add(song);
+    }
+    public void dislikeSong(Song song){
+        likedSongs.remove(song);
     }
     public void listened(Song song){
         if (songs.contains(song)){

@@ -18,8 +18,6 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
 
     @Override
     public void mediaChanged(MediaPlayer mediaPlayer, MediaRef media) {
-
-        System.out.println("music changed - " + Thread.activeCount());
         playbackControlPanel.updateInformation();
         playbackControlPanel.resetProgress();
         playbackControlPanel.logData();

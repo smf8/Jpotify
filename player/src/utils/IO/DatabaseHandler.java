@@ -38,7 +38,11 @@ public interface DatabaseHandler {
 
     boolean addUser(User user);
     void deepInsertSong(ArrayList<Song> songs);
-    ArrayList<User> getUserByUsername(String username);
+
+    ArrayList<User> getUserByUsername(String username, DatabaseHandler handler);
+    Album getAlbumByID(int ID);
+    Playlist getPlaylistByID(int ID);
     void removeUser(String username);
+
     void close();
 }

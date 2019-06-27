@@ -129,9 +129,8 @@ public class SignUpPanel extends JPanel {
                         }
                         Main.databaseHandler.deepInsertSong(songs);
                         ArrayList<Album> insertedAlbums = Main.databaseHandler.searchAlbum("");
-                        StringBuilder builder = new StringBuilder();
                         for (Album album : insertedAlbums){
-                            builder.append(album.getId()).append(Song.HASH_SEPERATOR);
+                            Main.user.addAlbum(album);
                         }
                         Main.usersHandler.removeUser(user.getUsername());
                         Main.usersHandler.addUser(user);

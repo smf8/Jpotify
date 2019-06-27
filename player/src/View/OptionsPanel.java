@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
-    private JLabel homeLabel = new JLabel("PROFILE");
-    private JLabel yourLibraryLabel = new JLabel("YOUR LIBRARY");
-    private JLabel recentlyPlayedLabel = new JLabel("RECENTLY PLAYED");
-    private JLabel albumsLabel = new JLabel("ALBUMS");
-    private JLabel artistsLabel = new JLabel("ARTISTS");
-    private JLabel playListsLabel = new JLabel("PLAYLISTS");
+    private JLabel homeLabel = new JLabel("Profile");
+    private JLabel yourLibraryLabel = new JLabel("Your Library");
+    private JLabel recentlyPlayedLabel = new JLabel("Recently Played");
+    private JLabel albumsLabel = new JLabel("Albums");
+    private JLabel artistsLabel = new JLabel("Liked Songs");
+    private JLabel playListsLabel = new JLabel("Playlists");
     private ArrayList<JLabel> playlistsArray;
 
     public OptionsPanel(){
@@ -66,7 +66,14 @@ public class OptionsPanel extends JPanel {
 
         add(yourLibraryLabel);
         add(Box.createRigidArea(new Dimension(0,10)));
-
+        recentlyPlayedLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                SongPanel songPanel = new SongPanel(Main.user.getSongs());
+                // setup database listener because users must be able to remove songs from here
+                MainFrame.setContentPanel(songPanel);
+            }
+        });
         add(recentlyPlayedLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
         albumsLabel.addMouseListener(new MouseAdapter() {
@@ -77,7 +84,12 @@ public class OptionsPanel extends JPanel {
         });
         add(albumsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
-
+        artistsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainFrame.setContentPanel(new SongPanel(Main.user.getLikedSongs()));
+            }
+        });
         add(artistsLabel);
         add(Box.createRigidArea(new Dimension(0,15)));
 

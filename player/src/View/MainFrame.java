@@ -50,6 +50,7 @@ public class MainFrame extends JFrame {
     private OptionsPanel optionsPanel;
 
     public MainFrame() {
+        // init user song and album info
         this.setLayout(new BorderLayout());
         initializeSongs();
         initSidePanels();
@@ -223,6 +224,5 @@ public class MainFrame extends JFrame {
             optionsPanel.addPlaylist(playlist);
         }
         optionsPanel.showPlaylist();
-        System.out.println("biiiii");
     }
 }

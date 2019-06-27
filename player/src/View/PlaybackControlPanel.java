@@ -42,6 +42,8 @@ public class PlaybackControlPanel extends JPanel {
     private JLabel songImageLabel = new JLabel();
     private JLabel songNameLabel = new JLabel();
     private JLabel songArtistLabel = new JLabel();
+    private ImageIcon likeImage;
+    private ImageIcon disLikeImage;
     private boolean isLiked = false;
     private PlaybackManager playbackManager;
     private long duration;
@@ -118,8 +120,8 @@ public class PlaybackControlPanel extends JPanel {
         ImageIcon volumeIcon = new ImageIcon(new ImageIcon(volumeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon isNotRepeatingIcon = new ImageIcon(new ImageIcon(isNotRepeatingUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         ImageIcon isRepeatingIcon = new ImageIcon(new ImageIcon(isRepeatingUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-        ImageIcon likeImage = new ImageIcon(new ImageIcon(likeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
-        ImageIcon disLikeImage = new ImageIcon(new ImageIcon(disLikeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        likeImage = new ImageIcon(new ImageIcon(likeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        disLikeImage = new ImageIcon(new ImageIcon(disLikeUrl).getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         //Setting Listeners
         playLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -173,12 +175,18 @@ public class PlaybackControlPanel extends JPanel {
         dislikeLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (isLiked == false) {
+                if (!isLiked) {
                     dislikeLabel.setIcon(likeImage);
                     isLiked = true;
-                } else if (isLiked == true) {
+                    Main.user.likeSong(playbackManager.getCurrentSong());
+                    Main.usersHandler.removeUser(Main.user.getUsername());
+                    Main.usersHandler.addUser(Main.user);
+                } else{
                     dislikeLabel.setIcon(disLikeImage);
                     isLiked = false;
+                    Main.user.dislikeSong(playbackManager.getCurrentSong());
+                    Main.usersHandler.removeUser(Main.user.getUsername());
+                    Main.usersHandler.addUser(Main.user);
                 }
             }
         });
@@ -315,7 +323,18 @@ public class PlaybackControlPanel extends JPanel {
         songArtWorkImage = songArtWorkIcon.getImage().getScaledInstance(60,60,Image.SCALE_SMOOTH);
         ImageIcon homeIconn = new ImageIcon(songArtWorkImage);
         songImageLabel.setIcon(homeIconn);
-
+        if (Main.user.getLikedSongs().contains(playbackManager.getCurrentSong())){
+            System.out.println(playbackManager.getCurrentSong().getTitle());
+            isLiked = true;
+            dislikeLabel.setIcon(likeImage);
+            this.validate();
+            this.repaint();
+        }else{
+            isLiked = false;
+            dislikeLabel.setIcon(disLikeImage);
+            this.validate();
+            this.repaint();
+        }
         //Updating name
         songNameLabel.setText(playbackManager.getCurrentSong().getTitle());
         //Updating Artist
@@ -325,9 +344,9 @@ public class PlaybackControlPanel extends JPanel {
         isPlaying = true;
     }
     public void logData(){
-        System.out.println(duration);
-        System.out.println(playState);
-        System.out.println("-------");
+//        System.out.println(duration);
+//        System.out.println(playState);
+//        System.out.println("-------");
     }
 
     public PlaybackManager getPlaybackManager() {

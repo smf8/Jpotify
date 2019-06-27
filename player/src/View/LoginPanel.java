@@ -68,24 +68,26 @@ public class LoginPanel extends JPanel {
 
         signInButton.addActionListener(actionEvent -> {
             ArrayList<User> users;
-            if ((users = Main.usersHandler.getUserByUsername(userNameTextField.getText())).size() != 0) {
-                User user = users.get(0);
-                if (user.getPassword().equals(FileIO.MD5(String.valueOf(passField.getPassword())))) {
-                    // can login
-                    System.out.println("Logged in");
-                    Main.user = user;
-                    //setting a database handler for this users Data;
-                    DatabaseConnection connection = new DatabaseConnection(userNameTextField.getText());
-                    connection.initMusicsTable();
-                    Main.databaseHandler = new DatabaseHelper(connection.getConnection());
-                    Main.closeFrame();
-                    MainFrame mainFrame = new MainFrame();
-                    Main.closeFrame();
-                }else {
-                    welcomeLabel.setText("Try again !");
-                    welcomeLabel.setForeground(Color.RED);
-                    this.validate();
-                    this.repaint();
+            if (FileIO.checkIfFileExists(FileIO.RESOURCES_RELATIVE + userNameTextField.getText() + ".db")) {
+                DatabaseConnection connection = new DatabaseConnection(userNameTextField.getText());
+                connection.initMusicsTable();
+                Main.databaseHandler = new DatabaseHelper(connection.getConnection());
+                if ((users = Main.usersHandler.getUserByUsername(userNameTextField.getText(), Main.databaseHandler)).size() != 0) {
+                    User user = users.get(0);
+                    if (user.getPassword().equals(FileIO.MD5(String.valueOf(passField.getPassword())))) {
+                        // can login
+                        System.out.println("Logged in");
+                        Main.user = user;
+                        //setting a database handler for this users Data;
+                        Main.closeFrame();
+                        MainFrame mainFrame = new MainFrame();
+                        Main.closeFrame();
+                    } else {
+                        welcomeLabel.setText("Try again !");
+                        welcomeLabel.setForeground(Color.RED);
+                        this.validate();
+                        this.repaint();
+                    }
                 }
             }else {
                 welcomeLabel.setText("Try again");
