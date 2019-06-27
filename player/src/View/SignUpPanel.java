@@ -28,7 +28,7 @@ public class SignUpPanel extends JPanel {
     private JPasswordField passField = new JPasswordField();
     private JPanel passPanel = new JPanel();
     private JPanel userNamePanel = new JPanel();
-    private URI profileImageURI = URI.create(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "no-profile.png");
+    private URI profileImageURI = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "no-profile.png").toURI();
 
     public SignUpPanel() {
         this.setBackground(new Color(22, 22, 22));

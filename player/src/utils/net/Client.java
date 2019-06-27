@@ -2,6 +2,12 @@ package utils.net;
 
 import Model.Request;
 import Model.User;
+import View.FriendsActivityPanelsManager;
+import View.Main;
+import View.MainFrame;
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHandler;
+import utils.IO.DatabaseHelper;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,8 +55,18 @@ public class Client {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
-                System.out.println(inRequest.getUser().getUsername());
+                switch (inRequest.getType()){
+                    // case 0 : user connected or profile updated
+                    case 0:
+                        User connectedFriend = inRequest.getUser();
+                        System.out.println(connectedFriend.getCurrentSong().getTitle());
+//                        DatabaseHandler handler = new DatabaseHelper(new DatabaseConnection(connectedFriend.getUsername()).getConnection());
+                        if (Main.user.getFriends().contains(connectedFriend.getUsername())) {
+                            MainFrame.getInstance().friendsActivityPanelsManager.updateFriendsList();
+                            System.out.println("hooooooy : " + connectedFriend.getUsername());
+                        }
+                        break;
+                }
             }
         }).start();
     }

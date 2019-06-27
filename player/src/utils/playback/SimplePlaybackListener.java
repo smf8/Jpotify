@@ -28,7 +28,7 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         System.out.println("started");
         playbackControlPanel.updateInformation();
         playbackControlPanel.startProgress();
-        Main.user.listened(playbackControlPanel.getPlaybackManager().getCurrentSong());
+        Main.user.listened(playbackControlPanel.getPlaybackManager().getCurrentSong(), Main.usersHandler);
     }
 
     @Override

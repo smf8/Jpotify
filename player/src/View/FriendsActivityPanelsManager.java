@@ -1,9 +1,15 @@
 package View;
 
 import Model.Song;
+import Model.User;
+import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHandler;
+import utils.IO.DatabaseHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
@@ -34,20 +40,51 @@ public class FriendsActivityPanelsManager extends JPanel {
         findFriendsButton.setForeground(Color.WHITE);
         this.add(findFriendsButton);
         add(Box.createRigidArea(new Dimension(0,10)));
-        FriendsActivityPanel friendsActivityPanel = new FriendsActivityPanel("salam");
-        friendsActivityPanels.add(friendsActivityPanel);
-        FriendsActivityPanel friendsActivityPanel1 = new FriendsActivityPanel("khodefezzzz");
-        friendsActivityPanels.add(friendsActivityPanel1);
     }
-//    public void addFriend(String user){
-//        FriendsActivityPanel friendsActivityPanel  = new FriendsActivityPanel(user);
-//        friendsActivityPanels.add(friendsActivityPanel);
-//    }
-//    public void removeFriend()
+
+    public void addFriendToPanel(User user){
+        FriendsActivityPanel friendsActivityPanel = new FriendsActivityPanel(user);
+        friendsActivityPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ProfileFrame profileFrame = new ProfileFrame();
+            }
+        });
+        friendsActivityPanels.add(friendsActivityPanel);
+    }
+    public void clearFirendsPanel(){
+
+        for(FriendsActivityPanel x: friendsActivityPanels) {
+            this.remove(x);
+        }
+        friendsActivityPanels.clear();
+        validate();
+
+    }
     public void showFriends(){
         for(FriendsActivityPanel x: friendsActivityPanels){
             this.add(x);
             add(Box.createRigidArea(new Dimension(0,0)));
         }
+        validate();
+        repaint();
+    }
+
+
+    public void updateFriendsList(){
+        ArrayList<User> currentFriends = new ArrayList<>();
+        ArrayList<User> tmp;
+        clearFirendsPanel();
+        for (String username : Main.user.getFriends().split(Song.HASH_SEPERATOR)) {
+            DatabaseConnection userC = new DatabaseConnection(username);
+            DatabaseHandler handler = new DatabaseHelper(userC.getConnection());
+            System.out.println(username + "***");
+            tmp = Main.usersHandler.getUserByUsername(username, handler);
+            currentFriends.add(tmp.get(0));
+            addFriendToPanel(tmp.get(0));
+            userC.close();
+            handler.close();
+        }
+        showFriends();
     }
 }

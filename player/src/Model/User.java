@@ -74,7 +74,11 @@ public class User implements Serializable {
     }
 
     public Song getCurrentSong() {
-        return currentSong;
+        if (currentSong == null) {
+            return songs.get(0);
+        }else{
+            return currentSong;
+        }
     }
 
     public void setCurrentSong(Song currentSong) {
@@ -150,14 +154,18 @@ public class User implements Serializable {
     public void dislikeSong(Song song){
         likedSongs.remove(song);
     }
-    public void listened(Song song){
+    public void listened(Song song, DatabaseHandler handler){
         if (songs.contains(song)){
             songs.remove(song);
             songs.add(0, song);
         }else{
             songs.add(0, song);
         }
+        handler.removeUser(username);
+        handler.addUser(this);
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

@@ -48,6 +48,7 @@ public class MainFrame extends JFrame {
     private static ArrayList<Playlist> allPlaylists;
     private static ArrayList<Song> likedSongs = new ArrayList<>();
     private static ArrayList<Song> playedSongs = new ArrayList<>();
+    public FriendsActivityPanelsManager friendsActivityPanelsManager;
 
     public static Client userClient;
     public JFrame playListFrame;
@@ -162,7 +163,7 @@ public class MainFrame extends JFrame {
         PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(playbackManager);
         this.add(playbackControlPanel, BorderLayout.SOUTH);
         // add right side friends panel
-        FriendsActivityPanelsManager friendsActivityPanelsManager = new FriendsActivityPanelsManager();
+        friendsActivityPanelsManager = new FriendsActivityPanelsManager();
         friendsActivityPanelsManager.showFriends();
         JScrollPane scrollPanel3 = new JScrollPane(friendsActivityPanelsManager, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPanel3.setPreferredSize(new Dimension(280, 700));
@@ -251,9 +252,9 @@ public class MainFrame extends JFrame {
     }
 
 
+
     private void closeResources(){
         playbackManager.getMediaController().release();
-
         // releasing sockets and save data
         Main.user.setOnline(false);
         Main.user.setLastOnline(new Date().getTime());
