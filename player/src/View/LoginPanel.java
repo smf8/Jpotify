@@ -1,8 +1,10 @@
 package View;
 
+import Model.Song;
 import Model.User;
 import utils.FontManager;
 import utils.IO.DatabaseConnection;
+import utils.IO.DatabaseHandler;
 import utils.IO.DatabaseHelper;
 import utils.IO.FileIO;
 
@@ -81,6 +83,12 @@ public class LoginPanel extends JPanel {
                         user.setOnline(true);
                         user.setLastOnline(new Date().getTime());
                         Main.user = user;
+                        // getting friends from database
+                        for (String friendsName : Main.user.getFriends().split(Song.HASH_SEPERATOR)){
+                            DatabaseConnection friendConnection = new DatabaseConnection(friendsName);
+                            DatabaseHandler friendHandler = new DatabaseHelper(friendConnection.getConnection());
+                            Main.user.addFriend(Main.usersHandler.getUserByUsername(friendsName, friendHandler).get(0));
+                        }
                         Main.closeFrame();
                         MainFrame mainFrame = new MainFrame();
                         Main.closeFrame();

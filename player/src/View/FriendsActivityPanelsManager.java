@@ -8,6 +8,8 @@ import utils.IO.DatabaseHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
@@ -38,6 +40,18 @@ public class FriendsActivityPanelsManager extends JPanel {
         add(Box.createRigidArea(new Dimension(0,20)));
         findFriendsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         findFriendsButton.setForeground(Color.WHITE);
+        findFriendsButton.addActionListener(actionEvent -> {
+           FindFriendPanel findFriendPanel = new FindFriendPanel(friend -> {
+               String friends = Main.user.getFriends();
+               if (!friends.contains(friend.getUsername())){
+                   friends = friends.concat(friend.getUsername()).concat(Song.HASH_SEPERATOR);
+                   Main.user.addFriend(friend);
+                   Main.usersHandler.removeUser(Main.user.getUsername());
+                   Main.usersHandler.addUser(Main.user);
+                   addFriendToPanel(friend);
+               }
+           });
+        });
         this.add(findFriendsButton);
         add(Box.createRigidArea(new Dimension(0,10)));
     }
@@ -51,6 +65,9 @@ public class FriendsActivityPanelsManager extends JPanel {
             }
         });
         friendsActivityPanels.add(friendsActivityPanel);
+        this.add(friendsActivityPanel);
+        validate();
+        repaint();
     }
     public void clearFirendsPanel(){
 
@@ -61,15 +78,6 @@ public class FriendsActivityPanelsManager extends JPanel {
         validate();
 
     }
-    public void showFriends(){
-        for(FriendsActivityPanel x: friendsActivityPanels){
-            this.add(x);
-            add(Box.createRigidArea(new Dimension(0,0)));
-        }
-        validate();
-        repaint();
-    }
-
 
     public void updateFriendsList(){
         ArrayList<User> currentFriends = new ArrayList<>();
@@ -85,6 +93,9 @@ public class FriendsActivityPanelsManager extends JPanel {
             userC.close();
             handler.close();
         }
-        showFriends();
+    }
+
+    interface AddFriendListener{
+        void addFriend(User friend);
     }
 }

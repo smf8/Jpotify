@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1cb860c6-3782-438a-83e2-176b477104dd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/player/src/utils/net/ClientHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/player/src/utils/net/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/player/src/View/FindFriendPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/Model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/src/View/LoginPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/View/LoginPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/player/src/View/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/View/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/src/View/SignUpPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/View/SignUpPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/src/utils/net/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/utils/net/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/player/src/utils/playback/SimplePlaybackListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/player/src/utils/playback/SimplePlaybackListener.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,58 +27,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player/src/Model/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1600">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            <state relative-caret-position="192">
+              <caret line="82" column="19" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
               <folding>
-                <element signature="e#2162#2163#0" expanded="true" />
-                <element signature="e#2226#2227#0" expanded="true" />
-                <element signature="e#2304#2305#0" expanded="true" />
-                <element signature="e#2370#2371#0" expanded="true" />
-                <element signature="e#2458#2459#0" expanded="true" />
-                <element signature="e#2529#2530#0" expanded="true" />
-                <element signature="e#2630#2631#0" expanded="true" />
-                <element signature="e#2711#2712#0" expanded="true" />
-                <element signature="e#2820#2821#0" expanded="true" />
-                <element signature="e#2884#2885#0" expanded="true" />
-                <element signature="e#2952#2953#0" expanded="true" />
-                <element signature="e#3046#3047#0" expanded="true" />
-                <element signature="e#3130#3131#0" expanded="true" />
+                <element signature="e#2236#2237#0" expanded="true" />
+                <element signature="e#2300#2301#0" expanded="true" />
+                <element signature="e#2378#2379#0" expanded="true" />
+                <element signature="e#2444#2445#0" expanded="true" />
+                <element signature="e#2532#2533#0" expanded="true" />
+                <element signature="e#2603#2604#0" expanded="true" />
+                <element signature="e#2704#2705#0" expanded="true" />
+                <element signature="e#2785#2786#0" expanded="true" />
+                <element signature="e#2894#2895#0" expanded="true" />
+                <element signature="e#3089#3090#0" expanded="true" />
+                <element signature="e#3157#3158#0" expanded="true" />
+                <element signature="e#3251#3252#0" expanded="true" />
+                <element signature="e#3335#3336#0" expanded="true" />
                 <element signature="e#3606#3607#0" expanded="true" />
                 <element signature="e#3645#3646#0" expanded="true" />
-                <element signature="e#4385#4386#0" expanded="true" />
+                <element signature="e#4590#4591#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/player/src/View/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="35" column="82" selection-start-line="35" selection-start-column="82" selection-end-line="35" selection-end-column="82" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#746#747#0" expanded="true" />
-                <element signature="e#833#834#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/player/src/View/SignUpPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="524">
-              <caret line="86" column="14" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player/src/View/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="134" column="66" selection-start-line="134" selection-start-column="66" selection-end-line="134" selection-end-column="66" />
+            <state relative-caret-position="301">
+              <caret line="166" column="57" selection-start-line="166" selection-start-column="57" selection-end-line="166" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2489#3054#0" expanded="true" />
@@ -100,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player/src/utils/net/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="64" column="93" selection-start-line="64" selection-start-column="93" selection-end-line="64" selection-end-column="93" />
+            <state relative-caret-position="401">
+              <caret line="64" column="41" selection-start-line="64" selection-start-column="41" selection-end-line="64" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -110,37 +84,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/player/src/View/LoginPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="45" column="88" selection-start-line="45" selection-start-column="88" selection-end-line="45" selection-end-column="88" />
+            <state relative-caret-position="153">
+              <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/player/src/utils/TagReader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1300">
-              <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="88" column="5" lean-forward="true" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
+            <state relative-caret-position="241">
+              <caret line="81" column="36" lean-forward="true" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -148,8 +104,55 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/player/src/utils/IO/DatabaseHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="680" column="35" selection-start-line="680" selection-start-column="35" selection-end-line="680" selection-end-column="35" />
+            <state relative-caret-position="293">
+              <caret line="798" column="16" selection-start-line="798" selection-start-column="16" selection-end-line="798" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player/src/View/LoginPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="93">
+              <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player/src/View/FindFriendPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="52" column="88" selection-start-line="52" selection-start-column="88" selection-end-line="52" selection-end-column="88" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#405#567#0" expanded="true" />
+                <element signature="e#566#567#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player/src/View/AddNewPlaylistPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="166" column="146" selection-start-line="166" selection-start-column="64" selection-end-line="166" selection-end-column="146" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/player/src/utils/net/ClientHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="580">
+              <caret line="35" column="76" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="76" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -167,8 +170,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rows.get</find>
-      <find>Object[]</find>
       <find>getValue</find>
       <find>rows.get(songs.size()-1)</find>
       <find>table.</find>
@@ -197,6 +198,8 @@
       <find>user</find>
       <find>right</find>
       <find>friends</find>
+      <find>new reqe</find>
+      <find>setFri</find>
     </findStrings>
     <replaceStrings>
       <replace>MP3Player</replace>
@@ -225,7 +228,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/player/src/playback/MP3Player.java" />
         <option value="$PROJECT_DIR$/player/src/playback/TestPlayer.java" />
         <option value="$PROJECT_DIR$/player/src/playback/PlaybackManager.java" />
         <option value="$PROJECT_DIR$/player/src/utils/video/MediaPane.java" />
@@ -267,15 +269,16 @@
         <option value="$PROJECT_DIR$/player/src/Model/Request.java" />
         <option value="$PROJECT_DIR$/player/src/utils/net/Server.java" />
         <option value="$PROJECT_DIR$/player/src/utils/IO/DatabaseConnection.java" />
-        <option value="$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java" />
         <option value="$PROJECT_DIR$/player/src/utils/net/ClientHandler.java" />
-        <option value="$PROJECT_DIR$/player/src/View/MainFrame.java" />
-        <option value="$PROJECT_DIR$/player/src/Model/User.java" />
         <option value="$PROJECT_DIR$/player/src/utils/playback/SimplePlaybackListener.java" />
-        <option value="$PROJECT_DIR$/player/src/View/LoginPanel.java" />
         <option value="$PROJECT_DIR$/player/src/utils/net/Client.java" />
         <option value="$PROJECT_DIR$/player/src/View/SignUpPanel.java" />
+        <option value="$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java" />
+        <option value="$PROJECT_DIR$/player/src/View/LoginPanel.java" />
         <option value="$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java" />
+        <option value="$PROJECT_DIR$/player/src/Model/User.java" />
+        <option value="$PROJECT_DIR$/player/src/View/FindFriendPanel.java" />
+        <option value="$PROJECT_DIR$/player/src/View/MainFrame.java" />
       </list>
     </option>
   </component>
@@ -552,13 +555,6 @@
       <workItem from="1561572249478" duration="1242000" />
       <workItem from="1561609345057" duration="5237000" />
       <workItem from="1561614637277" duration="8352000" />
-    </task>
-    <task id="LOCAL-00002" summary="Wrote code to read mp3 tags from it's last 128 bytes">
-      <created>1560085657912</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1560085657912</updated>
     </task>
     <task id="LOCAL-00003" summary="Added Mp3agic library">
       <created>1560086933360</created>
@@ -896,14 +892,22 @@
       <option name="project" value="LOCAL" />
       <updated>1561617066894</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="added basic server/client ability">
+      <created>1561639099738</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1561639099738</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="317808000" />
+    <option name="totallyTimeSpent" value="326341000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3621795" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -973,8 +977,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added audio forward / backward and volume controll" />
-    <MESSAGE value="Merge branch 'controller' of https://github.com/smf8/Jpotify into controller&#10;&#10;# Conflicts:&#10;#&#9;player/lib/Jl.jar&#10;#&#9;player/src/View/MainFrame.java&#10;#&#9;player/src/View/PlaybackControlPanel.java&#10;#&#9;player/src/View/PlaybackControlPanelsMain.java" />
     <MESSAGE value="Merged controller with origin/controller" />
     <MESSAGE value="created Users database table and added user adding / removal functionality" />
     <MESSAGE value="Created File chooser" />
@@ -998,16 +1000,15 @@
     <MESSAGE value="completed playlist creation" />
     <MESSAGE value="added liked songs and recently played songs" />
     <MESSAGE value="setup simple local communication" />
-    <option name="LAST_COMMIT_MESSAGE" value="setup simple local communication" />
+    <MESSAGE value="created basic server/client ability" />
+    <MESSAGE value="added basic server/client ability" />
+    <option name="LAST_COMMIT_MESSAGE" value="added basic server/client ability" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/Jpotify.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/player/src/View/SearchAndProfilesPanelsMain.java" />
     <entry file="file://$PROJECT_DIR$/player/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1150,16 +1151,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/View/AddNewPlaylistPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2780">
-          <caret line="160" column="48" selection-start-line="160" selection-start-column="48" selection-end-line="160" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/player/src/utils/IO/DatabaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
@@ -1178,16 +1169,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="93" column="57" selection-start-line="93" selection-start-column="57" selection-end-line="93" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/Model/Request.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1275,16 +1256,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/utils/net/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jrt:///usr/lib/jvm/java-11-oracle!/java.base/java/io/OutputStream.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
@@ -1296,18 +1267,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/utils/net/ClientHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="56" column="61" selection-start-line="56" selection-start-column="61" selection-end-line="56" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#510#511#0" expanded="true" />
-            <element signature="e#552#553#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1340,17 +1299,139 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/utils/TagReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1300">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/View/SignUpPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="524">
+          <caret line="86" column="14" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/Model/Request.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/utils/net/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/utils/IO/DatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="798" column="16" selection-start-line="798" selection-start-column="16" selection-end-line="798" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/player/src/View/LoginPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
+        <state relative-caret-position="93">
+          <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/View/AddNewPlaylistPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="166" column="146" selection-start-line="166" selection-start-column="64" selection-end-line="166" selection-end-column="146" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/Model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="82" column="19" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+          <folding>
+            <element signature="e#2236#2237#0" expanded="true" />
+            <element signature="e#2300#2301#0" expanded="true" />
+            <element signature="e#2378#2379#0" expanded="true" />
+            <element signature="e#2444#2445#0" expanded="true" />
+            <element signature="e#2532#2533#0" expanded="true" />
+            <element signature="e#2603#2604#0" expanded="true" />
+            <element signature="e#2704#2705#0" expanded="true" />
+            <element signature="e#2785#2786#0" expanded="true" />
+            <element signature="e#2894#2895#0" expanded="true" />
+            <element signature="e#3089#3090#0" expanded="true" />
+            <element signature="e#3157#3158#0" expanded="true" />
+            <element signature="e#3251#3252#0" expanded="true" />
+            <element signature="e#3335#3336#0" expanded="true" />
+            <element signature="e#3606#3607#0" expanded="true" />
+            <element signature="e#3645#3646#0" expanded="true" />
+            <element signature="e#4590#4591#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/utils/net/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="64" column="41" selection-start-line="64" selection-start-column="41" selection-end-line="64" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/utils/net/ClientHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="35" column="76" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/View/FindFriendPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="52" column="88" selection-start-line="52" selection-start-column="88" selection-end-line="52" selection-end-column="88" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#405#567#0" expanded="true" />
+            <element signature="e#566#567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="81" column="36" lean-forward="true" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/player/src/View/MainFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="134" column="66" selection-start-line="134" selection-start-column="66" selection-end-line="134" selection-end-column="66" />
+        <state relative-caret-position="301">
+          <caret line="166" column="57" selection-start-line="166" selection-start-column="57" selection-end-line="166" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2489#3054#0" expanded="true" />
@@ -1362,76 +1443,6 @@
             <element signature="e#9585#9586#0" expanded="true" />
             <element signature="e#9618#9619#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/utils/net/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="64" column="93" selection-start-line="64" selection-start-column="93" selection-end-line="64" selection-end-column="93" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/utils/IO/DatabaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="680" column="35" selection-start-line="680" selection-start-column="35" selection-end-line="680" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/utils/TagReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1300">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="45" column="88" selection-start-line="45" selection-start-column="88" selection-end-line="45" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/Model/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1600">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding>
-            <element signature="e#2162#2163#0" expanded="true" />
-            <element signature="e#2226#2227#0" expanded="true" />
-            <element signature="e#2304#2305#0" expanded="true" />
-            <element signature="e#2370#2371#0" expanded="true" />
-            <element signature="e#2458#2459#0" expanded="true" />
-            <element signature="e#2529#2530#0" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2820#2821#0" expanded="true" />
-            <element signature="e#2884#2885#0" expanded="true" />
-            <element signature="e#2952#2953#0" expanded="true" />
-            <element signature="e#3046#3047#0" expanded="true" />
-            <element signature="e#3130#3131#0" expanded="true" />
-            <element signature="e#3606#3607#0" expanded="true" />
-            <element signature="e#3645#3646#0" expanded="true" />
-            <element signature="e#4385#4386#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/View/SignUpPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="86" column="14" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/player/src/View/FriendsActivityPanelsManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="88" column="5" lean-forward="true" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
         </state>
       </provider>
     </entry>

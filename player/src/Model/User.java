@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String password;
     private URI profileImage;
     private long lastOnline;
-    private ArrayList<User> friendsList;
+    private ArrayList<User> friendsList = new ArrayList<>();
     private String friends;
     public User(String username, String password) {
         this.username = username;
@@ -75,10 +75,12 @@ public class User implements Serializable {
 
     public Song getCurrentSong() {
         if (currentSong == null) {
+            if (songs.size()>=1)
             return songs.get(0);
         }else{
             return currentSong;
         }
+        return null;
     }
 
     public void setCurrentSong(Song currentSong) {
@@ -116,7 +118,10 @@ public class User implements Serializable {
     public void setFriendsList(ArrayList<User> friendsList) {
         this.friendsList = friendsList;
     }
-
+    public void addFriend(User friend){
+        if (!this.friendsList.contains(friend))
+        this.friendsList.add(friend);
+    }
     public String getFriends() {
         return friends;
     }
