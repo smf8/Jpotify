@@ -722,6 +722,8 @@ public class DatabaseHelper implements DatabaseHandler {
                 user.setAlbums(albums);
                 user.setPlaylists(playlists);
                 user.setLikedSongs(likedSongs);
+                user.setOnline(resultSet.getInt("online")==1);
+                user.setLastOnline(resultSet.getLong("lastOnline"));
                 user.setSongs(recentSongs);
                 user.setCurrentSong(null);
                 user.setFriends(resultSet.getString("friends"));
@@ -760,7 +762,7 @@ public class DatabaseHelper implements DatabaseHandler {
      */
     public boolean addUser(User user) {
         boolean success = true;
-        String query = "INSERT OR IGNORE INTO Users(username, likedSongs, recentlyPlayed, password,profileImage,albums, playlists, friends) VALUES(?,?,?,?,?,?,?,?)";
+        String query = "INSERT OR IGNORE INTO Users(username, likedSongs, recentlyPlayed, password,profileImage,albums, playlists, friends,online,lastOnline) VALUES(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
@@ -801,6 +803,9 @@ public class DatabaseHelper implements DatabaseHandler {
                 }
             }
             statement.setString(8, builder.toString());
+
+            statement.setInt(9, user.isOnline()?1:0);
+            statement.setLong(10, user.getLastOnline());
             statement.execute();
         } catch (SQLException e) {
             success = false;

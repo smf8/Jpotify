@@ -5,13 +5,14 @@ import utils.IO.FileIO;
 import utils.TagReader;
 
 import java.io.File;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Song {
+public class Song implements Serializable {
     private int releasedDate;
     private String hash;
     private String title;

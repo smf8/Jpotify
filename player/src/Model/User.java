@@ -3,11 +3,13 @@ package Model;
 import utils.IO.DatabaseConnection;
 import utils.IO.DatabaseHandler;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
     private String username;
     private ArrayList<Album> albums = new ArrayList<>();
     private ArrayList<Playlist> playlists = new ArrayList<>();
@@ -17,6 +19,7 @@ public class User {
     private boolean isOnline;
     private String password;
     private URI profileImage;
+    private long lastOnline;
     private ArrayList<User> friendsList;
     private String friends;
     public User(String username, String password) {
@@ -114,6 +117,14 @@ public class User {
         return friends;
     }
 
+    public long getLastOnline() {
+        return lastOnline;
+    }
+
+    public void setLastOnline(long lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
     public void setFriends(String friends) {
         this.friends = friends;
     }
@@ -146,5 +157,23 @@ public class User {
         }else{
             songs.add(0, song);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)){
+            return false;
+        }
+        if (obj == this)
+            return true;
+        if (this.getUsername().equals(((User) obj).getUsername())){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
     }
 }

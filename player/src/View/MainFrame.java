@@ -2,6 +2,7 @@ package View;
 
 import Model.Album;
 import Model.Playlist;
+import Model.Request;
 import Model.Song;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.FontManager;
@@ -9,6 +10,7 @@ import utils.IO.DatabaseAlterListener;
 import utils.IO.FileIO;
 import utils.IO.MyFileChooser;
 import utils.TagReader;
+import utils.net.Client;
 import utils.playback.PlaybackManager;
 
 import javax.swing.*;
@@ -22,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainFrame extends JFrame {
     static PlaybackManager playbackManager;
@@ -45,12 +48,15 @@ public class MainFrame extends JFrame {
     private static ArrayList<Playlist> allPlaylists;
     private static ArrayList<Song> likedSongs = new ArrayList<>();
     private static ArrayList<Song> playedSongs = new ArrayList<>();
+
+    public static Client userClient;
     public JFrame playListFrame;
 
     private OptionsPanel optionsPanel;
 
     public MainFrame() {
-        // init user song and album info
+        // init user login management
+        initClient();
         this.setLayout(new BorderLayout());
         initializeSongs();
         initSidePanels();
@@ -60,10 +66,27 @@ public class MainFrame extends JFrame {
         setupAlbumsPanel(allAlbums);
         this.pack();
         this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(MainFrame.this,
+                        "Are you sure you want to close this window?", "Close Window?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                            closeResources();
+                            System.exit(0);
+                        }
+            }
+        });
         mainFrame = this;
 
     }
-
+    private void initClient(){
+        new Thread(()->{
+        userClient = new Client("localhost", Main.user);
+        }).start();
+    }
     public static void addSongToQueue(Song song) {
         if (!songsQueue.contains(song)) {
             songsQueue.add(song);
@@ -108,11 +131,12 @@ public class MainFrame extends JFrame {
         addNewPlaylistText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                playListFrame = new JFrame();
-                AddNewPlaylistPanel addNewPlaylistPanel = new AddNewPlaylistPanel();
-                playListFrame.add(addNewPlaylistPanel);
-                playListFrame.pack();
-                playListFrame.setVisible(true);
+                userClient.sendRequest(new Request(0, Main.user));
+//                playListFrame = new JFrame();
+//                AddNewPlaylistPanel addNewPlaylistPanel = new AddNewPlaylistPanel();
+//                playListFrame.add(addNewPlaylistPanel);
+//                playListFrame.pack();
+//                playListFrame.setVisible(true);
             }
         });
 
@@ -224,5 +248,20 @@ public class MainFrame extends JFrame {
             optionsPanel.addPlaylist(playlist);
         }
         optionsPanel.showPlaylist();
+    }
+
+
+    private void closeResources(){
+        playbackManager.getMediaController().release();
+
+        // releasing sockets and save data
+        Main.user.setOnline(false);
+        Main.user.setLastOnline(new Date().getTime());
+        Main.usersHandler.removeUser(Main.user.getUsername());
+        Main.usersHandler.addUser(Main.user);
+        Main.databaseHandler.close();
+        Main.usersHandler.close();
+        userClient.sendRequest(new Request(-1, Main.user));
+        userClient.closeConnection();
     }
 }
