@@ -117,8 +117,8 @@ public class MainFrame extends JFrame {
         addNewPlaylistPanel.add(addNewPlaylistText, BorderLayout.CENTER);
         mainOptionsPanel.setLayout(new GridBagLayout());
         OptionsPanel optionsPanel = new OptionsPanel();
-        optionsPanel.addPlaylist("jkpk");
-        optionsPanel.addPlaylist("jkpk");
+        optionsPanel.addPlaylist("FAVORITS");
+        optionsPanel.addPlaylist("SHARED");
         optionsPanel.addPlaylist("jkpk");
         optionsPanel.showPlaylist();
         searchAndBackGroundPanel.setLayout(new BorderLayout());

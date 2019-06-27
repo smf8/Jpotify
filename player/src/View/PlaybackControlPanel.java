@@ -42,6 +42,7 @@ public class PlaybackControlPanel extends JPanel {
     private JLabel songImageLabel = new JLabel();
     private JLabel songNameLabel = new JLabel();
     private JLabel songArtistLabel = new JLabel();
+//    private JLabel passedLength = new JLabel();
     private boolean isLiked = false;
     private PlaybackManager playbackManager;
     private long duration;
@@ -58,6 +59,8 @@ public class PlaybackControlPanel extends JPanel {
         Song currentSong = playbackManager.getCurrentSong();
         duration = currentSong.getLength();
         musicSlider = new JProgressBar(0, (int) duration);
+        musicSlider.setStringPainted(true);
+        musicSlider.setString("0:0/0:0");
         playbackManager.getMediaController().mediaPlayer().events().addMediaPlayerEventListener(new SimplePlaybackListener(this));
         musicStringInformationPanel.setLayout(new BoxLayout(musicStringInformationPanel,BoxLayout.Y_AXIS));
         musicInformation.setLayout(new BorderLayout());
@@ -262,19 +265,33 @@ public class PlaybackControlPanel extends JPanel {
                 playState = 0;
                 isPlaying = true;
             }
+            int c = 1;
             while (playState <= duration && isPlaying) {
                 if (Thread.interrupted()){
                     return;
                 }
-//                System.out.println(Thread.currentThread().getName());
-//                            System.out.println(playState);
-//                            System.out.println(duration);
+                if (c == 10){
+                    String secS = ((int) ((duration/1000)%60)) + "";
+                    if (((int) ((duration/1000)%60)) < 10){
+                        secS = 0 + "" + ((int) ((duration/1000)%60));
+                    }
+                    String len = ((int) ((duration/1000)/60)) + ":" + secS ;
+                    int min = (playbackManager.getSec()/1000)/60;
+                    int sec = (playbackManager.getSec()/1000)%60;
+                    String secString = "" +sec;
+                    if (sec < 10){
+                        secString= 0 + "" + sec;
+                    }
+                    String passed = min+":"+secString+"/"+len;
+                    musicSlider.setString(passed);
+                    c=0;
+                }else{
+                    c++;
+                }
                 musicSlider.setValue(playState);
-//                System.out.println(playState);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex) {
-//                    System.out.println("Progress Stopped");
                     return;
                 }
                 playState += 100;
@@ -291,7 +308,8 @@ public class PlaybackControlPanel extends JPanel {
     }
     public void resetProgress(){
             playState = 0;
-            if (progressThread != null) {
+        musicSlider.setString("0:0/0:0");
+        if (progressThread != null) {
                 progressThread.stop();
                 progressThread = null;
             }
@@ -325,9 +343,9 @@ public class PlaybackControlPanel extends JPanel {
         isPlaying = true;
     }
     public void logData(){
-        System.out.println(duration);
-        System.out.println(playState);
-        System.out.println("-------");
+//        System.out.println(duration);
+//        System.out.println(playState);
+//        System.out.println("-------");
     }
 
     public PlaybackManager getPlaybackManager() {

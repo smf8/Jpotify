@@ -76,7 +76,9 @@ public class AlbumPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             ArrayList<Song> songs =album.getSongs();
             SongPanel songPanel = new SongPanel(songs);
-            listener.update(null , songPanel);
+            PlayPanel playPanel = new PlayPanel(album);
+            playPanel.addSongs(songPanel);
+            listener.update(null , playPanel);
         }
     });
     }

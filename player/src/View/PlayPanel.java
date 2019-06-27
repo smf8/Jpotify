@@ -24,7 +24,7 @@ public class PlayPanel extends JPanel{
     public PlayPanel(Album album){
         mainInfPanel.setLayout(new BorderLayout());
         stringInfPanel.setLayout(new BoxLayout(stringInfPanel,BoxLayout.Y_AXIS));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            this.setLayout(new BorderLayout());
         URL homeUrl;
         File homeFile = new File(album.getImageURI());
         Image homeImage;
@@ -50,14 +50,12 @@ public class PlayPanel extends JPanel{
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         creatorLabel.setText(album.getArtist());
-//        creatorLabel.setText("yfugjhb");
         creatorLabel.setFont(FontManager.getUbuntu(20f));
         creatorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(creatorLabel);
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         listSizeLabel.setText(album.getSongs().size()+"");
-//        listSizeLabel.setText(12+"");
         listSizeLabel.setFont(FontManager.getUbuntuLight(15f));
         listSizeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(listSizeLabel);
@@ -65,14 +63,13 @@ public class PlayPanel extends JPanel{
 
         mainInfPanel.add(picPanel,BorderLayout.WEST);
         mainInfPanel.add(stringInfPanel,BorderLayout.CENTER);
-        this.add(mainInfPanel);
-        this.add(Box.createRigidArea(new Dimension(0,5)));
+        this.add(mainInfPanel, BorderLayout.NORTH);
 
     }
     public PlayPanel(Playlist playlist){
         mainInfPanel.setLayout(new BorderLayout());
         stringInfPanel.setLayout(new BoxLayout(stringInfPanel,BoxLayout.Y_AXIS));
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new BorderLayout());
         URL homeUrl;
         File homeFile = new File(playlist.getImageURI());
         Image homeImage;
@@ -98,14 +95,13 @@ public class PlayPanel extends JPanel{
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         creatorLabel.setText(playlist.getCreator());
-//        creatorLabel.setText("yfugjhb");
         creatorLabel.setFont(FontManager.getUbuntu(20f));
         creatorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(creatorLabel);
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         listSizeLabel.setText(playlist.getSongs().size()+"");
-//        listSizeLabel.setText(12+"");
+
         listSizeLabel.setFont(FontManager.getUbuntuLight(15f));
         listSizeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(listSizeLabel);
@@ -113,13 +109,11 @@ public class PlayPanel extends JPanel{
 
         mainInfPanel.add(picPanel,BorderLayout.WEST);
         mainInfPanel.add(stringInfPanel,BorderLayout.CENTER);
-        this.add(mainInfPanel);
-        this.add(Box.createRigidArea(new Dimension(0,5)));
+        this.add(mainInfPanel,BorderLayout.NORTH);
 
     }
     public void addSongs(SongPanel songPanel){
-        this.add(songPanel);
-        this.add(Box.createRigidArea(new Dimension(0,0)));
+        this.add(songPanel,BorderLayout.CENTER);
     }
 
 

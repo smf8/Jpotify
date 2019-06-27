@@ -47,4 +47,9 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         System.out.println("finished");
         mediaPlayer.submit(() -> playbackControlPanel.getPlaybackManager().next());
     }
+
+    @Override
+    public void error(MediaPlayer mediaPlayer) {
+        super.error(mediaPlayer);
+    }
 }
