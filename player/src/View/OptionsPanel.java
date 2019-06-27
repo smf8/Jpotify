@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
 public class OptionsPanel extends JPanel {
-    private JLabel homeLabel = new JLabel("Profile");
-    private JLabel yourLibraryLabel = new JLabel("Your Library");
-    private JLabel recentlyPlayedLabel = new JLabel("Recently Played");
+    private JLabel profileLabel = new JLabel("Profile");
+    private JLabel yourLibraryLabel = new JLabel("Your");
+    private JLabel recentlyPlayedLabel = new JLabel("Recently played");
     private JLabel albumsLabel = new JLabel("Albums");
-    private JLabel artistsLabel = new JLabel("Liked Songs");
+    private JLabel artistsLabel = new JLabel("All Songs");
     private JLabel playListsLabel = new JLabel("Playlists");
     private ArrayList<JLabel> playlistsArray;
 
@@ -54,14 +54,21 @@ public class OptionsPanel extends JPanel {
         ImageIcon libraryIcon = new ImageIcon(new ImageIcon(libraryUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
         ImageIcon playlistIcon = new ImageIcon(new ImageIcon(playlistUrl).getImage().getScaledInstance(30,30,Image.SCALE_SMOOTH));
 
-        homeLabel.setIcon(homeIcon);
+        profileLabel.setIcon(homeIcon);
         yourLibraryLabel.setText("LIBRARY ");
         yourLibraryLabel.setIcon(libraryIcon);
         playListsLabel.setIcon(playlistIcon);
 
 
         //Adding elements to panel
-        add(homeLabel);
+        profileLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                ProfileFrame profileFrame = new ProfileFrame();
+            }
+        });
+        add(profileLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
 
         add(yourLibraryLabel);

@@ -51,24 +51,22 @@ public class PlayPanel extends JPanel{
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         creatorLabel.setText(album.getArtist());
-//        creatorLabel.setText("yfugjhb");
         creatorLabel.setFont(FontManager.getUbuntu(20f));
         creatorLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(creatorLabel);
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         listSizeLabel.setText(album.getSongs().size()+"");
-//        listSizeLabel.setText(12+"");
         listSizeLabel.setFont(FontManager.getUbuntuLight(15f));
         listSizeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         stringInfPanel.add(listSizeLabel);
         stringInfPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
+        stringInfPanel.setBackground(new Color(22,22,22));
+        stringInfPanel.setBorder(new EmptyBorder(30,30,0,0));
         mainInfPanel.add(picPanel,BorderLayout.WEST);
         mainInfPanel.add(stringInfPanel,BorderLayout.CENTER);
-        mainInfPanel.setBackground(new Color(22,22,22));
-        this.add(mainInfPanel, BorderLayout.CENTER);
-        this.add(Box.createRigidArea(new Dimension(0,5)));
+        this.add(mainInfPanel, BorderLayout.NORTH);
 
     }
     public PlayPanel(Playlist playlist){
@@ -102,18 +100,17 @@ public class PlayPanel extends JPanel{
         stringInfPanel.add(creatorLabel);
 
         listSizeLabel.setText(playlist.getSongs().size()+"");
-//        listSizeLabel.setText(12+"");
+
         listSizeLabel.setFont(FontManager.getUbuntuLight(15f));
         stringInfPanel.add(listSizeLabel);
 
         mainInfPanel.add(picPanel,BorderLayout.WEST);
         mainInfPanel.add(stringInfPanel,BorderLayout.CENTER);
-        mainInfPanel.setBackground(new Color(22,22,22));
-        this.add(mainInfPanel, BorderLayout.NORTH);
+        this.add(mainInfPanel,BorderLayout.NORTH);
 
     }
     public void addSongs(SongPanel songPanel){
-        this.add(songPanel, BorderLayout.CENTER);
+        this.add(songPanel,BorderLayout.CENTER);
     }
 
 

@@ -4,6 +4,7 @@ import Model.Song;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventListener;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
@@ -61,7 +62,7 @@ public class PlaybackManager {
 //                 resetting queue
                 queueIndex = 0;
             }
-            System.out.println(mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath()));
+            System.out.println(mediaController.mediaPlayer().media().play(new File(songQueue.get(queueIndex).getLocation()).getAbsolutePath()));
 //            playbackListener.musicChanged(songQueue.get(queueIndex));
 //            play();
         }
@@ -80,7 +81,7 @@ public class PlaybackManager {
             } else {
                 queueIndex = 0;
             }
-            mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath());
+            mediaController.mediaPlayer().media().play(new File(songQueue.get(queueIndex).getLocation()).getAbsolutePath());
 //            playbackListener.musicChanged(songQueue.get(queueIndex));
 //            play();
         }
@@ -94,8 +95,8 @@ public class PlaybackManager {
         if (songQueue.size() >= 1) {
             initPlayer();
                 if (!mediaController.mediaPlayer().media().isValid()){
-                    System.out.println(songQueue.get(queueIndex).getLocation().getPath());
-                    System.out.println(mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath()));
+//                    System.out.println(file.length());
+                    System.out.println(mediaController.mediaPlayer().media().play(new File(songQueue.get(queueIndex).getLocation()).getAbsolutePath()));
                 }else{
                     mediaController.mediaPlayer().controls().play();
                 }
@@ -126,7 +127,7 @@ public class PlaybackManager {
      */
     public void play(Song songInQueue) {
         songQueue.add(queueIndex, songInQueue);
-        mediaController.mediaPlayer().media().play(songInQueue.getLocation().getPath());
+        mediaController.mediaPlayer().media().play(new File(songInQueue.getLocation()).getAbsolutePath());
     }
 
     /**
@@ -137,7 +138,7 @@ public class PlaybackManager {
             mediaController.mediaPlayer().controls().stop();
             Collections.shuffle(songQueue);
             queueIndex = 0;
-            mediaController.mediaPlayer().media().play(songQueue.get(queueIndex).getLocation().getPath());
+            mediaController.mediaPlayer().media().play(new File(songQueue.get(queueIndex).getLocation()).getAbsolutePath());
         }
     }
 
@@ -177,6 +178,10 @@ public class PlaybackManager {
 //        }
     }
 
+    /**
+     * method to get current playback time
+     * @return time passed in milliseconds
+     */
     public int getSec() {
 //        return player.getCurrentFrame() * 26;
         return (int) (mediaController.mediaPlayer().status().position()* mediaController.mediaPlayer().status().length());

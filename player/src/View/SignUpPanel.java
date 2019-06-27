@@ -27,7 +27,7 @@ public class SignUpPanel extends JPanel {
     private JPasswordField passField = new JPasswordField();
     private JPanel passPanel = new JPanel();
     private JPanel userNamePanel = new JPanel();
-    private URI profileImageURI = URI.create(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "no-profile.png");
+    private URI profileImageURI = new File(FileIO.RESOURCES_RELATIVE + "icons" + File.separator + "noprofile.png").toURI();
 
     public SignUpPanel() {
         this.setBackground(new Color(22, 22, 22));
@@ -89,13 +89,11 @@ public class SignUpPanel extends JPanel {
             if (!userNameTextField.getText().equals("")) {
 //                ArrayList<URI> usersDatabaseFiles = FileIO.findFilesRecursive(new File(FileIO.RESOURCES_RELATIVE));
                 if (!Main.usersHandler.addUser(user)) {
-                    System.out.println("fai");
                     createAccountLabel.setText("Username taken, choose another !");
                     createAccountLabel.setForeground(Color.RED);
                     this.validate();
                     this.repaint();
                 } else {
-                    System.out.println("succ");
                     createAccountLabel.setText("Account created successfully");
                     createAccountLabel.setForeground(Color.GREEN);
                     this.validate();
