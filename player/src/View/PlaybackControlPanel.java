@@ -155,6 +155,12 @@ public class PlaybackControlPanel extends JPanel {
         repeatLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                System.out.println("-------");
+                for (Song s : playbackManager.getSongQueue()){
+                    System.out.println(s.getTitle());
+                }
+                System.out.println("*********");
                 //       playbackManager.
                 if (isRepeating == false) {
                     repeatLabel.setIcon(isRepeatingIcon);
@@ -361,9 +367,9 @@ public class PlaybackControlPanel extends JPanel {
         isPlaying = true;
     }
     public void logData(){
-        System.out.println(duration);
-        System.out.println(playState);
-        System.out.println("-------");
+//        System.out.println(duration);
+//        System.out.println(playState);
+//        System.out.println("-------");
     }
 
     public PlaybackManager getPlaybackManager() {

@@ -126,8 +126,13 @@ public class PlaybackManager {
      * @param songInQueue the song about to be played
      */
     public void play(Song songInQueue) {
-        songQueue.add(queueIndex, songInQueue);
-        mediaController.mediaPlayer().media().play(new File(songInQueue.getLocation()).getAbsolutePath());
+        if (songQueue.contains(songInQueue)){
+            queueIndex = songQueue.indexOf(songInQueue);
+            mediaController.mediaPlayer().media().play(new File(songInQueue.getLocation()).getAbsolutePath());
+        }else{
+            songQueue.add(queueIndex, songInQueue);
+            mediaController.mediaPlayer().media().play(new File(songInQueue.getLocation()).getAbsolutePath());
+        }
     }
 
     /**
@@ -162,6 +167,10 @@ public class PlaybackManager {
 
     public Song getCurrentSong() {
         return songQueue.get(queueIndex);
+    }
+
+    public ArrayList<Song> getSongQueue() {
+        return songQueue;
     }
 
     /**
@@ -221,6 +230,13 @@ public class PlaybackManager {
     public void resetQueue(ArrayList<Song> newQueue){
         songQueue = newQueue;
         queueIndex = 0;
+    }
+    public void setQueueIndex(int index){
+        if (index >= songQueue.size()){
+            queueIndex = 0;
+        }else{
+            queueIndex = index;
+        }
     }
     public void changeVolume(float vol) {
         mediaController.mediaPlayer().audio().setVolume((int) vol);

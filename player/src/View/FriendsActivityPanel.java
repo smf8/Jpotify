@@ -56,11 +56,11 @@ public class FriendsActivityPanel extends JPanel {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        if (user.isOnline()){
+        new Thread(()->{
+            if (user.isOnline()){
             isOnlineLabel.setText("Online");
         }else{
             isOnlineLabel.setFont(FontManager.getUbuntuLight(14f));
-            new Thread(()->{
                 while (true) {
                     long diff = new Date().getTime() - user.getLastOnline();
                     ;
@@ -76,8 +76,8 @@ public class FriendsActivityPanel extends JPanel {
                         e.printStackTrace();
                     }
                 }
-            }).start();
         }
+        }).start();
 
         //
 

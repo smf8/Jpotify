@@ -43,6 +43,6 @@ public interface DatabaseHandler {
     Album getAlbumByID(int ID);
     Playlist getPlaylistByID(int ID);
     void removeUser(String username);
-
+    void updateSong(Song song);
     void close();
 }

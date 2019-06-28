@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Song implements Serializable {
+public class Song implements Serializable{
     private int releasedDate;
     private String hash;
     private String title;
@@ -78,6 +78,10 @@ public class Song implements Serializable {
         return playDate;
     }
 
+    public void setPlayDate(LocalDate playDate) {
+        this.playDate = playDate;
+    }
+
     public URI getLocation() {
         return location;
     }
@@ -137,4 +141,5 @@ public class Song implements Serializable {
         }
         return false;
     }
+
 }

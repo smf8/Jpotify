@@ -824,6 +824,25 @@ public class DatabaseHelper implements DatabaseHandler {
         return success;
     }
 
+    public void updateSong(Song song){
+        String query = "UPDATE Songs set playDate = ? WHERE hash = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setString(1, LocalDate.now().toString());
+            statement.setString(2, song.getHash());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void close() {
         if (connection != null) {
             try {

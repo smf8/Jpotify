@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class SongPanel extends JPanel {
     JTable table;
     private boolean DEBUG = true;
-    private ArrayList<Song> songs;
+//    private ArrayList<Song> songs;
     private ArrayList<SongTableRow> rows = new ArrayList<>();
     private DatabaseAlterListener databaseAlterListener;
     private SongTableModel model;
@@ -33,7 +33,6 @@ public class SongPanel extends JPanel {
     public SongPanel(ArrayList<Song> songs, int mode, Playlist parent) {
         super(new BorderLayout());
             initPlaylistPopUpMenu();
-        this.songs = songs;
         this.parent = parent;
         model = new SongTableModel();
 
@@ -158,6 +157,8 @@ public class SongPanel extends JPanel {
                 if (e.getClickCount() == 2) {
                     int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
                     Song selectedSong = songs.get(row);
+                    MainFrame.playbackManager.resetQueue(songs);
+                    MainFrame.playbackManager.setQueueIndex(row);
                     MainFrame.playbackManager.play(selectedSong);
                 }else{
                     int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
@@ -194,10 +195,10 @@ public class SongPanel extends JPanel {
     private ArrayList<Song> getSelectedSongs() {
         SongTableModel songTableModel = (SongTableModel) table.getModel();
         ArrayList<Song> selected = new ArrayList<>();
-        for (int i = 0; i < songs.size(); i++) {
+        for (int i = 0; i < rows.size(); i++) {
             Boolean checked = (Boolean) songTableModel.getValueAt(i, 6);
             if (checked) {
-                selected.add(songs.get(i));
+                selected.add(rows.get(i).getSong());
             }
         }
         return selected;
@@ -214,26 +215,25 @@ public class SongPanel extends JPanel {
     }
 
     public void addSong(Song song) {
-        songs.add(song);
         SongTableRow row = new SongTableRow(song);
         SwingUtilities.invokeLater(() -> model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
                 row.getTitle(),
                 row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()}));
-        rows = new ArrayList<>();
-        for (Song s : songs){
-            rows.add(new SongTableRow(s));
+        ArrayList<SongTableRow> newRows = new ArrayList<>();
+        for (SongTableRow s : rows){
+            newRows.add(s);
         }
+        rows = newRows;
         databaseAlterListener.saveSong(song);
     }
 
     public void removeSongFromPlaylist(Song song) {
         int index = -1;
-        for (int i = 0; i < songs.size(); i++) {
-            if (songs.get(i).equals(song)) {
+        for (int i = 0; i < rows.size(); i++) {
+            if (rows.get(i).getSong().equals(song)) {
                 index = i;
             }
         }
-        songs.remove(index);
         rows.remove(index);
         SongTableModel model = (SongTableModel) table.getModel();
         model.removeRow(index);
@@ -248,16 +248,15 @@ public class SongPanel extends JPanel {
      */
     public void removeSong(Song song) {
         int index = -1;
-        for (int i = 0; i < songs.size(); i++) {
-            if (songs.get(i).equals(song)) {
+        for (int i = 0; i < rows.size(); i++) {
+            if (rows.get(i).getSong().equals(song)) {
                 index = i;
             }
         }
-        songs.remove(index);
         rows.remove(index);
         SongTableModel model = (SongTableModel) table.getModel();
         model.removeRow(index);
-        databaseAlterListener.removeSong(song);
+        Main.databaseHandler.removeSong(song);
         // tell to remove song from somewhere
     }
 
