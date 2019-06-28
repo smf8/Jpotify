@@ -1,6 +1,8 @@
 package utils.playback;
 
+import Model.Request;
 import View.Main;
+import View.MainFrame;
 import View.PlaybackControlPanel;
 import uk.co.caprica.vlcj.media.MediaRef;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
@@ -29,6 +31,7 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         playbackControlPanel.updateInformation();
         playbackControlPanel.startProgress();
         Main.user.listened(playbackControlPanel.getPlaybackManager().getCurrentSong(), Main.usersHandler);
+        MainFrame.userClient.sendRequest(new Request(0, Main.user));
     }
 
     @Override
@@ -40,6 +43,8 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
     @Override
     public void stopped(MediaPlayer mediaPlayer) {
         playbackControlPanel.resetProgress();
+        Main.user.setCurrentSong(null);
+        MainFrame.userClient.sendRequest(new Request(0, Main.user));
     }
 
     @Override

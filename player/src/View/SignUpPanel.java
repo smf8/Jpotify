@@ -103,6 +103,7 @@ public class SignUpPanel extends JPanel {
                     Main.user = user;
                     Main.user.setOnline(true);
                     Main.user.setLastOnline(new Date().getTime());
+                    Main.user.setFriends("");
                     // start the main application
                     // setting the database handler
                     DatabaseConnection connection = new DatabaseConnection(userNameTextField.getText());

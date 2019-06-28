@@ -85,13 +85,18 @@ public class LoginPanel extends JPanel {
                         Main.user = user;
                         // getting friends from database
                         for (String friendsName : Main.user.getFriends().split(Song.HASH_SEPERATOR)){
+                            if (friendsName.equals(""))
+                                break;
                             DatabaseConnection friendConnection = new DatabaseConnection(friendsName);
                             DatabaseHandler friendHandler = new DatabaseHelper(friendConnection.getConnection());
                             Main.user.addFriend(Main.usersHandler.getUserByUsername(friendsName, friendHandler).get(0));
                         }
+
+                        Main.usersHandler.removeUser(Main.user.getUsername());
+                        Main.usersHandler.addUser(Main.user);
+
                         Main.closeFrame();
                         MainFrame mainFrame = new MainFrame();
-                        Main.closeFrame();
                     } else {
                         welcomeLabel.setText("Try again !");
                         welcomeLabel.setForeground(Color.RED);

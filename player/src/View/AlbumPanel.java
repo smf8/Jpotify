@@ -1,6 +1,7 @@
 package View;
 
 import Model.Album;
+import Model.Playlist;
 import Model.Song;
 import utils.FontManager;
 
@@ -24,8 +25,10 @@ public class AlbumPanel extends JPanel {
         this.listener = listener;
     }
     //    private JLabel songsAlbum = new JLabel();
-    public AlbumPanel(Album album) {
-        this.album = album;
+    public AlbumPanel(Playlist album) {
+        if (album instanceof Album) {
+            this.album = (Album) album;
+        }
         this.setBackground(new Color(22, 22, 22));
         URL homeUrl;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -54,10 +57,17 @@ public class AlbumPanel extends JPanel {
             albumsName.setText(album.getTitle());
         albumsName.setForeground(Color.WHITE);
         albumsName.setFont(FontManager.getUbuntuBold(13f));
-        if (album.getArtist().length() > 30)
-            albumsArtist.setText(album.getArtist().substring(0, 27) + " ...");
-        else
-            albumsArtist.setText(album.getArtist());
+        if (this.album != null) {
+            if (this.album.getArtist().length() > 30)
+                albumsArtist.setText(this.album.getArtist().substring(0, 27) + " ...");
+            else
+                albumsArtist.setText(this.album.getArtist());
+        }else{
+            if (album.getCreator().length() > 30)
+                albumsArtist.setText(album.getCreator().substring(0, 27) + " ...");
+            else
+                albumsArtist.setText(album.getCreator());
+        }
         albumsArtist.setForeground(Color.WHITE);
         albumsArtist.setFont(FontManager.getUbuntu(13f));
         this.add(imageLabel);

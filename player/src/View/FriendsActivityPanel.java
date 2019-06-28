@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class FriendsActivityPanel extends JPanel {
     private JLabel friendsNameLabel = new JLabel();
@@ -30,12 +31,12 @@ public class FriendsActivityPanel extends JPanel {
     public FriendsActivityPanel(User user) {
         friendsNameLabel.setFont(FontManager.getUbuntuBold(16f));
         friendsNameLabel.setText(user.getUsername());
-        if (user.getCurrentSong() == null) {
+        if (user.getSongs().size()<1) {
             lastPlayedSongLabel.setText("Listened to nothing");
             lastSongsArtistLabel.setText("Nobody :(");
         }else{
-            lastPlayedSongLabel.setText(user.getCurrentSong().getTitle());
-            lastSongsArtistLabel.setText(user.getCurrentSong().getArtist());
+            lastPlayedSongLabel.setText(user.getSongs().get(0).getTitle());
+            lastSongsArtistLabel.setText(user.getSongs().get(0).getArtist());
         }
         //
         friendsInformationPanel.setLayout(new BoxLayout(friendsInformationPanel,BoxLayout.PAGE_AXIS));
@@ -58,23 +59,24 @@ public class FriendsActivityPanel extends JPanel {
         if (user.isOnline()){
             isOnlineLabel.setText("Online");
         }else{
+            isOnlineLabel.setFont(FontManager.getUbuntuLight(14f));
             new Thread(()->{
-
                 while (true) {
-                    long diff = user.getLastOnline() - new Date().getTime();
-                    int day = (int) ((diff / 1000) / (24 * 3600));
-                    int hour = (int) (((diff / 1000) % (24 * 3600)) / 3600);
-                    int min = (int) (((diff / 1000) % 3600) / 60);
+                    long diff = new Date().getTime() - user.getLastOnline();
+                    ;
+                    int day = (int) TimeUnit.MILLISECONDS.toDays(diff);
+                    int hour = (int) ((int) TimeUnit.MILLISECONDS.toHours(diff) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(diff)));
+                    int min = (int) (TimeUnit.MILLISECONDS.toMinutes(diff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(diff)));
                     isOnlineLabel.setText(day + "  " + hour + ":" + min + " ago");
-                    this.validate();
-                    this.repaint();
+                    FriendsActivityPanel.this.validate();
+                    FriendsActivityPanel.this.repaint();
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-            });
+            }).start();
         }
 
         //

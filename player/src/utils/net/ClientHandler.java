@@ -59,7 +59,6 @@ public class ClientHandler implements Runnable {
                                 entry.getValue().writeObject(request);
                                 entry.getValue().flush();
                                 System.out.println("sending request from [" + client.getUsername() + "] to [" + entry.getKey().getUsername() + "] - SendFile Request");
-
                             }
                         }
                     case 2:

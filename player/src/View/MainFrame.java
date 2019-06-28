@@ -228,11 +228,7 @@ public class MainFrame extends JFrame {
         }
     }
     public static ArrayList<Album> getAllAlbums(){
-        if (allAlbums == null){
             return Main.databaseHandler.searchAlbum("");
-        }else{
-            return allAlbums;
-        }
     }
     public static ArrayList<Song> getAllSongs(){
         if (allSongs == null){

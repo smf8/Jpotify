@@ -61,7 +61,7 @@ public class FriendsActivityPanelsManager extends JPanel {
         friendsActivityPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ProfileFrame profileFrame = new ProfileFrame();
+                ProfileFrame profileFrame = new ProfileFrame(user);
             }
         });
         friendsActivityPanels.add(friendsActivityPanel);
@@ -96,10 +96,11 @@ public class FriendsActivityPanelsManager extends JPanel {
         ArrayList<User> tmp;
         clearFirendsPanel();
         for (String username : Main.user.getFriends().split(Song.HASH_SEPERATOR)) {
+            if (username.equals(""))
+                break;
             DatabaseConnection userC = new DatabaseConnection(username);
             // set a handler to read a special user's songs
             DatabaseHandler handler = new DatabaseHelper(userC.getConnection());
-            System.out.println(username + "***");
             tmp = Main.usersHandler.getUserByUsername(username, handler);
             currentFriends.add(tmp.get(0));
             addFriendToPanel(tmp.get(0));

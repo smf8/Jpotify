@@ -60,7 +60,6 @@ public class FindFriendPanel extends JFrame {
         panel.add(resultLabel);
         this.add(panel);
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
     }

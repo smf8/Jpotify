@@ -2,6 +2,7 @@ package View;
 
 
 import Model.Album;
+import Model.Playlist;
 import utils.IO.FileIO;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class AlbumsPanel extends JPanel {
                 this.add(x);
             }
         }
-        public void addAlbum(Album album){
+        public void addAlbum(Playlist album){
             AlbumPanel albumPanel = new AlbumPanel(album);
             for(int i=0;i<albumPanels.size();i++){
                 if(albumPanels.get(i).getAlbum().equals(album)){

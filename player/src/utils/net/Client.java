@@ -11,6 +11,9 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Client {
@@ -58,7 +61,6 @@ public class Client {
                     // case 0 : user connected or profile updated
                     case 0:
                         User connectedFriend = inRequest.getUser();
-                        System.out.println(connectedFriend.getCurrentSong().getTitle());
 //                        DatabaseHandler handler = new DatabaseHelper(new DatabaseConnection(connectedFriend.getUsername()).getConnection());
                         if (Main.user.getFriends().contains(connectedFriend.getUsername())) {
                             MainFrame.getInstance().friendsActivityPanelsManager.updateFriendsList();
@@ -69,9 +71,14 @@ public class Client {
                        Request r = sendFileRequest(inRequest.getUser());
                         try {
                             outputStream.writeObject(r);
+                            outputStream.flush();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        break;
+                    case 2:
+                        receiveAndSaveFile(inRequest);
+                        break;
                 }
             }
         }).start();
@@ -93,13 +100,8 @@ public class Client {
         sendRequest(outRequest);
     }
     public Request sendFileRequest(User targetUser) {
-        URL url = null;
-        try {
-            url = Main.user.getCurrentSong().getLocation().toURL();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        File file = new File(String.valueOf(url));
+
+        File file = new File(Main.user.getCurrentSong().getLocation());
         byte[] bytesArray = new byte[(int) file.length()];
 
         FileInputStream fis = null;
@@ -120,14 +122,14 @@ public class Client {
         outRequest.addRequestedStringData(targetUser.getUsername());
         return outRequest;
     }
+
     public void receiveAndSaveFile(Request request){
         Song requestSong = request.getSong();
-        File newFile = new File(FileIO.RESOURCES_RELATIVE + "songs" + File.separator + requestSong.getHash() + ".mp3");
+        System.out.println("saving file over network");
+        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "songs" + File.separator + requestSong.getTitle() + "-" + requestSong.getArtist() + ".mp3").toAbsolutePath();
         try {
-            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(newFile));
-            outputStream.write(request.getDataToTransfer());
-            outputStream.close();
-            requestSong.setLocation(newFile.toURI());
+            Files.write(filePath, request.getDataToTransfer());
+            requestSong.setLocation(filePath.toUri());
             ArrayList<Song> tempSong = new ArrayList<>();
             tempSong.add(requestSong);
             Main.databaseHandler.deepInsertSong(tempSong);

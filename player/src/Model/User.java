@@ -75,8 +75,8 @@ public class User implements Serializable {
 
     public Song getCurrentSong() {
         if (currentSong == null) {
-            if (songs.size()>=1)
-            return songs.get(0);
+//            if (songs.size()>=1)
+//            return songs.get(0);
         }else{
             return currentSong;
         }
@@ -166,6 +166,7 @@ public class User implements Serializable {
         }else{
             songs.add(0, song);
         }
+        currentSong = song;
         handler.removeUser(username);
         handler.addUser(this);
     }

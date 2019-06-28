@@ -27,7 +27,7 @@ public class OptionsPanel extends JPanel {
     private JLabel yourLibraryLabel = new JLabel("Your");
     private JLabel recentlyPlayedLabel = new JLabel("Recently played");
     private JLabel albumsLabel = new JLabel("Albums");
-    private JLabel artistsLabel = new JLabel("All Songs");
+    private JLabel artistsLabel = new JLabel("Liked Songs");
     private JLabel playListsLabel = new JLabel("Playlists");
     private ArrayList<JLabel> playlistsArray;
 
