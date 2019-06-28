@@ -1,6 +1,7 @@
 package View;
 
 
+import Model.Playlist;
 import Model.Song;
 import Model.SongTableRow;
 import utils.FontManager;
@@ -26,11 +27,14 @@ public class SongPanel extends JPanel {
     private ArrayList<SongTableRow> rows = new ArrayList<>();
     private DatabaseAlterListener databaseAlterListener;
     private SongTableModel model;
-
+    private Playlist parent;
+    private PopupPlaylist playlist;
     //    public void
-    public SongPanel(ArrayList<Song> songs) {
+    public SongPanel(ArrayList<Song> songs, int mode, Playlist parent) {
         super(new BorderLayout());
+            initPlaylistPopUpMenu();
         this.songs = songs;
+        this.parent = parent;
         model = new SongTableModel();
 
         TableColumn column0 = new TableColumn(0);
@@ -78,11 +82,68 @@ public class SongPanel extends JPanel {
         table.setFont(FontManager.getUbuntuBold(16));
         //Add the scroll pane to this panel.
         add(scrollPane, BorderLayout.CENTER);
-        JButton addBtn = new JButton("Add Song");
-        JButton removeBtn = new JButton("Remove");
-        JPanel buttonsPanel = new JPanel(new GridLayout(1, 2));
-        buttonsPanel.add(addBtn);
-        buttonsPanel.add(removeBtn);
+        JPanel buttonsPanel = null;
+        JButton addBtn;
+        JButton removeBtn;
+        if (mode == 1) { // album mode, can't add song, only removal
+            buttonsPanel = new JPanel(new GridLayout(1, 1));
+            removeBtn = new JButton("Remove");
+            removeBtn.setBackground(new Color(22,22,22));
+            removeBtn.setFont(FontManager.getUbuntu(16f));
+            removeBtn.setForeground(Color.WHITE);
+            buttonsPanel.add(removeBtn);
+            removeBtn.addActionListener(actionEvent -> {
+                ArrayList<Song> checked = getSelectedSongs();
+                new Thread(() -> {
+                    for (Song song : checked) {
+                        removeSong(song);
+                    }
+                }).start();
+            });
+        }else if (mode == 2){ // playlist mode, add and remove
+            buttonsPanel = new JPanel(new GridLayout(1, 2));
+            addBtn = new JButton("Add Song");
+            removeBtn = new JButton("Remove");
+            removeBtn.setBackground(new Color(22,22,22));
+            removeBtn.setFont(FontManager.getUbuntu(16f));
+            removeBtn.setForeground(Color.WHITE);
+            addBtn.setBackground(new Color(22,22,22));
+            addBtn.setFont(FontManager.getUbuntu(16f));
+            addBtn.setForeground(Color.WHITE);
+            // what to do when add button is clicked
+            addBtn.addActionListener(actionEvent -> {
+                MyFileChooser fileChooser = new MyFileChooser(SongPanel.this, null, true);
+                TagReader songReader = new TagReader();
+                URI mp3 = fileChooser.getMP3File();
+                Song song = null;
+                try {
+                    if (mp3 != null) {
+                        songReader.getAdvancedTags(mp3.toURL());
+                        song = songReader.getSong();
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                // add song to the parent playlist
+                Main.databaseHandler.addSongToPlaylist(song, parent);
+                addSong(song);
+            });
+
+            // what to do when remove button is clicked
+            removeBtn.addActionListener(actionEvent -> {
+                ArrayList<Song> checked = getSelectedSongs();
+                new Thread(() -> {
+                    for (Song song : checked) {
+                        removeSongFromPlaylist(song);
+                    }
+                }).start();
+            });
+
+            buttonsPanel.add(addBtn);
+            buttonsPanel.add(removeBtn);
+        }
+
+        // initialize table
         for (int i = 0; i < songs.size(); i++) {
             SongTableRow row = new SongTableRow(songs.get(i));
             rows.add(row);
@@ -91,49 +152,46 @@ public class SongPanel extends JPanel {
                     row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
         }
 
-        // what to do when add button is clicked
-        addBtn.addActionListener(actionEvent -> {
-            MyFileChooser fileChooser = new MyFileChooser(SongPanel.this, null, true);
-            TagReader songReader = new TagReader();
-            URI mp3 = fileChooser.getMP3File();
-            Song song = null;
-            try {
-                songReader.getAdvancedTags(mp3.toURL());
-                song = songReader.getSong();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            addSong(song);
-        });
-        // what to do when remove button is clicked
-        removeBtn.addActionListener(actionEvent -> {
-            ArrayList<Song> checked = getSelectedSongs();
-            new Thread(() -> {
-                for (Song song : checked) {
-                    removeSong(song);
-                }
-            }).start();
-        });
-
-
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
                     Song selectedSong = songs.get(row);
-                    MainFrame.addSongToPlay(selectedSong);
-                    for (int i = 0; i < songs.size(); i++) {
-                        rows.set(i, new SongTableRow(songs.get(i)));
+                    MainFrame.playbackManager.play(selectedSong);
+                }else{
+                    int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
+                    int col = ((JTable) e.getSource()).columnAtPoint(new Point(e.getX(), e.getY()));
+                    if (col == 0){
+                        // click on add to playlist open a popup menu
+                        playlist.setPlaylistAlterListener(s -> {
+                            new Thread(() -> {
+                                Main.databaseHandler.addSongToPlaylist(songs.get(row), s);
+                                Main.user.removePlaylist(s.getId());
+                                Main.user.addPlaylist(Main.databaseHandler.getPlaylistByID(s.getId()));
+                            }).start();
+                        });
+                        playlist.show(SongPanel.this,e.getX(), e.getY());
                     }
-                    model.fireTableDataChanged();
                 }
             }
         });
-        add(buttonsPanel, BorderLayout.SOUTH);
+
+        if (mode != 3) {
+            add(buttonsPanel, BorderLayout.SOUTH);
+        }
     }
 
-    public ArrayList<Song> getSelectedSongs() {
+    // initializes popup menu for add to playlist function
+    private void initPlaylistPopUpMenu(){
+        ArrayList<Playlist> playlists = Main.user.getPlaylists();
+        playlist = new PopupPlaylist(playlists);
+        playlist.setPlaylistAlterListener(s -> {
+
+        });
+    }
+
+    private ArrayList<Song> getSelectedSongs() {
         SongTableModel songTableModel = (SongTableModel) table.getModel();
         ArrayList<Song> selected = new ArrayList<>();
         for (int i = 0; i < songs.size(); i++) {
@@ -161,12 +219,26 @@ public class SongPanel extends JPanel {
         SwingUtilities.invokeLater(() -> model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
                 row.getTitle(),
                 row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()}));
-        rows.add(new SongTableRow(song));
         rows = new ArrayList<>();
         for (Song s : songs){
             rows.add(new SongTableRow(s));
         }
         databaseAlterListener.saveSong(song);
+    }
+
+    public void removeSongFromPlaylist(Song song) {
+        int index = -1;
+        for (int i = 0; i < songs.size(); i++) {
+            if (songs.get(i).equals(song)) {
+                index = i;
+            }
+        }
+        songs.remove(index);
+        rows.remove(index);
+        SongTableModel model = (SongTableModel) table.getModel();
+        model.removeRow(index);
+        Main.databaseHandler.removeSongFromPlaylist(song, parent);
+        // tell to remove song from somewhere
     }
 
     /**

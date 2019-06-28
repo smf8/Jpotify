@@ -85,7 +85,7 @@ public class AlbumPanel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             ArrayList<Song> songs =album.getSongs();
-            SongPanel songPanel = new SongPanel(songs);
+            SongPanel songPanel = new SongPanel(songs, 1, album);
             PlayPanel playPanel = new PlayPanel(album);
             playPanel.addSongs(songPanel);
             listener.update(null , playPanel);

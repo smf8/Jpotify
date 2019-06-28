@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class User implements Serializable {
@@ -143,6 +144,14 @@ public class User implements Serializable {
             playlists = new ArrayList<>();
         }
         playlists.add(playlist);
+    }
+    public void removePlaylist(int id){
+        Iterator<Playlist> playlistIterator = playlists.listIterator();
+        while(playlistIterator.hasNext()){
+            if (playlistIterator.next().getId() == id){
+                playlistIterator.remove();
+            }
+        }
     }
     public void addAlbum(Album album){
         if (albums == null){

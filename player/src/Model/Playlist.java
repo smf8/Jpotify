@@ -82,6 +82,10 @@ public class Playlist implements Serializable {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCreator() {
         return creator;
     }

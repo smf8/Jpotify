@@ -6,10 +6,7 @@ import Model.Song;
 import Model.User;
 
 import java.net.URI;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -537,12 +534,12 @@ public class DatabaseHelper implements DatabaseHandler {
         }
     }
 
-    public void insertPlaylist(Playlist playlist) {
+    public int insertPlaylist(Playlist playlist) {
+        int id = 0;
         String query = "INSERT OR IGNORE INTO Playlists(title, creator, artwork,public,editable,songs) VALUES(?,?,?,?,?,?)";
-
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(query);
+            statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, playlist.getTitle());
             statement.setString(2, playlist.getCreator());
             String image = "";
@@ -558,6 +555,14 @@ public class DatabaseHelper implements DatabaseHandler {
             }
             statement.setString(6, builder.toString());
             statement.execute();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    id = (int) generatedKeys.getLong(1);
+                }
+                else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -569,6 +574,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 }
             }
         }
+        return id;
     }
 
     public ArrayList<Album> searchAlbum(String searchQuery) {
@@ -794,7 +800,6 @@ public class DatabaseHelper implements DatabaseHandler {
             for (Playlist playlist : user.getPlaylists()) {
                 builder.append(playlist.getId()).append(Song.HASH_SEPERATOR);
             }
-            System.out.println(builder.toString() + "---");
             statement.setString(7, builder.toString());
             builder = new StringBuilder();
             if (user.getFriendsList() != null) {

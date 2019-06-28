@@ -28,7 +28,7 @@ public interface DatabaseHandler {
 
     void insertAlbum(Album album);
 
-    void insertPlaylist(Playlist playlist);
+    int insertPlaylist(Playlist playlist);
 
     ArrayList<Album> searchAlbum(String searchQuery);
 

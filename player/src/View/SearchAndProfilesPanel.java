@@ -101,7 +101,7 @@ public class SearchAndProfilesPanel extends JPanel {
 
         albumsPanel.setAlignmentX(CENTER_ALIGNMENT);
         container.add(albumsPanel);
-        SongPanel songs = new SongPanel(resultSong);
+        SongPanel songs = new SongPanel(resultSong,3,null);
         songs.setDatabaseAlterListener(new DatabaseAlterListener() {
             @Override
             public void removeSong(Song song) {
@@ -115,8 +115,7 @@ public class SearchAndProfilesPanel extends JPanel {
                 new Thread(() -> {
                     ArrayList<Song> s = new ArrayList<>();
                     s.add(song);
-//                    System.out.println("adding Song");
-                    databaseHandler.insertSongs(s);
+                    databaseHandler.deepInsertSong(s);
                 }).start();
             }
         });

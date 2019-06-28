@@ -76,7 +76,7 @@ public class OptionsPanel extends JPanel {
         recentlyPlayedLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SongPanel songPanel = new SongPanel(Main.user.getSongs());
+                SongPanel songPanel = new SongPanel(Main.user.getSongs(), 3, null);
                 // setup database listener because users must be able to remove songs from here
                 MainFrame.setContentPanel(songPanel);
             }
@@ -94,7 +94,7 @@ public class OptionsPanel extends JPanel {
         artistsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MainFrame.setContentPanel(new SongPanel(Main.user.getLikedSongs()));
+                MainFrame.setContentPanel(new SongPanel(Main.user.getLikedSongs(),3,null));
             }
         });
         add(artistsLabel);
@@ -112,9 +112,9 @@ public class OptionsPanel extends JPanel {
         newPlaylist.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(playlist.getSongs().size());
-                PlayPanel playPanel = new PlayPanel(playlist);
-                SongPanel songPanel = new SongPanel(playlist.getSongs());
+                Playlist playlistfd = Main.databaseHandler.getPlaylistByID(playlist.getId());
+                PlayPanel playPanel = new PlayPanel(playlistfd);
+                SongPanel songPanel = new SongPanel(playlistfd.getSongs(), 2,playlistfd);
                 playPanel.addSongs(songPanel);
                 MainFrame.setContentPanel(playPanel);
              }
