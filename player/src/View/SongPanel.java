@@ -13,12 +13,19 @@ import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 
 public class SongPanel extends JPanel {
     JTable table;
@@ -151,9 +158,12 @@ public class SongPanel extends JPanel {
                     row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
         }
 
+        // handling table clicks
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+
+                // double click -> play song
                 if (e.getClickCount() == 2) {
                     int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
                     Song selectedSong = songs.get(row);
@@ -163,7 +173,7 @@ public class SongPanel extends JPanel {
                 }else{
                     int row = ((JTable) e.getSource()).rowAtPoint(new Point(e.getX(), e.getY()));
                     int col = ((JTable) e.getSource()).columnAtPoint(new Point(e.getX(), e.getY()));
-                    if (col == 0){
+                    if (col == 0 && SwingUtilities.isLeftMouseButton(e)){
                         // click on add to playlist open a popup menu
                         playlist.setPlaylistAlterListener(s -> {
                             new Thread(() -> {
@@ -173,14 +183,55 @@ public class SongPanel extends JPanel {
                             }).start();
                         });
                         playlist.show(SongPanel.this,e.getX(), e.getY());
+                    }else if (SwingUtilities.isRightMouseButton(e)){
+                        // right click. swap to elements
+                        ArrayList<SongTableRow> songTableRows = new ArrayList<>();
+                        for (int i = 0; i < rows.size(); i++) {
+                            Boolean checked = (Boolean) table.getModel().getValueAt(i, 6);
+                            if (checked) {
+                                songTableRows.add(rows.get(i));
+                            }
+                        }
+                        // swap them if size is 2
+                        if (songTableRows.size()==2){
+                            SongTableRow row1 = songTableRows.get(0);
+                            SongTableRow row2 = songTableRows.get(1);
+                            int index1 = rows.indexOf(row1);
+                            int index2 = rows.indexOf(row2);
+                            rows.set(index1, row2);
+                            rows.set(index2, row1);
+                            model.fireTableDataChanged();
+                            System.out.println(index1 + " is now " + index2);
+                        }
                     }
                 }
             }
         });
-
         if (mode != 3) {
             add(buttonsPanel, BorderLayout.SOUTH);
         }
+
+
+        // code to sort table
+        table.setAutoCreateRowSorter(true);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+        table.setRowSorter(sorter);
+        ArrayList<RowSorter.SortKey> sortKeys = new ArrayList<>();
+        sorter.setSortable(0, false);
+        sorter.setSortable(6, false);
+        sorter.setComparator(5, (Comparator<String>) (aLong, t1) -> {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            try {
+                Date d1 = format.parse(aLong);
+                Date d2 = format.parse(t1);
+                return d1.compareTo(d2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        });
+        sorter.setSortKeys(sortKeys);
+        sorter.sort();
     }
 
     // initializes popup menu for add to playlist function
@@ -302,7 +353,8 @@ public class SongPanel extends JPanel {
                 case 4:
                     return rows.get(row).getArtist();
                 case 5:
-                    return rows.get(row).getLastPlayed();
+                    Date date = new Date(rows.get(row).getLastPlayed());
+                    return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
                 case 6:
                     return rows.get(row).getChecked();
                 default:
@@ -317,7 +369,10 @@ public class SongPanel extends JPanel {
          * rather than a check box.
          */
         public Class getColumnClass(int c) {
+            if (c != 5)
             return getValueAt(0, c).getClass();
+            else
+                return Long.class;
         }
 
         /*

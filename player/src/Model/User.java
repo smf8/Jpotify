@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -175,6 +176,7 @@ public class User implements Serializable {
         }else{
             songs.add(0, song);
         }
+        song.setPlayDate(new Date().getTime());
         currentSong = song;
         handler.removeUser(username);
         handler.addUser(this);

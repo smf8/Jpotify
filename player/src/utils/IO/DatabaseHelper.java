@@ -10,6 +10,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -204,9 +205,8 @@ public class DatabaseHelper implements DatabaseHandler {
                 statement.setString(4, song.getAlbum());
                 statement.setInt(5, song.getLength());
                 statement.setInt(6, song.getPlayCount());
-                LocalDate LocalDate = song.getPlayDate();
-                String playDate = LocalDate.format(DateTimeFormatter.ofPattern(Song.DATE_FORMAT));
-                statement.setString(7, playDate);
+                long playDate = song.getPlayDate();
+                statement.setLong(7, playDate);
                 statement.setInt(8, song.getReleasedDate());
                 statement.setString(9, song.getLocation().toString());
                 String artwork = song.getArtWork() == null ? "" : song.getArtWork().toString();
@@ -239,9 +239,7 @@ public class DatabaseHelper implements DatabaseHandler {
                 statement.setString(4, song.getAlbum());
                 statement.setInt(5, song.getLength());
                 statement.setInt(6, song.getPlayCount());
-                LocalDate LocalDate = song.getPlayDate();
-                String playDate = LocalDate.format(DateTimeFormatter.ofPattern(Song.DATE_FORMAT));
-                statement.setString(7, playDate);
+                statement.setLong(7, song.getPlayDate());
                 statement.setInt(8, song.getReleasedDate());
                 statement.setString(9, song.getLocation().toString());
                 String artwork = song.getArtWork() == null ? "" : song.getArtWork().toString();
@@ -444,9 +442,7 @@ public class DatabaseHelper implements DatabaseHandler {
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next())
                 return null;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Song.DATE_FORMAT);
-            LocalDate dateTime = LocalDate.parse(resultSet.getString("playDate"), formatter);
-            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), dateTime, URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
+            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), resultSet.getLong("playDate"), URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -479,9 +475,7 @@ public class DatabaseHelper implements DatabaseHandler {
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next())
                 return null;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Song.DATE_FORMAT);
-            LocalDate dateTime = LocalDate.parse(resultSet.getString("playDate"), formatter);
-            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), dateTime, URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
+            song = new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), resultSet.getLong("playDate"), URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork")));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -651,9 +645,7 @@ public class DatabaseHelper implements DatabaseHandler {
             statement.setString(3, "%" + searchItem + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Song.DATE_FORMAT);
-                LocalDate dateTime = LocalDate.parse(resultSet.getString("playDate"), formatter);
-                songs.add(new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), dateTime, URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork"))));
+                songs.add(new Song(resultSet.getString("title"), resultSet.getString("artist"), resultSet.getString("album"), resultSet.getInt("length"), resultSet.getInt("playCount"), resultSet.getLong("playDate"), URI.create(resultSet.getString("location")), false, false, resultSet.getInt("releaseDate"), URI.create(resultSet.getString("artwork"))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -829,7 +821,7 @@ public class DatabaseHelper implements DatabaseHandler {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(query);
-            statement.setString(1, LocalDate.now().toString());
+            statement.setLong( 1, new Date().getTime());
             statement.setString(2, song.getHash());
             statement.execute();
         } catch (SQLException e) {

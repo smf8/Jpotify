@@ -44,7 +44,7 @@ public class DatabaseConnection {
     public synchronized void initMusicsTable(){
         // create Song table
         String songQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Songs(").append("hash TEXT PRIMARY KEY,\n").append("title TEXT,\n").append("artist TEXT,\n").append("album TEXT,\n")
-                .append("length integer,\n").append("playCount integer,\n").append("playDate TEXT,\n").append("releaseDate integer,\n").append("location TEXT,\n artwork TEXT\n);").toString();
+                .append("length integer,\n").append("playCount integer,\n").append("playDate LONG,\n").append("releaseDate integer,\n").append("location TEXT,\n artwork TEXT\n);").toString();
         createTable(songQuery);
         // creating albums table
         String albumQuery = new StringBuilder("CREATE TABLE IF NOT EXISTS Albums(").append("id integer PRIMARY KEY AUTOINCREMENT,\n").append("title TEXT,\n").append("artist TEXT,\n").append("artwork TEXT,\n").append("public integer,\n").append("songs TEXT,\n unique(title,artist));").toString();

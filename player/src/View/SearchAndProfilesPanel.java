@@ -75,7 +75,6 @@ public class SearchAndProfilesPanel extends JPanel {
                         resultSong = databaseHandler.searchSong(searchTextField.getText());
                         resultPlaylist = databaseHandler.searchPlaylist(searchTextField.getText());
                         MainFrame.setContentPanel(setupSearchResult());
-                        System.out.println("Nasro menallah va fathon gharib");
                     }).start();
                 }
             }

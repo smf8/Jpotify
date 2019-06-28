@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class SongTableRow {
     private String album;
     private String artist;
     private Boolean checked;
-    private String lastPlayed;
+    private long lastPlayed;
     private Song song;
 
     {
@@ -39,8 +40,7 @@ public class SongTableRow {
         this.album = song.getAlbum();
         this.artist = song.getArtist();
         this.checked = false;
-        LocalDate LocalDate = song.getPlayDate();
-        this.lastPlayed = LocalDate.format(DateTimeFormatter.ofPattern(Song.DATE_FORMAT));
+        this.lastPlayed = song.getPlayDate();
 
     }
 
@@ -73,7 +73,7 @@ public class SongTableRow {
         return artist;
     }
 
-    public String getLastPlayed() {
+    public long getLastPlayed() {
         return lastPlayed;
     }
 

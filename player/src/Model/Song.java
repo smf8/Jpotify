@@ -21,13 +21,13 @@ public class Song implements Serializable{
     private URI artWork;
     private int length;
     private int playCount;
-    private LocalDate playDate;
+    private long playDate;
     private URI location;
     private boolean playing;
     private boolean selected;
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String HASH_SEPERATOR = "_";
-    public Song(String title, String artist, String album, int length, int playCount, LocalDate playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
+    public Song(String title, String artist, String album, int length, int playCount, long playDate, URI location, boolean playing, boolean selected, int releasedDate, URI artWork) {
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -74,11 +74,11 @@ public class Song implements Serializable{
         return playCount;
     }
 
-    public LocalDate getPlayDate() {
+    public long getPlayDate() {
         return playDate;
     }
 
-    public void setPlayDate(LocalDate playDate) {
+    public void setPlayDate(long playDate) {
         this.playDate = playDate;
     }
 

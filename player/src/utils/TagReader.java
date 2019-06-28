@@ -16,6 +16,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class TagReader {
 
@@ -143,7 +144,6 @@ public class TagReader {
                         this.imageName = hashString;
                     }
                 }
-                LocalDate dateTime = LocalDate.now();
                 int rel = 0;
                 if (getReleaseDate() != null && !getReleaseDate().equals("")){
                     rel  = Integer.valueOf(getReleaseDate());
@@ -156,7 +156,7 @@ public class TagReader {
                     Path p = Paths.get(imgAddress);
                     imageURI = p.toAbsolutePath().toUri();
                 }
-                currSong = new Song(title, artist,album, durationInMiliSeconds, 0, dateTime, fileurl.toURI(), false,false, rel, imageURI);
+                currSong = new Song(title, artist,album, durationInMiliSeconds, 0, new Date().getTime(), fileurl.toURI(), false,false, rel, imageURI);
             }
         } catch (IOException e) {
             e.printStackTrace();
