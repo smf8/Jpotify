@@ -1,12 +1,16 @@
 package View;
 
 import Model.Song;
+import org.jmusixmatch.MusixMatch;
+import org.jmusixmatch.MusixMatchException;
+import org.jmusixmatch.entity.lyrics.Lyrics;
+import org.jmusixmatch.entity.track.Track;
+import org.jmusixmatch.entity.track.TrackData;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.FontManager;
 import utils.IO.FileIO;
 import utils.playback.PlaybackManager;
 import utils.playback.SimplePlaybackListener;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -50,7 +54,7 @@ public class PlaybackControlPanel extends JPanel {
     private int playState = 0;
     double pos;
     private Thread progressThread;
-
+    public static String API_KEY = "5c816ea1678c68472364e0d23f9e4302";
     private ImageIcon playIcon;
     private ImageIcon pausIcon;
 
