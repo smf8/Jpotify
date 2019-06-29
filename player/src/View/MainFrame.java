@@ -52,7 +52,7 @@ public class MainFrame extends JFrame {
 
     public static Client userClient;
     public JFrame playListFrame;
-
+    PlaybackControlPanel playbackControlPanel;
     private OptionsPanel optionsPanel;
 
     public MainFrame() {
@@ -180,7 +180,7 @@ public class MainFrame extends JFrame {
 
         // init bottom control panel
         playbackManager = new PlaybackManager(songsQueue, mediaController);
-        PlaybackControlPanel playbackControlPanel = new PlaybackControlPanel(playbackManager);
+        playbackControlPanel = new PlaybackControlPanel(playbackManager);
         this.add(playbackControlPanel, BorderLayout.SOUTH);
         // add right side friends panel
         friendsActivityPanelsManager = new FriendsActivityPanelsManager();
@@ -230,6 +230,13 @@ public class MainFrame extends JFrame {
         searchAndBackGroundPanel.add(scrollPane2, BorderLayout.CENTER);
         searchAndBackGroundPanel.validate();
         searchAndBackGroundPanel.repaint();
+    }
+    public static void setupVideoPlayer(JPanel videoPanel, JPanel controlPanel){
+        setContentPanel(videoPanel);
+        MainFrame.getInstance().remove(MainFrame.getInstance().playbackControlPanel);
+        MainFrame.getInstance().add(controlPanel, BorderLayout.SOUTH);
+        MainFrame.getInstance().validate();
+        MainFrame.getInstance().repaint();
     }
     private void initializeSongs() {
         // get all saved songs from database

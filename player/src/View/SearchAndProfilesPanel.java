@@ -3,14 +3,20 @@ package View;
 import Model.Album;
 import Model.Playlist;
 import Model.Song;
+import Model.Video;
 import utils.IO.DatabaseAlterListener;
 import utils.IO.FileIO;
+import utils.IO.MyFileChooser;
+import video.VideoPanel;
+import video.VideoPlaybackControlPanel;
+import video.VideoPlaybackManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -58,7 +64,20 @@ public class SearchAndProfilesPanel extends JPanel {
         });
         searchPanel.add(searchTextField, BorderLayout.CENTER);
         searchPanel.setBackground(new Color(22,22,22));
-
+        searchPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MyFileChooser fileChooser = new MyFileChooser(null, null, true);
+                URI videoURI = fileChooser.getVideoFile();
+                Video video = new Video(videoURI);
+                ArrayList<Video> videos = new ArrayList<>();
+                videos.add(video);
+                VideoPanel videoPanel = new VideoPanel(videos);
+                VideoPlaybackManager playbackManager = new VideoPlaybackManager(videos, videoPanel.getEmbeddedMediaPlayerComponent());
+                VideoPlaybackControlPanel videoPlaybackControlPanel = new VideoPlaybackControlPanel(playbackManager);
+                MainFrame.setupVideoPlayer(videoPanel, videoPlaybackControlPanel);
+            }
+        });
         searchTextField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
