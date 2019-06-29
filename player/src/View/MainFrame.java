@@ -107,6 +107,24 @@ public class MainFrame extends JFrame {
     private void initClient(){
         new Thread(()->{
             userClient = new Client("localhost", Main.user);
+
+            Request r = new Request(0, Main.user);
+            File file = new File(Main.user.getProfileImage());
+            byte[] bytesArray = new byte[(int) file.length()];
+
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                fis.read(bytesArray); //read file into bytes[]
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            r.setDataToTransfer(bytesArray);
             userClient.sendRequest(new Request(0, Main.user));
         }).start();
     }
@@ -279,7 +297,25 @@ public class MainFrame extends JFrame {
         Main.usersHandler.addUser(Main.user);
         Main.databaseHandler.close();
         Main.usersHandler.close();
-        userClient.sendRequest(new Request(-1, Main.user));
+
+        Request r = new Request(-1, Main.user);
+        File file = new File(FileIO.RESOURCES_RELATIVE + Main.user.getUsername() + ".db");
+        byte[] bytesArray = new byte[(int) file.length()];
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        r.setDataToTransfer(bytesArray);
+        userClient.sendRequest(r);
         userClient.closeConnection();
     }
 }

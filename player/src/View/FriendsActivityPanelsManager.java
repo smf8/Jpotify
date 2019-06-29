@@ -118,6 +118,9 @@ public class FriendsActivityPanelsManager extends JPanel {
             }
         }
             addFriendToPanel(friend);
+        if (friend.getCurrentSong() != null) {
+            System.out.println(friend.getCurrentSong().getTitle());
+        }
     }
 
     private final int getComponentIndex(Component component) {

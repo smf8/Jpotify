@@ -83,7 +83,9 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         playbackControlPanel.startProgress();
         Main.user.listened(playbackControlPanel.getPlaybackManager().getCurrentSong(), Main.usersHandler);
         Main.databaseHandler.updateSong(playbackControlPanel.getPlaybackManager().getCurrentSong());
-        initLyrics(playbackControlPanel.getPlaybackManager().getCurrentSong().getTitle(),playbackControlPanel.getPlaybackManager().getCurrentSong().getArtist());
+        new Thread(()-> initLyrics(playbackControlPanel.getPlaybackManager().getCurrentSong().getTitle(),playbackControlPanel.getPlaybackManager().getCurrentSong().getArtist())).start();
+        Main.user.setCurrentSong(playbackControlPanel.getPlaybackManager().getCurrentSong());
+        System.out.println(Main.user.getCurrentSong().getTitle());
         MainFrame.userClient.sendRequest(new Request(0, Main.user));
     }
 

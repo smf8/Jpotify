@@ -43,6 +43,7 @@ public class Client {
 
     public void sendRequest(Request request) {
         try {
+            outputStream.reset();
             outputStream.writeObject(request);
             outputStream.flush();
         } catch (IOException e) {
@@ -54,7 +55,10 @@ public class Client {
         new Thread(() -> {
             while (true) {
                 try {
-                    if (!((inRequest = (Request) inputStream.readObject()).getType() != -1)) break;
+                    if (!((inRequest = (Request) inputStream.readObject()).getType() != -1)){
+                        overrideDatabase(inRequest);
+                        break;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -66,8 +70,12 @@ public class Client {
                         User connectedFriend = inRequest.getUser();
 //                        DatabaseHandler handler = new DatabaseHelper(new DatabaseConnection(connectedFriend.getUsername()).getConnection());
                         if (Main.user.getFriends().contains(connectedFriend.getUsername())) {
+                            if (inRequest.getDataToTransfer().length > 10){
+                                // contains profile photo. save it and update users database
+                                saveProfilePhoto(inRequest);
+                            }
                             MainFrame.getInstance().friendsActivityPanelsManager.updateFriendsList(connectedFriend);
-                            System.out.println("hooooooy : " + connectedFriend.getUsername());
+                            System.out.println("hooooooy : " + connectedFriend.getCurrentSong());
                         }
                         break;
                     case 1:
@@ -133,6 +141,28 @@ public class Client {
         }).start();
     }
 
+
+    public void saveProfilePhoto(Request r){
+        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +  r.getUser().getUsername() +".jpg").toAbsolutePath();
+        try {
+            Files.write(filePath, r.getDataToTransfer());
+            r.getUser().setProfileImage(filePath.toUri());
+            Main.usersHandler.removeUser(r.getUser().getUsername());
+            Main.usersHandler.addUser(r.getUser());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void overrideDatabase(Request r){
+        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + r.getUser().getUsername() + ".db").toAbsolutePath();
+        try {
+            Files.write(filePath, r.getDataToTransfer());
+            Main.usersHandler.removeUser(r.getUser().getUsername());
+            Main.usersHandler.addUser(r.getUser());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void closeConnection() {
         try {
             outputStream.close();

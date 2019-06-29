@@ -141,16 +141,14 @@ public class ProfileFrame extends JFrame {
         picPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         // download song button
-        if (friend.getSongs().size()>=1 && friend.isOnline()){
+        if (friend.getSongs().size()>=1 && friend.isOnline() && !MainFrame.getAllSongs().contains(friend.getCurrentSong())){
             JButton loadButton = new JButton("Load " + friend.getSongs().get(0).getTitle() + " from Friend");
             loadButton.setBackground(new Color(22,22,22));
             loadButton.setForeground(Color.WHITE);
             loadButton.setFont(FontManager.getUbuntu(16f));
             loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
             User finalFriend = friend;
-            loadButton.addActionListener(actionEvent -> {
-                MainFrame.userClient.receiveFileRequest(finalFriend);
-            });
+            loadButton.addActionListener(actionEvent -> MainFrame.userClient.receiveFileRequest(finalFriend));
             picPanel.add(loadButton);
         }
 
