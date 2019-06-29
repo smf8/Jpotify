@@ -23,7 +23,7 @@ public class ProfileFrame extends JFrame {
     private JPanel picPanel = new JPanel();
     private JPanel infAndFriendsPanel = new JPanel();
     private JPanel infPanel = new JPanel();
-    private JLabel userName = new JLabel(Main.user.getUsername());
+    private JLabel userName = new JLabel();
     //    private JPanel
     private JButton picEditeButton = new JButton("Change pic");
     private MyFileChooser myFileChooser;
@@ -87,7 +87,7 @@ public class ProfileFrame extends JFrame {
         });
             picPanel.add(picEditeButton);
         picPanel.add(Box.createRigidArea(new Dimension(0,10)));
-
+        userName.setText(Main.user.getUsername());
         userName.setAlignmentX(Component.CENTER_ALIGNMENT);
         userName.setFont(FontManager.getUbuntu(30f));
         picPanel.add(userName);
@@ -111,11 +111,6 @@ public class ProfileFrame extends JFrame {
      * @param friend
      */
     public ProfileFrame(User friend){
-        DatabaseConnection connection = new DatabaseConnection(friend.getUsername());
-        DatabaseHandler handler = new DatabaseHelper(connection.getConnection());
-        friend = Main.usersHandler.getUserByUsername(friend.getUsername(), handler).get(0);
-        handler.close();
-        connection.close();
         picPanel.setLayout(new BoxLayout(picPanel,BoxLayout.Y_AXIS));
         this.setLayout(new BorderLayout());
         profPicLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -142,7 +137,7 @@ public class ProfileFrame extends JFrame {
 
         // download song button
         if (friend.getSongs().size()>=1 && friend.isOnline() && !MainFrame.getAllSongs().contains(friend.getCurrentSong())){
-            JButton loadButton = new JButton("Load " + friend.getSongs().get(0).getTitle() + " from Friend");
+            JButton loadButton = new JButton("Load " + friend.getCurrentSong().getTitle() + " from Friend");
             loadButton.setBackground(new Color(22,22,22));
             loadButton.setForeground(Color.WHITE);
             loadButton.setFont(FontManager.getUbuntu(16f));
@@ -178,7 +173,7 @@ public class ProfileFrame extends JFrame {
                 picPanel.add(friendPlaylist);
             }
 
-
+        userName.setText(friend.getUsername());
         userName.setAlignmentX(Component.CENTER_ALIGNMENT);
         userName.setFont(FontManager.getUbuntu(30f));
         picPanel.add(userName);

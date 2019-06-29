@@ -65,25 +65,6 @@ public class MainFrame extends JFrame {
         allAlbums = Main.databaseHandler.searchAlbum("");
         allPlaylists = Main.databaseHandler.searchPlaylist("");
 
-        // tell other users about our public play lists
-        ArrayList<Playlist> publicPlaylists = new ArrayList<>();
-        for (Playlist p : allPlaylists){
-            if (p.isPublic()){
-                publicPlaylists.add(p);
-            }
-        }
-        if(publicPlaylists.size()>=1){
-            new Thread(()->{
-                for (Playlist p : publicPlaylists){
-                    for (User friend : Main.user.getFriendsList()) {
-                        if (friend.isOnline()) {
-                            System.out.println("sending to " + friend.getUsername());
-                                userClient.sendRequest(Client.tellSongsHash(p, friend));
-                        }
-                    }
-                }
-            }).start();
-        }
 
         setupAlbumsPanel(allAlbums);
         this.pack();
@@ -125,7 +106,7 @@ public class MainFrame extends JFrame {
                 e.printStackTrace();
             }
             r.setDataToTransfer(bytesArray);
-            userClient.sendRequest(new Request(0, Main.user));
+            userClient.sendRequest(r);
         }).start();
     }
     public static void addSongToQueue(Song song) {
@@ -286,7 +267,9 @@ public class MainFrame extends JFrame {
         optionsPanel.showPlaylist();
     }
 
-
+    public static ArrayList<Playlist> getAllPlaylists() {
+        return allPlaylists;
+    }
 
     private void closeResources(){
         playbackManager.getMediaController().release();

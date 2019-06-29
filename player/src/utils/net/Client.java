@@ -70,7 +70,7 @@ public class Client {
                         User connectedFriend = inRequest.getUser();
 //                        DatabaseHandler handler = new DatabaseHelper(new DatabaseConnection(connectedFriend.getUsername()).getConnection());
                         if (Main.user.getFriends().contains(connectedFriend.getUsername())) {
-                            if (inRequest.getDataToTransfer().length > 10){
+                            if (inRequest.getDataToTransfer() != null){
                                 // contains profile photo. save it and update users database
                                 saveProfilePhoto(inRequest);
                             }
@@ -90,17 +90,23 @@ public class Client {
                     case 2:
                         receiveAndSaveFile(inRequest);
                         break;
-//                    case 3:
-//                        // handling playlist retrieval
-//                        ArrayList<Song> songsInList = inRequest.getAlteredPlaylist().getSongs();
-//                        ArrayList<Song> allSongs = Main.databaseHandler.searchSong("");
-//                        for (Song s : songsInList){
-//                            if (!allSongs.contains(s)){
-//
-//                            }
-//                        }
-//
-//                        break;
+                    case 3:
+                        // handling playlist retrieval
+                        Playlist playlist = inRequest.getAlteredPlaylist();
+                        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +  playlist.getTitle() +".jpg").toAbsolutePath();
+                        try {
+                            Files.write(filePath, inRequest.getDataToTransfer());
+                            playlist.setImageURI(filePath.toUri());
+                            Main.user.addPlaylist(playlist);
+                            Main.usersHandler.removeUser(inRequest.getUser().getUsername());
+                            Main.usersHandler.addUser(inRequest.getUser());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Main.databaseHandler.insertPlaylist(playlist);
+                        System.out.println("Saved Playlist");
+                        MainFrame.getInstance().updatePlaylists();
+                        break;
                     case 4:
                         ArrayList<String> receivedHash =  inRequest.getRequestedStringData();
                         receivedHash.remove(0);
@@ -143,6 +149,7 @@ public class Client {
 
 
     public void saveProfilePhoto(Request r){
+        System.out.println("Saving profile photo");
         Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +  r.getUser().getUsername() +".jpg").toAbsolutePath();
         try {
             Files.write(filePath, r.getDataToTransfer());
@@ -154,6 +161,7 @@ public class Client {
         }
     }
     public void overrideDatabase(Request r){
+        System.out.println("Overwriting database");
         Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + r.getUser().getUsername() + ".db").toAbsolutePath();
         try {
             Files.write(filePath, r.getDataToTransfer());
@@ -228,7 +236,7 @@ public class Client {
     public void receiveAndSaveFile(Request request){
         Song requestSong = request.getSong();
 //        System.out.println("saving file over network");
-        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "songs" + File.separator + requestSong.getTitle() + "-" + requestSong.getArtist() + ".mp3").toAbsolutePath();
+        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "songs" + File.separator + requestSong.getTitle().replaceAll("|", "").replaceAll(":", "") + "-" + requestSong.getArtist().replaceAll(":", "").replaceAll("|", "") + ".mp3").toAbsolutePath();
         try {
             Files.write(filePath, request.getDataToTransfer());
             TagReader reader = new TagReader();
@@ -274,6 +282,29 @@ public class Client {
             strings.add(s.getHash());
         }
         r.setRequestedStringData(strings);
+        return r;
+    }
+
+    public static Request sharePlaylistRequest(Playlist p, User target){
+        Request r = new Request(3, Main.user);
+        File file = new File(p.getImageURI());
+        byte[] bytesArray = new byte[(int) file.length()];
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        r.setDataToTransfer(bytesArray);
+        r.addRequestedStringData(target.getUsername());
+        r.setAlteredPlaylist(p);
         return r;
     }
 }

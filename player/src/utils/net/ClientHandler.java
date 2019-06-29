@@ -79,9 +79,11 @@ public class ClientHandler implements Runnable {
             }
             // if request type is -1 then it means user is logging out
             for (Map.Entry<User, ObjectOutputStream> entry : othersOutputStream.entrySet()) {
-                entry.getValue().writeObject(request);
-                entry.getValue().flush();
-                System.out.println("logging out  [" + client.getUsername() + "] to [" + entry.getKey().getUsername() + "]");
+                if (!entry.getKey().equals(client)) {
+                    entry.getValue().writeObject(request);
+                    entry.getValue().flush();
+                    System.out.println("logging out  [" + client.getUsername() + "] to [" + entry.getKey().getUsername() + "]");
+                }
             }
 
             } catch (IOException e) {

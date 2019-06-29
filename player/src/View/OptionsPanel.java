@@ -2,8 +2,10 @@ package View;
 
 import Model.Playlist;
 import Model.Song;
+import Model.User;
 import org.w3c.dom.html.HTMLObjectElement;
 import utils.IO.FileIO;
+import utils.net.Client;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,6 +23,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
+
+import static View.MainFrame.userClient;
 
 public class OptionsPanel extends JPanel {
     private JLabel profileLabel = new JLabel("Profile");
@@ -100,7 +104,41 @@ public class OptionsPanel extends JPanel {
         add(artistsLabel);
         add(Box.createRigidArea(new Dimension(0,15)));
 
+        playListsLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ArrayList<Playlist> publicPlaylists = new ArrayList<>();
+                for (Playlist p : MainFrame.getAllPlaylists()){
+                    if (p.isPublic()){
+                        publicPlaylists.add(p);
+                    }
+                }
+                if (SwingUtilities.isRightMouseButton(e)){
+                    for (Playlist p : publicPlaylists){
+                        for (User friend : Main.user.getFriendsList()) {
+                            if (friend.isOnline()) {
+                                System.out.println("sharing playlist with " + friend.getUsername());
+                                userClient.sendRequest(Client.sharePlaylistRequest(p, friend));
+                            }
+                        }
+                    }
+                }else{
 
+                    if(publicPlaylists.size()>=1){
+                        new Thread(()->{
+                            for (Playlist p : publicPlaylists){
+                                for (User friend : Main.user.getFriendsList()) {
+                                    if (friend.isOnline()) {
+                                        System.out.println("sending to " + friend.getUsername());
+                                        userClient.sendRequest(Client.tellSongsHash(p, friend));
+                                    }
+                                }
+                            }
+                        }).start();
+                    }
+                }
+            }
+        });
         add(playListsLabel);
         add(Box.createRigidArea(new Dimension(0,5)));
 
