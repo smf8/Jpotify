@@ -66,7 +66,7 @@ public class Client {
                         User connectedFriend = inRequest.getUser();
 //                        DatabaseHandler handler = new DatabaseHelper(new DatabaseConnection(connectedFriend.getUsername()).getConnection());
                         if (Main.user.getFriends().contains(connectedFriend.getUsername())) {
-                            MainFrame.getInstance().friendsActivityPanelsManager.updateFriendsList();
+                            MainFrame.getInstance().friendsActivityPanelsManager.updateFriendsList(connectedFriend);
                             System.out.println("hooooooy : " + connectedFriend.getUsername());
                         }
                         break;

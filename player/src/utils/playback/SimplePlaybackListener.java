@@ -33,31 +33,33 @@ public class SimplePlaybackListener extends MediaPlayerEventAdapter {
         } catch (MusixMatchException ex) {
             result = false;
         }
-        TrackData data = track.getTrack();
+        if (track != null) {
+            TrackData data = track.getTrack();
 
-        int trackID = data.getTrackId();
+            int trackID = data.getTrackId();
 
-        Lyrics lyrics = null;
-        try {
-            lyrics = instance.getLyrics(trackID);
-        } catch (MusixMatchException ex) {
-            result = false;
-        }
-        if (lyrics != null){
-            JFrame lyricsFrame = new JFrame(songTitle + " - " + artist);
-            JPanel panel = new JPanel(new BorderLayout());
-            panel.setBackground(new Color(22,22,22));
-            JLabel label = new JLabel();
-            label.setText("<html>" + lyrics.getLyricsBody().replaceAll("\n", "<br/>") + "</html>");
-            System.out.println();
-            label.setBackground(new Color(22,22,22));
-            label.setFont(FontManager.getUbuntu(16f));
-            label.setForeground(Color.WHITE);
-            label.setBorder(new EmptyBorder(20,20,20,20));
-            panel.add(label);
-            lyricsFrame.add(panel);
-            lyricsFrame.pack();
-            lyricsFrame.setVisible(true);
+            Lyrics lyrics = null;
+            try {
+                lyrics = instance.getLyrics(trackID);
+            } catch (MusixMatchException ex) {
+                result = false;
+            }
+            if (lyrics != null) {
+                JFrame lyricsFrame = new JFrame(songTitle + " - " + artist);
+                JPanel panel = new JPanel(new BorderLayout());
+                panel.setBackground(new Color(22, 22, 22));
+                JLabel label = new JLabel();
+                label.setText("<html>" + lyrics.getLyricsBody().replaceAll("\n", "<br/>") + "</html>");
+                System.out.println();
+                label.setBackground(new Color(22, 22, 22));
+                label.setFont(FontManager.getUbuntu(16f));
+                label.setForeground(Color.WHITE);
+                label.setBorder(new EmptyBorder(20, 20, 20, 20));
+                panel.add(label);
+                lyricsFrame.add(panel);
+                lyricsFrame.pack();
+                lyricsFrame.setVisible(true);
+            }
         }
         return result;
     }

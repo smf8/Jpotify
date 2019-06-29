@@ -110,6 +110,28 @@ public class FriendsActivityPanelsManager extends JPanel {
         }
     }
 
+    public void updateFriendsList(User friend){
+
+        for(FriendsActivityPanel x: friendsActivityPanels) {
+            if (x.getUser().equals(friend)){
+                this.remove(x);
+            }
+        }
+            addFriendToPanel(friend);
+    }
+
+    private final int getComponentIndex(Component component) {
+        if (component != null && component.getParent() != null) {
+            Container c = component.getParent();
+            for (int i = 0; i < c.getComponentCount(); i++) {
+                if (c.getComponent(i) == component)
+                    return i;
+            }
+        }
+
+        return -1;
+    }
+
     interface AddFriendListener{
         void addFriend(User friend);
     }
