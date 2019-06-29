@@ -45,6 +45,15 @@ public class MyFileChooser {
         return null;
     }
 
+    public URI getVideoFile(){
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("video file", "mp4", "avi", "mkv");
+        fileChooser.setFileFilter(filter);
+        if (fileChooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile().toURI();
+        }
+        return null;
+    }
+
     public void setTitle(String title){
         fileChooser.setDialogTitle(title);
     }

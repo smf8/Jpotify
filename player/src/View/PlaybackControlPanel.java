@@ -156,52 +156,6 @@ public class PlaybackControlPanel extends JPanel {
                 playState = 0;
             }
         });
-        repeatLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                System.out.println("-------");
-                for (Song s : playbackManager.getSongQueue()){
-                    System.out.println(s.getTitle());
-                }
-                System.out.println("*********");
-                //       playbackManager.
-                if (isRepeating == false) {
-                    repeatLabel.setIcon(isRepeatingIcon);
-                    playbackManager.shouldRepeat(true);
-                    isRepeating = true;
-                } else if (isRepeating == true) {
-                    repeatLabel.setIcon(isNotRepeatingIcon);
-                    playbackManager.shouldRepeat(false);
-                    isRepeating = false;
-                }
-            }
-        });
-        shuffleLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                playState = 0;
-                playbackManager.shuffle();
-            }
-        });
-        dislikeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (!isLiked) {
-                    dislikeLabel.setIcon(likeImage);
-                    isLiked = true;
-                    Main.user.likeSong(playbackManager.getCurrentSong());
-                    Main.usersHandler.removeUser(Main.user.getUsername());
-                    Main.usersHandler.addUser(Main.user);
-                } else{
-                    dislikeLabel.setIcon(disLikeImage);
-                    isLiked = false;
-                    Main.user.dislikeSong(playbackManager.getCurrentSong());
-                    Main.usersHandler.removeUser(Main.user.getUsername());
-                    Main.usersHandler.addUser(Main.user);
-                }
-            }
-        });
         volumeLabel.setIcon(volumeIcon);
         playLabel.setIcon(playIcon);
         pauseLabel.setIcon(pausIcon);
@@ -216,9 +170,6 @@ public class PlaybackControlPanel extends JPanel {
         buttonsControlPanel.add(playLabel);
         buttonsControlPanel.add(nextLabel);
         buttonsControlPanel.add(repeatLabel);
-//        panel1.add(volumeLabel);
-//        panel1.add(volumeSlider);
-//        playProgressPanel.setBorder(new EmptyBorder(10, 0,15,0));
         playProgressPanel.add(musicSlider, BorderLayout.CENTER);
         volumePanel.add(volumeLabel);
         volumePanel.add(volumeSlider);
