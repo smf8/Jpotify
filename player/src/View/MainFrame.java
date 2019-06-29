@@ -87,7 +87,7 @@ public class MainFrame extends JFrame {
     }
     private void initClient(){
         new Thread(()->{
-            userClient = new Client("localhost", Main.user);
+            userClient = new Client("192.168.43.192", Main.user);
 
             Request r = new Request(0, Main.user);
             File file = new File(Main.user.getProfileImage());

@@ -93,7 +93,7 @@ public class Client {
                     case 3:
                         // handling playlist retrieval
                         Playlist playlist = inRequest.getAlteredPlaylist();
-                        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +  playlist.getTitle() +".jpg").toAbsolutePath();
+                        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" + File.separator + "img" + File.separator +playlist.getTitle() +".jpg").toAbsolutePath();
                         try {
                             Files.write(filePath, inRequest.getDataToTransfer());
                             playlist.setImageURI(filePath.toUri());
@@ -150,7 +150,7 @@ public class Client {
 
     public void saveProfilePhoto(Request r){
         System.out.println("Saving profile photo");
-        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +  r.getUser().getUsername() +".jpg").toAbsolutePath();
+        Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "cache" +File.separator + "img" + File.separator +  r.getUser().getUsername() +".jpg").toAbsolutePath();
         try {
             Files.write(filePath, r.getDataToTransfer());
             r.getUser().setProfileImage(filePath.toUri());
