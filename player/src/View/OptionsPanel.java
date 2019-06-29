@@ -113,17 +113,6 @@ public class OptionsPanel extends JPanel {
                         publicPlaylists.add(p);
                     }
                 }
-                if (SwingUtilities.isRightMouseButton(e)){
-                    for (Playlist p : publicPlaylists){
-                        for (User friend : Main.user.getFriendsList()) {
-                            if (friend.isOnline()) {
-                                System.out.println("sharing playlist with " + friend.getUsername());
-                                userClient.sendRequest(Client.sharePlaylistRequest(p, friend));
-                            }
-                        }
-                    }
-                }else{
-
                     if(publicPlaylists.size()>=1){
                         new Thread(()->{
                             for (Playlist p : publicPlaylists){
@@ -135,7 +124,6 @@ public class OptionsPanel extends JPanel {
                                 }
                             }
                         }).start();
-                    }
                 }
             }
         });

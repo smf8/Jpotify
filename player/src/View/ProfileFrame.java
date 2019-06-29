@@ -4,6 +4,7 @@ import Model.Playlist;
 import Model.User;
 import utils.FontManager;
 import utils.IO.*;
+import utils.net.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,8 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import static View.MainFrame.userClient;
 
 public class ProfileFrame extends JFrame {
     private JLabel profPicLabel = new JLabel();
@@ -161,12 +164,14 @@ public class ProfileFrame extends JFrame {
                 }
             }
             friendPlaylist.addActionListener(actionEvent -> {
-                AlbumsPanel albumsPanel = new AlbumsPanel();
                 for (Playlist p : publicPlaylists){
-                    albumsPanel.addAlbum(p);
+                    for (User f : Main.user.getFriendsList()) {
+                        if (f.isOnline()) {
+                            System.out.println("sharing playlist with " + f.getUsername());
+                            userClient.sendRequest(Client.sharePlaylistRequest(p, f));
+                        }
+                    }
                 }
-                albumsPanel.showAlbums();
-                MainFrame.setContentPanel(albumsPanel);
                 this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
             });
             if (publicPlaylists.size()>=1){
