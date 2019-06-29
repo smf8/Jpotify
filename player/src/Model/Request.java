@@ -8,7 +8,11 @@ public class Request implements Serializable {
     // request types :
     // 0 : connecting -> Only contains User object to alert other users to update their list
     //1 : receiving friend's current song
-//2 : Sending a song's file
+    //2 : Sending a song's file
+    //3 : telling friends about my public playlist
+    //4 : telling a friend hash of songs of a playlist
+    //5 : answering 4 with hash of songs which are not in the friend's computer
+
     private byte[] dataToTransfer;
     private Playlist alteredPlaylist;
     private ArrayList<String> requestedStringData = new ArrayList<>();

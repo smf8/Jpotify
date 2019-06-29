@@ -98,6 +98,10 @@ public class Song implements Serializable{
         return artWork;
     }
 
+    public void setArtWork(URI artWork) {
+        this.artWork = artWork;
+    }
+
     /**
      * travels through files in a folder in order to find mp3 files
      * @param directory the given directory as a File object

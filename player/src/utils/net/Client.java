@@ -1,13 +1,16 @@
 package utils.net;
 
+import Model.Playlist;
 import Model.Request;
 import Model.Song;
 import Model.User;
 import View.Main;
 import View.MainFrame;
 import utils.IO.FileIO;
+import utils.TagReader;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
@@ -68,7 +71,7 @@ public class Client {
                         }
                         break;
                     case 1:
-                       Request r = sendFileRequest(inRequest.getUser());
+                       Request r = sendFileRequest(Main.user.getCurrentSong(),inRequest.getUser());
                         try {
                             outputStream.writeObject(r);
                             outputStream.flush();
@@ -78,6 +81,52 @@ public class Client {
                         break;
                     case 2:
                         receiveAndSaveFile(inRequest);
+                        break;
+//                    case 3:
+//                        // handling playlist retrieval
+//                        ArrayList<Song> songsInList = inRequest.getAlteredPlaylist().getSongs();
+//                        ArrayList<Song> allSongs = Main.databaseHandler.searchSong("");
+//                        for (Song s : songsInList){
+//                            if (!allSongs.contains(s)){
+//
+//                            }
+//                        }
+//
+//                        break;
+                    case 4:
+                        ArrayList<String> receivedHash =  inRequest.getRequestedStringData();
+                        receivedHash.remove(0);
+                        for (Song s : MainFrame.getAllSongs()){
+                            if (receivedHash.contains(s.getHash())){
+                                receivedHash.remove(s.getHash());
+                            }
+                        }
+                        // receivedHash is the array list of not found songs
+                        receivedHash.add(0, inRequest.getUser().getUsername());
+                        Request answ = new Request(5, Main.user);
+                        answ.setRequestedStringData(receivedHash);
+                        try {
+                            outputStream.writeObject(answ);
+                            outputStream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("case 4 received");
+                        break;
+                    case 5:
+                        User user = inRequest.getUser();
+                        ArrayList<String> need = inRequest.getRequestedStringData();
+                        need.remove(0);
+                        for (String hash : need){
+                            Song songToSend = Main.databaseHandler.getSongByHash(hash);
+                            Request r1 = sendFileRequest(songToSend, user);
+                            try {
+                                outputStream.writeObject(r1);
+                                outputStream.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                 }
             }
@@ -99,9 +148,32 @@ public class Client {
         outRequest.addRequestedStringData(targetUser.getUsername());
         sendRequest(outRequest);
     }
-    public Request sendFileRequest(User targetUser) {
+    public Request prepareSong(String hash, User target){
+        Song s = Main.databaseHandler.getSongByHash(hash);
+        File file = new File(s.getLocation());
+        byte[] bytesArray = new byte[(int) file.length()];
 
-        File file = new File(Main.user.getCurrentSong().getLocation());
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        outRequest = new Request(2,Main.user);
+        outRequest.setDataToTransfer(bytesArray);
+        outRequest.setSong(s);
+        outRequest.addRequestedStringData(target.getUsername());
+        return outRequest;
+    }
+    public Request sendFileRequest(Song song, User targetUser) {
+
+        File file = new File(song.getLocation());
         byte[] bytesArray = new byte[(int) file.length()];
 
         FileInputStream fis = null;
@@ -118,23 +190,60 @@ public class Client {
         }
         outRequest = new Request(2,Main.user);
         outRequest.setDataToTransfer(bytesArray);
-        outRequest.setSong(Main.user.getCurrentSong());
+        outRequest.setSong(song);
         outRequest.addRequestedStringData(targetUser.getUsername());
         return outRequest;
     }
 
     public void receiveAndSaveFile(Request request){
         Song requestSong = request.getSong();
-        System.out.println("saving file over network");
+//        System.out.println("saving file over network");
         Path filePath = Paths.get(FileIO.RESOURCES_RELATIVE + "songs" + File.separator + requestSong.getTitle() + "-" + requestSong.getArtist() + ".mp3").toAbsolutePath();
         try {
             Files.write(filePath, request.getDataToTransfer());
-            requestSong.setLocation(filePath.toUri());
+            TagReader reader = new TagReader();
+            reader.getAdvancedTags(filePath.toUri().toURL());
+            Song s = reader.getSong();
             ArrayList<Song> tempSong = new ArrayList<>();
-            tempSong.add(requestSong);
+            tempSong.add(s);
             Main.databaseHandler.deepInsertSong(tempSong);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Request createPlaylistSendRequest(Playlist playlist, User target){
+        File file = new File(Main.user.getCurrentSong().getLocation());
+        byte[] bytesArray = new byte[(int) file.length()];
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Request r = new Request(3, Main.user);
+        ArrayList<String> s = new ArrayList<>();
+        s.add(target.getUsername());
+        r.setDataToTransfer(bytesArray);
+        r.setAlteredPlaylist(playlist);
+        return r;
+    }
+
+    public static Request tellSongsHash(Playlist p, User target){
+        Request r = new Request(4, Main.user);
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add(target.getUsername());
+        for (Song s : p.getSongs()){
+            strings.add(s.getHash());
+        }
+        r.setRequestedStringData(strings);
+        return r;
     }
 }

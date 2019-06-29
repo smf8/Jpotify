@@ -103,6 +103,7 @@ public class FriendsActivityPanelsManager extends JPanel {
             DatabaseHandler handler = new DatabaseHelper(userC.getConnection());
             tmp = Main.usersHandler.getUserByUsername(username, handler);
             currentFriends.add(tmp.get(0));
+            Main.user.addFriend(tmp.get(0));
             addFriendToPanel(tmp.get(0));
             userC.close();
             handler.close();

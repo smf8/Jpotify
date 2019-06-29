@@ -1,9 +1,6 @@
 package View;
 
-import Model.Album;
-import Model.Playlist;
-import Model.Request;
-import Model.Song;
+import Model.*;
 import uk.co.caprica.vlcj.player.component.AudioPlayerComponent;
 import utils.FontManager;
 import utils.IO.DatabaseAlterListener;
@@ -64,6 +61,27 @@ public class MainFrame extends JFrame {
         allSongs = Main.databaseHandler.searchSong("");
         allAlbums = Main.databaseHandler.searchAlbum("");
         allPlaylists = Main.databaseHandler.searchPlaylist("");
+
+        // tell other users about our public play lists
+        ArrayList<Playlist> publicPlaylists = new ArrayList<>();
+        for (Playlist p : allPlaylists){
+            if (p.isPublic()){
+                publicPlaylists.add(p);
+            }
+        }
+        if(publicPlaylists.size()>=1){
+            new Thread(()->{
+                for (Playlist p : publicPlaylists){
+                    for (User friend : Main.user.getFriendsList()) {
+                        if (friend.isOnline()) {
+                            System.out.println("sending to " + friend.getUsername());
+                                userClient.sendRequest(Client.tellSongsHash(p, friend));
+                        }
+                    }
+                }
+            }).start();
+        }
+
         setupAlbumsPanel(allAlbums);
         this.pack();
         this.setVisible(true);

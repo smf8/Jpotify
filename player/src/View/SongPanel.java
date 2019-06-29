@@ -88,6 +88,16 @@ public class SongPanel extends JPanel {
         table.setFont(FontManager.getUbuntuBold(16));
         //Add the scroll pane to this panel.
         add(scrollPane, BorderLayout.CENTER);
+
+        // initialize table
+        for (int i = 0; i < songs.size(); i++) {
+            SongTableRow row = new SongTableRow(songs.get(i));
+            rows.add(row);
+            model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
+                    row.getTitle(),
+                    row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
+        }
+
         JPanel buttonsPanel = null;
         JButton addBtn;
         JButton removeBtn;
@@ -149,14 +159,7 @@ public class SongPanel extends JPanel {
             buttonsPanel.add(removeBtn);
         }
 
-        // initialize table
-        for (int i = 0; i < songs.size(); i++) {
-            SongTableRow row = new SongTableRow(songs.get(i));
-            rows.add(row);
-            model.addRow(new Object[]{row.getAddIcon(), row.getArtWork(),
-                    row.getTitle(),
-                    row.getAlbum(), row.getArtist(), row.getLastPlayed(), row.getChecked()});
-        }
+
 
         // handling table clicks
         table.addMouseListener(new MouseAdapter() {
@@ -231,16 +234,13 @@ public class SongPanel extends JPanel {
             return 0;
         });
         sorter.setSortKeys(sortKeys);
-        sorter.sort();
+//        sorter.sort();
     }
 
     // initializes popup menu for add to playlist function
     private void initPlaylistPopUpMenu(){
         ArrayList<Playlist> playlists = Main.user.getPlaylists();
         playlist = new PopupPlaylist(playlists);
-        playlist.setPlaylistAlterListener(s -> {
-
-        });
     }
 
     private ArrayList<Song> getSelectedSongs() {
